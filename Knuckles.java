@@ -1,8 +1,7 @@
-import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class NPC extends Character{
+public class Knuckles extends Enemy {
     private int lastKeyReleased;
     Handler handler;
     private boolean battleReady;
@@ -11,25 +10,29 @@ public class NPC extends Character{
     private Player player;
     private BufferedImage[] currentImages;
 
-
-    public NPC(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player){
-        super(x, y, height, width,handler,game, id, speed);
+    public Knuckles(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player, boolean battleReady){
+        super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player);
         this.handler = handler;
         this.game = game;
         this.tbHandler = tbHandler;
         this.text = text;
         this.player = player;
+        this.battleReady=battleReady;
+        this.health = 100;
 
 
+// to be replaced
+        this.walkLeft = new Animation(speed, tex.Knuckles_WalkLeft[0], tex.Knuckles_WalkLeft[1], tex.Knuckles_WalkLeft[2], tex.Knuckles_WalkLeft[3], tex.Knuckles_WalkLeft[4], tex.Knuckles_WalkLeft[5], tex.Knuckles_WalkLeft[6], tex.Knuckles_WalkLeft[7]);
+        this.walkRight = new Animation(speed, tex.Knuckles_WalkRight[0], tex.Knuckles_WalkRight[1], tex.Knuckles_WalkRight[2], tex.Knuckles_WalkRight[3], tex.Knuckles_WalkRight[4], tex.Knuckles_WalkRight[5], tex.Knuckles_WalkRight[6], tex.Knuckles_WalkRight[7]);
 
-        this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
-        this.walkRight = new Animation(speed, tex.Player_WalkRight[0], tex.Player_WalkRight[1]);
-        this.walkUp = new Animation(speed, tex.Player_WalkUp[1], tex.Player_WalkUp[2]);
-        this.walkDown = new Animation(speed, tex.Player_WalkDown[0], tex.Player_WalkDown[1]);
-        this.currentImages= tex.Player_WalkDown;
+        this.currentImages= tex.Knuckles_WalkLeft;
         this.isVisible = true;
-        this.Face = tex.Player_Face[0];
-        this.battleReady=false;
+        this.Face = tex.Knuckles_Face;
+        this.BattleForm = tex.Knuckles_BattleForm;
+    }
+
+    public void Turn(){
+
     }
 
 
@@ -54,7 +57,7 @@ public class NPC extends Character{
     }
     public void render(Graphics g){
 
-        g.drawImage(currentImages[0], (int) this.x, (int)this.y, 38, 148, null);
+        g.drawImage(currentImages[0], (int) this.x, (int)this.y, 48, 96, null);
 
 
     }
@@ -84,14 +87,12 @@ public class NPC extends Character{
 
     public void interaction(){
         if(player.getCurrentImages()==tex.Player_WalkLeft){
-            currentImages=tex.Player_WalkRight;
+            currentImages=tex.Knuckles_WalkRight;
 
         }else if(player.getCurrentImages()==tex.Player_WalkRight){
-            currentImages=tex.Player_WalkLeft;
+            currentImages=tex.Knuckles_WalkLeft;
         }else if(player.getCurrentImages()==tex.Player_WalkUp){
-            currentImages=tex.Player_WalkDown;
         }else if(player.getCurrentImages()==tex.Player_WalkDown){
-            currentImages=tex.Player_WalkUp;
         }
         player.setLimited(true);
         player.setVelX(0);
@@ -128,5 +129,4 @@ public class NPC extends Character{
     public void setBattleReady(boolean battleReady){
         this.battleReady = battleReady;
     }
-
 }

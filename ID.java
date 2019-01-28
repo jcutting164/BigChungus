@@ -6,6 +6,7 @@ public enum ID {
     GrayGround(),
     BlackGround(),
     NPC(),
+    Enemy(),
     TextBox();
 
 

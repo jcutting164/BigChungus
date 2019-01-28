@@ -28,6 +28,7 @@ public class Player extends Character {
         this.walkDown = new Animation(speed, tex.Player_WalkDown[0], tex.Player_WalkDown[1]);
         this.isVisible = true;
         this.Face = tex.Player_Face[0];
+        this.health = 100;
     }
 
 
@@ -144,9 +145,32 @@ public class Player extends Character {
                 if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
                     x+= velX * -1;
                     y+= velY*-1;
+                    if(tempNPC.getBattleReady()){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                    }
                 }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
                     tempNPC.interaction();
+                    x+= velX * -1;
+                    y+= velY*-1;
+                    lastKeyHit=100;
+                }
+            }else if(tempObject.getId() == ID.Knuckles){
+                Knuckles tempKnuckles = (Knuckles) tempObject;
+                Rectangle tempRect = getBounds();
+                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                    x+= velX * -1;
+                    y+= velY*-1;
+                    if(tempKnuckles.getBattleReady()){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, tempKnuckles, handler, game));
+                    }
+                }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                    tempKnuckles.interaction();
                     x+= velX * -1;
                     y+= velY*-1;
                     lastKeyHit=100;
@@ -186,5 +210,8 @@ public class Player extends Character {
     }
 
 
-
+    public void Fight(Enemy enemy, Battle battle){
+        enemy.setHealth(enemy.getHealth()-10);
+        battle.setPlayerTurn(false);
+    }
 }

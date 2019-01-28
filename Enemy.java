@@ -1,8 +1,7 @@
-import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class NPC extends Character{
+public abstract class Enemy extends NPC {
     private int lastKeyReleased;
     Handler handler;
     private boolean battleReady;
@@ -10,10 +9,10 @@ public class NPC extends Character{
     String text;
     private Player player;
     private BufferedImage[] currentImages;
+    protected BufferedImage BattleForm;
 
-
-    public NPC(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player){
-        super(x, y, height, width,handler,game, id, speed);
+    public Enemy(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player){
+        super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player);
         this.handler = handler;
         this.game = game;
         this.tbHandler = tbHandler;
@@ -21,7 +20,7 @@ public class NPC extends Character{
         this.player = player;
 
 
-
+// to be replaced in actual class
         this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
         this.walkRight = new Animation(speed, tex.Player_WalkRight[0], tex.Player_WalkRight[1]);
         this.walkUp = new Animation(speed, tex.Player_WalkUp[1], tex.Player_WalkUp[2]);
@@ -29,8 +28,10 @@ public class NPC extends Character{
         this.currentImages= tex.Player_WalkDown;
         this.isVisible = true;
         this.Face = tex.Player_Face[0];
-        this.battleReady=false;
+        this.battleReady=true;
     }
+
+    public abstract void Turn();
 
 
 
@@ -128,5 +129,8 @@ public class NPC extends Character{
     public void setBattleReady(boolean battleReady){
         this.battleReady = battleReady;
     }
+
+
+
 
 }

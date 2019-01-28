@@ -37,10 +37,15 @@ public class Game extends Canvas implements Runnable{
     TextBox tb;
     private TBHandler tbHandler;
     private KeyInput keyInput;
+    private STATE currentState;
+    private boolean Switch;
+    private Battle currentBattle;
 
 
     public enum STATE {
-
+        Menu,
+        FirstArea,
+        Battle;
     };
 
 
@@ -51,7 +56,9 @@ public class Game extends Canvas implements Runnable{
         window = new Window(WIDTH, HEIGHT, "Temp", this);
         handler = new Handler();
         tbHandler = new TBHandler();
-
+        currentState=null;
+        Switch=false;
+/*
         currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
         camera = new Camera(0,0);
         loadLevel(currentLevel);
@@ -64,7 +71,7 @@ public class Game extends Canvas implements Runnable{
         this.keyInput = new KeyInput(handler, player, tbHandler);
 
         this.addKeyListener(keyInput);
-
+*/
 
 
 
@@ -117,59 +124,101 @@ public class Game extends Canvas implements Runnable{
 
 
     private void tick() {
+        if(currentState==null){
+            currentState = STATE.FirstArea;
+        }if(currentState==STATE.FirstArea && Switch == false){
+            handler.clear();
+            currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
+            camera = new Camera(0,0);
+            loadLevel(currentLevel);
 
-        for(int i = 0; i < handler.object.size(); i++){
-            if(handler.object.get(i).getId() == ID.Player){
-                camera.tick(handler.object.get(i));
+            player = new Player(200, 200, 19, 74, handler, this, ID.Player, 2);
+            npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "i am an NPCC", player);
+            Knuckles knuckles1 = new Knuckles(600, 200, 96, 48, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
+            handler.addObject(knuckles1);
+            handler.addObject(npc);
+            handler.addObject(player);
+
+            this.keyInput = new KeyInput(handler, player, tbHandler);
+
+            this.addKeyListener(keyInput);
+            Switch=true;
+        }else if(currentState==STATE.FirstArea && Switch==true){
+            for(int i = 0; i < handler.object.size(); i++){
+                if(handler.object.get(i).getId() == ID.Player){
+                    camera.tick(handler.object.get(i));
+                }
             }
+            handler.tick();
+            tbHandler.tick();
+        }else if(currentState==STATE.Battle && Switch == false){
+            handler.clear();
+            removeKeyListener(keyInput);
+
+            Switch = true;
+            //create new battle object or get the battle object from player (defined by collision)
+
+        }else if(currentState==STATE.Battle && Switch == true){
+            handler.tick();
+            currentBattle.tick();
         }
-        handler.tick();
-        tbHandler.tick();
+
+
     }
 
     private void render() {
-        BufferStrategy bs = this.getBufferStrategy();
+        if(currentState==STATE.FirstArea && Switch == true){
+            BufferStrategy bs = this.getBufferStrategy();
 
-        if(bs == null) {
-            this.createBufferStrategy(3);
-            return;
+            if(bs == null) {
+                this.createBufferStrategy(3);
+                return;
+            }
+            Graphics g = bs.getDrawGraphics();
+
+
+
+
+            g.setColor(Color.gray);
+            g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
+
+
+            Graphics2D g2d = (Graphics2D) g;
+
+            g2d.translate(-camera.getX(), -camera.getY());
+
+
+
+
+            handler.render(g);
+
+
+            g2d.translate(camera.getX(), camera.getY());
+            tbHandler.render(g);
+
+
+            g.dispose();
+            bs.show();
+        }else if(currentState==STATE.Battle && Switch == true){
+            BufferStrategy bs = this.getBufferStrategy();
+
+            if(bs == null) {
+                this.createBufferStrategy(3);
+                return;
+            }
+            Graphics g = bs.getDrawGraphics();
+
+            g.setColor(Color.black);
+            g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
+            handler.render(g);
+            currentBattle.render(g);
+
+            g.dispose();
+            bs.show();
         }
-        Graphics g = bs.getDrawGraphics();
 
 
 
-
-        g.setColor(Color.gray);
-        g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
-
-
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.translate(-camera.getX(), -camera.getY());
-
-
-
-
-        handler.render(g);
-
-        g2d.translate(camera.getX(), camera.getY());
-        tbHandler.render(g);
-
-
-       // g.drawImage(tex.Player_WalkLeft[0], 100, 100, this);
-       // g.drawImage(tex.Player_WalkLeft[1], 200, 100, this);
-        /*for(int i=0; i<8; i++){
-            g.drawImage(player[i], 50*i, 50*i, this);
-        }*/
-
-
-        //g.drawImage(tex.Player_WalkUp[0], 100, 100, 29, 111, this);
-        //g.drawImage(tex.Player_WalkDown[2], 200, 100, 29, 111, this);
-;
-
-
-        g.dispose();
-        bs.show();
 
     }
 
@@ -228,4 +277,24 @@ public class Game extends Canvas implements Runnable{
     public KeyInput getKeyInput() {
         return keyInput;
     }
+
+    public boolean getSwitch(){
+        return this.Switch;
+    }
+    public void setSwitch(boolean Switch){
+        this.Switch = Switch;
+    }
+    public STATE getCurrentState(){
+        return currentState;
+    }
+    public void setCurrentState(STATE currentState){
+        this.currentState = currentState;
+    }
+    public Battle getCurrentBattle(){
+        return this.currentBattle;
+    }
+    public void setCurrentBattle(Battle currentBattle){
+        this.currentBattle = currentBattle;
+    }
+
 }

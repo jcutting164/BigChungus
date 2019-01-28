@@ -7,6 +7,7 @@ public abstract class Character extends GameObject{
     Handler handler;
     Game game;
     int tempImage;
+    protected int health;
 
     protected Animation walkLeft;
     protected Animation walkRight;
@@ -63,5 +64,10 @@ public abstract class Character extends GameObject{
         this.speed = speed;
     }
 
-
+    public int getHealth(){
+        return this.health;
+    }
+    public void setHealth(int health){
+        this.health = health;
+    }
 }
