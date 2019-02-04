@@ -1,14 +1,9 @@
-import jdk.internal.util.xml.impl.Input;
-
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.Buffer;
-import java.util.*;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
 import java.io.FileInputStream;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
 
 public class Textures {
 

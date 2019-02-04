@@ -50,7 +50,7 @@ public class Battle {
         this.selectedOption[2] = false;
         this.selectedOption[3] = false;
         this.firstTimeInTurn=false;
-        this.bPlayer = new BattlePlayer(640, 650, 16, 16, ID.BattlePlayer);
+        this.bPlayer = new BattlePlayer(640, 650, 16, 16, ID.BattlePlayer, player);
         this.battleKeyInput = new BattleKeyInput(handler, player, this, bPlayer);
         game.addKeyListener(this.battleKeyInput);
 

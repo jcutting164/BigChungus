@@ -10,8 +10,9 @@ public class EnemyAttackItem extends GameObject {
     private String movement;
     private BattlePlayer bPlayer;
     private Player player;
+    private Handler handler;
 
-    public EnemyAttackItem(float x, float y, float height, float width, ID id, BufferedImage[] images, int speed, float scaleX, float scaleY, BattlePlayer bPlayer, Player player){
+    public EnemyAttackItem(float x, float y, float height, float width, ID id, BufferedImage[] images, int speed, float scaleX, float scaleY, BattlePlayer bPlayer, Player player, Handler handler){
         super(x, y, height, width, id);
 
         this.scaleX=scaleX;
@@ -23,6 +24,7 @@ public class EnemyAttackItem extends GameObject {
         this.animation=new Animation(speed, images);
         this.bPlayer = bPlayer;
         this.player = player;
+        this.handler = handler;
     }
 
 
@@ -78,6 +80,7 @@ public class EnemyAttackItem extends GameObject {
             bPlayer.setCooldown(true);
             bPlayer.setTimeOfLastShot(System.currentTimeMillis());
             bPlayer.setTrack(0);
+            handler.removeObject(this);
 
         }
 

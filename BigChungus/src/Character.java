@@ -1,6 +1,8 @@
-import javax.xml.soap.Text;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+
 
 public abstract class Character extends GameObject{
 

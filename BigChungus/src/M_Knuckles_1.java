@@ -56,7 +56,7 @@ public class M_Knuckles_1 extends Usables_E {
             timeNow2 = System.currentTimeMillis();
             time2 = timeNow2 - timeOfLastShot2;
             if(time2>2000 && track < 4){
-                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player);
+                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player, handler);
                 temp.boxBounce();
                 handler.addObject(temp);
                 timeOfLastShot2=timeNow2;

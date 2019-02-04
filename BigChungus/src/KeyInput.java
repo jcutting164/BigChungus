@@ -1,9 +1,7 @@
-
-import javax.xml.soap.Text;
-import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.security.Key;
+
+
 
 public class KeyInput extends KeyAdapter{
 
