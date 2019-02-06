@@ -1,6 +1,8 @@
-import javax.xml.soap.Text;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+
 
 public abstract class Character extends GameObject{
 
@@ -8,6 +10,7 @@ public abstract class Character extends GameObject{
     Game game;
     int tempImage;
     protected int health;
+    protected int maxhealth;
 
     protected Animation walkLeft;
     protected Animation walkRight;
@@ -70,4 +73,30 @@ public abstract class Character extends GameObject{
     public void setHealth(int health){
         this.health = health;
     }
+
+    public void drawHealthBar(int y, Graphics g){
+        g.setColor(Color.red.darker());
+        g.fillRect(540, y, 200, 32);
+        if(health >= maxhealth*.5){
+            g.setColor(Color.green);
+        }else if(health <= maxhealth*.5){
+            g.setColor(Color.yellow);
+        }else{
+            g.setColor(Color.red);
+        }
+
+        g.fillRect(540, y, health*(200/maxhealth), 32);
+        g.setColor(Color.white);
+        g.drawRect(540, y, 200, 32);
+
+
+
+    }
+    public int getMaxHealth(){
+        return this.maxhealth;
+    }
+    public void setMaxHealth(int maxhealth){
+        this.maxhealth = maxhealth;
+    }
+
 }

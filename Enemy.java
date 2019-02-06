@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 public abstract class Enemy extends NPC {
     private int lastKeyReleased;
@@ -10,6 +12,11 @@ public abstract class Enemy extends NPC {
     private Player player;
     private BufferedImage[] currentImages;
     protected BufferedImage BattleForm;
+    private String name;
+    protected Color nameColor;
+    protected int currentMove;
+
+    protected int moves;
 
     public Enemy(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player){
         super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player);
@@ -18,6 +25,7 @@ public abstract class Enemy extends NPC {
         this.tbHandler = tbHandler;
         this.text = text;
         this.player = player;
+
 
 
 // to be replaced in actual class
@@ -129,8 +137,25 @@ public abstract class Enemy extends NPC {
     public void setBattleReady(boolean battleReady){
         this.battleReady = battleReady;
     }
+    public String getName(){
+        return this.name;
+    }
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public Color getNameColor(){
+        return nameColor;
+    }
+    public void setNameColor(Color nameColor){
+        this.nameColor = nameColor;
+    }
 
 
+    public void chooseMove(){
+        int randomNum = ThreadLocalRandom.current().nextInt(0, moves + 1);
+        this.currentMove=randomNum;
+    }
 
 
 }

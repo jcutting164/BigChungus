@@ -1,19 +1,25 @@
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.Buffer;
-import java.util.*;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
 
 public class Textures {
 
     SpriteSheet SS_Player;
     SpriteSheet SS_FirstArea;
     SpriteSheet SS_Knuckles;
+    SpriteSheet SSA_Knuckles_1;
 
     private BufferedImage BI_Player;
     public BufferedImage BI_FirstArea;
     private BufferedImage BI_Knuckles;
+    private BufferedImage BI_A_Knuckles_1;
+    private InputStream IS_BI_Player;
+    private InputStream IS_BI_FirstArea;
+    private InputStream IS_BI_Knuckles;
+    private InputStream IS_A_Knuckles_1;
 
     public BufferedImage[] Player_WalkLeft = new BufferedImage[2];
     public BufferedImage[] Player_WalkRight = new BufferedImage[2];
@@ -26,18 +32,25 @@ public class Textures {
     public BufferedImage[] Knuckles_WalkRight = new BufferedImage[8];
     public BufferedImage Knuckles_Face;
     public BufferedImage Knuckles_BattleForm;
+    public BufferedImage[] Knuckles_A1 = new BufferedImage[4];
 
 
     public Textures(){
         BufferedImageLoader loader = new BufferedImageLoader();
         try{
-            BI_Player = loader.loadImage("res/SS_Player.png");
+            //BI_Player = loader.loadImage("res/SS_Player.png");
 
+            IS_BI_Player = new FileInputStream("res/SS_Player.png");
+            BI_Player = ImageIO.read(IS_BI_Player);
 
-            BI_FirstArea = loader.loadImage("res/FirstArea.png");
+            IS_BI_FirstArea = new FileInputStream("res/FirstArea.png");
+            BI_FirstArea = ImageIO.read(IS_BI_FirstArea);
 
+            IS_BI_Knuckles = new FileInputStream("res/SS_Knuckles.png");
+            BI_Knuckles = ImageIO.read(IS_BI_Knuckles);
 
-            BI_Knuckles = loader.loadImage("res/SS_Knuckles.png");
+            IS_A_Knuckles_1 = new FileInputStream("res/Attacks/EnemyAttacks/Knuckles/A_Knuckles_1.png");
+            BI_A_Knuckles_1 = ImageIO.read(IS_A_Knuckles_1);
 
 
 
@@ -50,6 +63,7 @@ public class Textures {
         SS_Player = new SpriteSheet(BI_Player);
         SS_FirstArea = new SpriteSheet(BI_FirstArea);
         SS_Knuckles = new SpriteSheet(BI_Knuckles);
+        SSA_Knuckles_1 = new SpriteSheet(BI_A_Knuckles_1);
 
         getTextures();
 
@@ -95,7 +109,10 @@ public class Textures {
         Knuckles_Face = SS_Knuckles.grabImage(1, 1, 128, 128);
         Knuckles_BattleForm = SS_Knuckles.getSubImage(0, 128, 780, 610);
 
-
+        Knuckles_A1[0] = SSA_Knuckles_1.grabImage(1, 1, 18, 18);
+        Knuckles_A1[1] = SSA_Knuckles_1.grabImage(2, 1, 18, 18);
+        Knuckles_A1[2] = SSA_Knuckles_1.grabImage(3, 1, 18, 18);
+        Knuckles_A1[3] = SSA_Knuckles_1.grabImage(4, 1, 18, 18);
 
 
 

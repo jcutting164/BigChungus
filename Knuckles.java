@@ -19,7 +19,10 @@ public class Knuckles extends Enemy {
         this.player = player;
         this.battleReady=battleReady;
         this.health = 100;
-
+        setName("Knuckles");
+        this.nameColor = Color.red;
+        this.maxhealth=this.health;
+        this.moves = 1;
 
 // to be replaced
         this.walkLeft = new Animation(speed, tex.Knuckles_WalkLeft[0], tex.Knuckles_WalkLeft[1], tex.Knuckles_WalkLeft[2], tex.Knuckles_WalkLeft[3], tex.Knuckles_WalkLeft[4], tex.Knuckles_WalkLeft[5], tex.Knuckles_WalkLeft[6], tex.Knuckles_WalkLeft[7]);
@@ -129,4 +132,5 @@ public class Knuckles extends Enemy {
     public void setBattleReady(boolean battleReady){
         this.battleReady = battleReady;
     }
+
 }

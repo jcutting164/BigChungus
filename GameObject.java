@@ -15,7 +15,7 @@ public abstract class GameObject {
         this.height = height;
         this.width = width;
         this.id = id;
-        this.isVisible = false;
+        this.isVisible = true;
     }
 
     public float getHeight() {
@@ -72,7 +72,7 @@ public abstract class GameObject {
         this.velY = velY;
     }
     public ID getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(ID id) {

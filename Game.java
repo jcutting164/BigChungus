@@ -40,12 +40,14 @@ public class Game extends Canvas implements Runnable{
     private STATE currentState;
     private boolean Switch;
     private Battle currentBattle;
+    private Font fnt;
 
 
     public enum STATE {
         Menu,
         FirstArea,
-        Battle;
+        Battle,
+        GameOver;
     };
 
 
@@ -161,6 +163,10 @@ public class Game extends Canvas implements Runnable{
         }else if(currentState==STATE.Battle && Switch == true){
             handler.tick();
             currentBattle.tick();
+        }else if(currentState==STATE.GameOver && Switch==false){
+        	
+        }else if(currentState==STATE.GameOver && Switch==true){
+        	
         }
 
 
@@ -214,6 +220,28 @@ public class Game extends Canvas implements Runnable{
             currentBattle.render(g);
 
             g.dispose();
+            bs.show();
+        }else if(currentState==STATE.GameOver && Switch){
+        	System.out.println("This is true");
+        	Switch=false;
+        }else if(currentState == STATE.GameOver && !Switch){
+        	 BufferStrategy bs = this.getBufferStrategy();
+
+             if(bs == null) {
+                 this.createBufferStrategy(3);
+                 return;
+             }
+             Graphics g = bs.getDrawGraphics();
+        	g.setColor(Color.black);
+        	g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
+        	g.setColor(Color.white);
+        	fnt = new Font("Serif", 0, 64);
+        	g.drawString("Game Over" , 100, 100);
+        	
+        	
+        	
+        	
+        	g.dispose();
             bs.show();
         }
 
@@ -296,5 +324,7 @@ public class Game extends Canvas implements Runnable{
     public void setCurrentBattle(Battle currentBattle){
         this.currentBattle = currentBattle;
     }
+    
+    
 
 }

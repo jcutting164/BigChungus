@@ -13,6 +13,7 @@ public class Player extends Character {
     private Rectangle range;
     private boolean limited;
     private BufferedImage[] currentImages;
+    private String name;
 
 
     public Player(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed){
@@ -25,10 +26,12 @@ public class Player extends Character {
         this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
         this.walkRight = new Animation(speed, tex.Player_WalkRight[0], tex.Player_WalkRight[1]);
         this.walkUp = new Animation(speed, tex.Player_WalkUp[1], tex.Player_WalkUp[2]);
-        this.walkDown = new Animation(speed, tex.Player_WalkDown[0], tex.Player_WalkDown[1]);
+        this.walkDown = new Animation(speed, tex.Player_WalkDown[1], tex.Player_WalkDown[2]);
         this.isVisible = true;
         this.Face = tex.Player_Face[0];
         this.health = 100;
+        this.maxhealth=this.health;
+        this.name="Josh";
     }
 
 
@@ -210,8 +213,11 @@ public class Player extends Character {
     }
 
 
-    public void Fight(Enemy enemy, Battle battle){
-        enemy.setHealth(enemy.getHealth()-10);
-        battle.setPlayerTurn(false);
+
+    public String getName(){
+        return this.name;
+    }
+    public void setName(String name){
+        this.name = name;
     }
 }

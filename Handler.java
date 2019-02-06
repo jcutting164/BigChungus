@@ -14,9 +14,8 @@ public class Handler {
     public void tick() {
         for(int i = 0; i < object.size(); i++) {
             GameObject tempObject = object.get(i);
-            if(tempObject.isVisible){
-                tempObject.tick();
-            }
+            tempObject.tick();
+
 
         }
     }

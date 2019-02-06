@@ -7,7 +7,12 @@ public enum ID {
     BlackGround(),
     NPC(),
     Enemy(),
-    TextBox();
+    TextBox(),
+    Spell(),
+    Item(),
+    BattlePlayer,
+    M_Knuckles1,
+    EnemyAttackItem;
 
 
 }

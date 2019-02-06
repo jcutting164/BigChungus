@@ -1,6 +1,7 @@
-import javax.xml.soap.Text;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+
 
 public class NPC extends Character{
     private int lastKeyReleased;
