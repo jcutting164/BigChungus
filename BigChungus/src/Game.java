@@ -1,12 +1,8 @@
-
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.awt.*;
 
 
@@ -40,6 +36,8 @@ public class Game extends Canvas implements Runnable{
     private STATE currentState;
     private boolean Switch;
     private Battle currentBattle;
+    private Font fnt;
+    private Inventory inv;
 
 
     public enum STATE {
@@ -59,12 +57,26 @@ public class Game extends Canvas implements Runnable{
         tbHandler = new TBHandler();
         currentState=null;
         Switch=false;
+        inv = new Inventory(this);
+        inv.addItem(new Items("Basic HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("asdf HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("fda HP", "A healing potion that will give you 20 HP", inv));
+
+        inv.addItem(new Items("asdf HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("hgfds HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items(" asdf HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("rete HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("asdf HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("fdsa HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("asdf HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("fda HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("fdfdfd HP", "A healing potion that will give you 20 HP", inv));
 /*
         currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
         camera = new Camera(0,0);
         loadLevel(currentLevel);
 
-        player = new Player(200, 200, 19, 74, handler, this, ID.Player, 2);
+        player = new NPC.Player(200, 200, 19, 74, handler, this, ID.NPC.Player, 2);
         npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "i am an NPCC", player);
 
         handler.addObject(npc);
@@ -140,7 +152,7 @@ public class Game extends Canvas implements Runnable{
             handler.addObject(npc);
             handler.addObject(player);
 
-            this.keyInput = new KeyInput(handler, player, tbHandler);
+            this.keyInput = new KeyInput(handler, player, tbHandler, inv);
 
             this.addKeyListener(keyInput);
             Switch=true;
@@ -152,6 +164,9 @@ public class Game extends Canvas implements Runnable{
             }
             handler.tick();
             tbHandler.tick();
+            if(inv.getOpen()){
+                inv.tick();
+            }
         }else if(currentState==STATE.Battle && Switch == false){
             handler.clear();
             removeKeyListener(keyInput);
@@ -198,8 +213,14 @@ public class Game extends Canvas implements Runnable{
             handler.render(g);
 
 
+
             g2d.translate(camera.getX(), camera.getY());
             tbHandler.render(g);
+
+            if(inv.getOpen()){
+                inv.render(g);
+            }
+
 
 
             g.dispose();
@@ -221,7 +242,27 @@ public class Game extends Canvas implements Runnable{
             g.dispose();
             bs.show();
         }else if(currentState==STATE.GameOver && Switch){
+        	Switch=false;
+        }else if(currentState == STATE.GameOver && !Switch){
+        	 BufferStrategy bs = this.getBufferStrategy();
+
+             if(bs == null) {
+                 this.createBufferStrategy(3);
+                 return;
+             }
+             Graphics g = bs.getDrawGraphics();
+        	g.setColor(Color.black);
+        	g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
+        	g.setColor(Color.white);
+        	fnt = new Font("Serif", 1, 125);
+        	g.setFont(fnt);
+        	g.drawString("Game Over" , 300, 250);
         	
+        	
+        	
+        	
+        	g.dispose();
+            bs.show();
         }
 
 

@@ -105,7 +105,7 @@ public class BattleKeyInput extends KeyAdapter{
                 GameObject tempObject = handler.object.get(i);
 
                 if(tempObject.getId() == ID.Player) {
-                    // key events for Player 1
+                    // key events for NPC.Player 1
 
                     if(key == KeyEvent.VK_X && tbHandler.object.get(0).getDone()) {
                         player.setLimited(false);
@@ -159,7 +159,7 @@ public class BattleKeyInput extends KeyAdapter{
                 GameObject tempObject = handler.object.get(i);
 
                 if(tempObject.getId() == ID.Player) {
-                    // key events for Player 1
+                    // key events for NPC.Player 1
 
                     if(key == KeyEvent.VK_X && tbHandler.object.get(0).getDone()) {
                         player.setLimited(false);
@@ -171,7 +171,7 @@ public class BattleKeyInput extends KeyAdapter{
         }
     }
 
-                // key events for Player 1
+                // key events for NPC.Player 1
 
 
     public void keyReleased(KeyEvent e) {
@@ -181,7 +181,7 @@ public class BattleKeyInput extends KeyAdapter{
                 GameObject tempObject = handler.object.get(i);
 
                 if (tempObject.getId() == ID.Player) {
-                    // key events for Player 1
+                    // key events for NPC.Player 1
 
                     if (key == KeyEvent.VK_UP) {
                         keyDown[0] = false;
@@ -226,7 +226,7 @@ public class BattleKeyInput extends KeyAdapter{
                 GameObject tempObject = handler.object.get(i);
 
                 if (tempObject.getId() == ID.BattlePlayer) {
-                    // key events for Player 1
+                    // key events for NPC.Player 1
 
                     if (key == KeyEvent.VK_UP) {
                         keyDown[0] = false;

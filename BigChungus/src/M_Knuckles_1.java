@@ -1,5 +1,5 @@
 import java.awt.Graphics;
-import java.awt.Color;
+
 public class M_Knuckles_1 extends Usables_E {
 
     private long timeNow2;

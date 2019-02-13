@@ -1,4 +1,3 @@
-
 import java.awt.*;
 
 
@@ -10,6 +9,7 @@ public abstract class Usables extends GameObject {
     protected long timeNow, time, timeOfLastShot;
     protected int track;
     protected Enemy enemy;
+
 
     public Usables(float x, float y, float height, float width, ID id, Handler handler, Battle battle, Enemy enemy){
 

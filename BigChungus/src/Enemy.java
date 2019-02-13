@@ -1,3 +1,5 @@
+import org.newdawn.slick.Music;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,7 +17,6 @@ public abstract class Enemy extends NPC {
     private String name;
     protected Color nameColor;
     protected int currentMove;
-
     protected int moves;
 
     public Enemy(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player){
@@ -153,7 +154,7 @@ public abstract class Enemy extends NPC {
 
 
     public void chooseMove(){
-        int randomNum = ThreadLocalRandom.current().nextInt(0, moves + 1);
+        int randomNum = ThreadLocalRandom.current().nextInt(0, moves);
         this.currentMove=randomNum;
     }
 

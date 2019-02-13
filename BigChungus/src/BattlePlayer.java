@@ -1,7 +1,7 @@
 import java.awt.*;
 
 
-public class BattlePlayer extends GameObject{
+public class BattlePlayer extends GameObject {
     private Game game;
     private boolean cooldown;
     private long time, timeNow, timeOfLastShot;
@@ -10,7 +10,7 @@ public class BattlePlayer extends GameObject{
 
 
 
-    public BattlePlayer(float x, float y, float height, float width, ID id, Player player){
+    public BattlePlayer(float x, float y, float height, float width, ID id, Player player, Game game){
         super(x, y, height, width, id);
         this.velX = 0;
         this.velY = 0;
@@ -19,15 +19,16 @@ public class BattlePlayer extends GameObject{
         this.timeOfLastShot=0;
         this.track=0;
         this.player =player;
+        this.game = game;
 
     }
 
 
 
     public void tick(){
-
     	if(player.getHealth() <= 0){
     		game.setCurrentState(Game.STATE.GameOver);
+    		game.setSwitch(true);
     	}
         x+=velX;
         y+=velY;
@@ -37,10 +38,8 @@ public class BattlePlayer extends GameObject{
 
 
         if(cooldown){
-            System.out.println(cooldown);
             timeNow = System.currentTimeMillis();
             time = timeNow - timeOfLastShot;
-            System.out.println(time);
             if(time > 100) {
                 if(isVisible){
                     isVisible=false;

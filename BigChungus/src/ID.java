@@ -1,4 +1,3 @@
-
 public enum ID {
 
     Knuckles(),
@@ -12,7 +11,8 @@ public enum ID {
     Item(),
     BattlePlayer,
     M_Knuckles1,
-    EnemyAttackItem;
+    EnemyAttackItem,
+    M_Knuckles2;
 
 
 }

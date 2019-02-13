@@ -1,6 +1,6 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.security.Key;
 
 
 public class KeyInput extends KeyAdapter{
@@ -15,12 +15,14 @@ public class KeyInput extends KeyAdapter{
 
     private boolean[] keyDown = new boolean[6];
     private Player player;
+    private Inventory inv;
 
-    public KeyInput(Handler handler, Player player, TBHandler tbHandler) {
+    public KeyInput(Handler handler, Player player, TBHandler tbHandler, Inventory inv) {
         this.handler = handler;
         this.timeOfLastShot = 0;
         this.player = player;
         this.tbHandler = tbHandler;
+        this.inv = inv;
 
         for(int i = 0; i<6; i++) {
             keyDown[i] = false;
@@ -31,12 +33,12 @@ public class KeyInput extends KeyAdapter{
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if(player.getLimited() == false){
+        if(!player.getLimited()){
             for(int i = 0; i< handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
 
                 if(tempObject.getId() == ID.Player) {
-                    // key events for Player 1
+                    // key events for NPC.Player 1
 
                     if(key == KeyEvent.VK_UP ) {
                         {tempObject.setVelY(-5); keyDown[0]=true; }
@@ -59,21 +61,64 @@ public class KeyInput extends KeyAdapter{
                     }else if(key == KeyEvent.VK_G) {
                         //hud.setScore(hud.getScore() + 10000);
                         tbHandler.removeObject(0);
+                    }else if(key==KeyEvent.VK_C){
+                        player.setLimited(true);
+                        inv.setOpen(true);
+                        inv.setOptions(true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+                        inv.setPage(1);
+                        inv.setCurrentOption(0);
                     }
                 }
 
             }
         }else if(player.getLimited() == true){
+
             for(int i = 0; i< handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
 
                 if(tempObject.getId() == ID.Player) {
-                    // key events for Player 1
+                    // key events for NPC.Player 1
 
-                    if(key == KeyEvent.VK_X && tbHandler.object.get(0).getDone()) {
-                        player.setLimited(false);
-                        tbHandler.removeObject(0);
+                    if(inv.getOpen()){
+                        if(key==KeyEvent.VK_DOWN){
+
+                            if(!inv.getOptions()[inv.inv.size()]){
+                                for(int j = 0; j<inv.inv.size()-1; j++){
+                                    if(inv.getOptions()[j]){
+                                        inv.setSpecOption(false, j);
+                                        inv.setSpecOption(true, inv.getCurrentOption()+1);
+                                        inv.setCurrentOption(inv.getCurrentOption()+1);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }else if(key==KeyEvent.VK_UP){
+                            if(!inv.getOptions()[0]){
+                                for(int j = 0; j<inv.inv.size(); j++){
+                                    if(inv.getOptions()[j]){
+                                        inv.setSpecOption(false, j);
+                                        inv.setSpecOption(true, inv.getCurrentOption()-1);
+                                        inv.setCurrentOption(inv.getCurrentOption()-1);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }else if(key==KeyEvent.VK_Z){
+                            player.setLimited(false);
+                            inv.setOpen(false);
+                        }else if(key==KeyEvent.VK_X){
+                            inv.inv.get(inv.getCurrentOption()).use();
+                        }
+                    }else{
+                        if(key == KeyEvent.VK_X && tbHandler.object.get(0).getDone()) {
+                            player.setLimited(false);
+                            tbHandler.removeObject(0);
+                        }
                     }
+
+
                 }
 
             }
@@ -90,7 +135,7 @@ public class KeyInput extends KeyAdapter{
                 GameObject tempObject = handler.object.get(i);
 
                 if(tempObject.getId() == ID.Player) {
-                    // key events for Player 1
+                    // key events for NPC.Player 1
 
                     if(key == KeyEvent.VK_UP) {
                         keyDown[0] = false;

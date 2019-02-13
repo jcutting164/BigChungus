@@ -1,3 +1,5 @@
+import jdk.internal.util.xml.impl.Input;
+
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -11,15 +13,30 @@ public class Textures {
     SpriteSheet SS_FirstArea;
     SpriteSheet SS_Knuckles;
     SpriteSheet SSA_Knuckles_1;
+    SpriteSheet SSA_Knuckles_2;
+    SpriteSheet SS_PikachuMovement;
+    SpriteSheet SS_PikachuBF;
+    SpriteSheet SS_PikachuFace;
+
 
     private BufferedImage BI_Player;
     public BufferedImage BI_FirstArea;
     private BufferedImage BI_Knuckles;
     private BufferedImage BI_A_Knuckles_1;
+    private BufferedImage BI_A_Knuckles_2;
+    private BufferedImage BI_PikachuMovement;
+    private BufferedImage BI_PikachuBF;
+    private BufferedImage BI_PikachuFace;
+
+
     private InputStream IS_BI_Player;
     private InputStream IS_BI_FirstArea;
     private InputStream IS_BI_Knuckles;
     private InputStream IS_A_Knuckles_1;
+    private InputStream IS_A_Knuckles_2;
+    private InputStream IS_BI_PikachuMovement;
+    private InputStream IS_BI_PikachuBF;
+    private InputStream IS_BI_PikachuFace;
 
     public BufferedImage[] Player_WalkLeft = new BufferedImage[2];
     public BufferedImage[] Player_WalkRight = new BufferedImage[2];
@@ -33,6 +50,15 @@ public class Textures {
     public BufferedImage Knuckles_Face;
     public BufferedImage Knuckles_BattleForm;
     public BufferedImage[] Knuckles_A1 = new BufferedImage[4];
+    public BufferedImage[] Knuckles_A2 = new BufferedImage[1];
+
+
+    public BufferedImage[] Pikachu_WalkLeft = new BufferedImage[3];
+    public BufferedImage[] Pikachu_WalkRight = new BufferedImage[3];
+    public BufferedImage[] Pikachu_WalkUp = new BufferedImage[3];
+    public BufferedImage[] Pikachu_WalkDown = new BufferedImage[3];
+    public BufferedImage[] PikachuBF = new BufferedImage[1];
+    public BufferedImage[] PikachuFace = new BufferedImage[1];
 
 
     public Textures(){
@@ -52,6 +78,18 @@ public class Textures {
             IS_A_Knuckles_1 = new FileInputStream("res/Attacks/EnemyAttacks/Knuckles/A_Knuckles_1.png");
             BI_A_Knuckles_1 = ImageIO.read(IS_A_Knuckles_1);
 
+            IS_A_Knuckles_2 = new FileInputStream("res/Attacks/EnemyAttacks/Knuckles/A_Knuckles_2.png");
+            BI_A_Knuckles_2 = ImageIO.read(IS_A_Knuckles_2);
+
+
+            IS_BI_PikachuFace = new FileInputStream("res/SS_PikachuFace.png");
+            BI_PikachuFace = ImageIO.read(IS_BI_PikachuFace);
+
+            IS_BI_PikachuBF = new FileInputStream("res/SS_PikachuBF.png");
+            BI_PikachuBF = ImageIO.read(IS_BI_PikachuFace);
+
+            IS_BI_PikachuMovement = new FileInputStream("res/SS_PikachuMovement.png");
+            BI_PikachuMovement = ImageIO.read(IS_BI_PikachuMovement);
 
 
 
@@ -64,6 +102,10 @@ public class Textures {
         SS_FirstArea = new SpriteSheet(BI_FirstArea);
         SS_Knuckles = new SpriteSheet(BI_Knuckles);
         SSA_Knuckles_1 = new SpriteSheet(BI_A_Knuckles_1);
+        SSA_Knuckles_2 = new SpriteSheet(BI_A_Knuckles_2);
+        SS_PikachuMovement = new SpriteSheet(BI_PikachuMovement);
+        SS_PikachuFace = new SpriteSheet(BI_PikachuFace);
+        SS_PikachuBF = new SpriteSheet(BI_PikachuBF);
 
         getTextures();
 
@@ -113,6 +155,29 @@ public class Textures {
         Knuckles_A1[1] = SSA_Knuckles_1.grabImage(2, 1, 18, 18);
         Knuckles_A1[2] = SSA_Knuckles_1.grabImage(3, 1, 18, 18);
         Knuckles_A1[3] = SSA_Knuckles_1.grabImage(4, 1, 18, 18);
+
+        Knuckles_A2[0] = SSA_Knuckles_2.grabImage(1, 1, 117, 41);
+
+
+
+        Pikachu_WalkDown[1] = SS_PikachuMovement.getSubImage(0, 0, 19, 24);
+        Pikachu_WalkDown[0] = SS_PikachuMovement.getSubImage(37, 0, 19, 25);
+        Pikachu_WalkDown[2] = SS_PikachuMovement.getSubImage(71, 0, 20, 26);
+
+        Pikachu_WalkUp[1] = SS_PikachuMovement.getSubImage(0, 31, 23, 25);
+        Pikachu_WalkUp[0] = SS_PikachuMovement.getSubImage(31, 31, 21, 24);
+        Pikachu_WalkUp[2] = SS_PikachuMovement.getSubImage(71, 31, 22, 26);
+
+        Pikachu_WalkLeft[1] = SS_PikachuMovement.getSubImage(0, 64, 21, 22);
+        Pikachu_WalkLeft[0] = SS_PikachuMovement.getSubImage(35, 61, 23, 24);
+        Pikachu_WalkLeft[2] = SS_PikachuMovement.getSubImage(71, 61, 21, 24);
+
+        Pikachu_WalkRight[1] = SS_PikachuMovement.getSubImage(1, 92, 21, 22);
+        Pikachu_WalkRight[0] = SS_PikachuMovement.getSubImage(34, 92, 22, 24);
+        Pikachu_WalkRight[2] = SS_PikachuMovement.getSubImage(68, 90, 21, 24);
+
+        PikachuBF[0] = SS_PikachuBF.getSubImage(0,0,474, 458);
+        PikachuFace[0] = SS_PikachuFace.getSubImage(0,0,391, 313);
 
 
 

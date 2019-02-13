@@ -1,4 +1,3 @@
-
 import java.awt.Graphics;
 import java.util.LinkedList;
 
@@ -52,6 +51,16 @@ public class Handler {
         for(int i = 0; i < size; i++) {
             this.object.remove(0);
         }
+    }
+
+    public boolean isIn(){
+        boolean tempBool=false;
+        for(int i = 0; i<this.object.size(); i++){
+            if(this.object.get(i).getId()==ID.EnemyAttackItem){
+                tempBool=true;
+            }
+        }
+        return tempBool;
     }
 
 

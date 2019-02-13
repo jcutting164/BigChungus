@@ -1,5 +1,3 @@
-import org.w3c.dom.css.Rect;
-
 import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -14,6 +12,7 @@ public class Player extends Character {
     private boolean limited;
     private BufferedImage[] currentImages;
     private String name;
+
 
 
     public Player(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed){
@@ -220,4 +219,7 @@ public class Player extends Character {
     public void setName(String name){
         this.name = name;
     }
+
+
+
 }

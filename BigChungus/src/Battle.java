@@ -25,6 +25,8 @@ public class Battle {
     private boolean playerTurnStart;
     private boolean enemyTurnStart;
     private BattlePlayer bPlayer;
+    private int track;
+    private long timeOfLastShot, timeOfLastShot2, time, timeNow, time2, timeNow2;
 
 
 
@@ -50,13 +52,20 @@ public class Battle {
         this.selectedOption[2] = false;
         this.selectedOption[3] = false;
         this.firstTimeInTurn=false;
-        this.bPlayer = new BattlePlayer(640, 650, 16, 16, ID.BattlePlayer, player);
+        this.bPlayer = new BattlePlayer(640, 650, 16, 16, ID.BattlePlayer, player, game);
         this.battleKeyInput = new BattleKeyInput(handler, player, this, bPlayer);
         game.addKeyListener(this.battleKeyInput);
 
         if(enemy.getId()==ID.Knuckles){
             m_knuckles_1=new M_Knuckles_1(0,0,1,1280,ID.M_Knuckles1,this.handler,this,this.enemy, this.bPlayer, this.player);
         }
+
+        AudioPlayer ap = new AudioPlayer();
+        ap.load();
+        if(enemy.getId()==ID.Knuckles){
+            ap.getMusic("Knuckles").loop();
+        }
+
 
 
 
@@ -269,9 +278,91 @@ public class Battle {
 
                 g.drawRect(160, 100, 960, 320);
                 g.drawImage(enemy.BattleForm, 445, 105,390, 305, null);
+                // effect part of template
+                if(enemy.currentMove==0){
+                    timeNow = System.currentTimeMillis();
+                    time = timeNow - timeOfLastShot;
 
-                if(enemy.moves==1){
-                    m_knuckles_1.effect();
+                    if(time > 10000) {
+                        timeOfLastShot=0;
+                        // end func
+                        // will update damage calculation based on attack / defense, for now is one value
+                        setPlayerTurn(true);
+                        // will do same for player when enemy uses this function for end
+                        setPlayerTurnStart(true);
+                    }else{
+                        timeNow2 = System.currentTimeMillis();
+                        time2 = timeNow2 - timeOfLastShot2;
+                        if(time2>2000 && track < 4){
+                            EnemyAttackItem temp = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player, handler);
+                            temp.boxBounce();
+                            handler.addObject(temp);
+                            timeOfLastShot2=timeNow2;
+                            track++;
+                        }
+                    }
+                }else if(enemy.currentMove==1){
+                    timeNow = System.currentTimeMillis();
+                    time = timeNow - timeOfLastShot;
+
+                    if(time > 14000) {
+                        timeOfLastShot=0;
+                        // will update damage calculation based on attack / defense, for now is one value
+                        setPlayerTurn(true);
+                        // will do same for player when enemy uses this function for end
+                        setPlayerTurnStart(true);
+                    }else{
+                        timeNow2 = System.currentTimeMillis();
+                        time2 = timeNow2 - timeOfLastShot2;
+                        if(time2>500 && track < 20){
+                            EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player, handler);
+                            temp.randomProtShot();
+                            handler.addObject(temp);
+                            timeOfLastShot2=timeNow2;
+                            track++;
+                        }
+                    }
+                }else if(enemy.currentMove==2){
+                    // effect code;
+                    timeNow = System.currentTimeMillis();
+                    time = timeNow - timeOfLastShot;
+                    if(time > 10000 || (!handler.isIn()&&track>0)) {
+                        timeOfLastShot=0;
+                        // will update damage calculation based on attack / defense, for now is one value
+                        setPlayerTurn(true);
+                        // will do same for player when enemy uses this function for end
+                        setPlayerTurnStart(true);
+                    }else{
+
+                        if(track < 1){
+                            EnemyAttackItem temp = new EnemyAttackItem(0, 0, 41, 117, ID.EnemyAttackItem, tex.Knuckles_A2, 3, 117, 41, bPlayer, player, handler);
+                            temp.DYKDW();
+                            handler.addObject(temp);
+                            timeOfLastShot2=timeNow2;
+                            track++;
+                        }
+                    }
+                }else if(enemy.currentMove==3){
+                    // effect code;
+                    timeNow = System.currentTimeMillis();
+                    time = timeNow - timeOfLastShot;
+                    if(time > 15000 || (!handler.isIn()&&track>4)) {
+                        timeOfLastShot=0;
+                        // will update damage calculation based on attack / defense, for now is one value
+                        setPlayerTurn(true);
+                        // will do same for player when enemy uses this function for end
+                        setPlayerTurnStart(true);
+                    }else{
+                        timeNow2 = System.currentTimeMillis();
+                        time2 = timeNow2 - timeOfLastShot2;
+                        if(track < 5 && time2>3000){
+                            EnemyAttackItem temp = new EnemyAttackItem(0, 0, 290, 270, ID.EnemyAttackItem, tex.Knuckles_A1, 6, 300, 310, bPlayer, player, handler);
+                            temp.LS();
+                            handler.addObject(temp);
+                            timeOfLastShot2=timeNow2;
+                            track++;
+                        }
+                    }
                 }
 
 
@@ -326,8 +417,7 @@ public class Battle {
 
         // redefine all enemy attack objects previously made in init
 
-        m_knuckles_1.setX(0);
-        m_knuckles_1.setY(0);
+
 
         handler.clear();
         bPlayer.setX(630);
@@ -337,10 +427,24 @@ public class Battle {
         handler.addObject(bPlayer);
         enemyTurnStart=false;
         enemy.chooseMove();
-        System.out.println(enemy.moves);
+        // use setup
         if(enemy.getId()==ID.Knuckles){
-            if(enemy.moves==1){
-                m_knuckles_1.use();
+            if(enemy.currentMove==0){
+                track = 0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==1){
+                track = 0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==2){
+                track=0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==3){
+                track=0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
             }
         }
 
