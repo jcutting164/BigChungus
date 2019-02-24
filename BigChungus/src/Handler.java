@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Handler {
@@ -61,6 +62,28 @@ public class Handler {
             }
         }
         return tempBool;
+    }
+
+    public ArrayList<EnemyAttackItem> getELIST(){
+        ArrayList<EnemyAttackItem> templist = new ArrayList<>();
+        for(int i =0; i<this.object.size(); i++){
+            if(this.object.get(i).getId()==ID.EnemyAttackItem){
+                templist.add((EnemyAttackItem) this.object.get(i));
+            }
+
+
+        }
+        return templist;
+
+    }
+
+    public void removeEAI(){
+        for(int i=0; i<this.object.size(); i++){
+            if(this.object.get(i).getId()==ID.EnemyAttackItem){
+                this.object.remove(i);
+                removeEAI();
+            }
+        }
     }
 
 

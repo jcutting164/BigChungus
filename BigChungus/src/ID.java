@@ -12,7 +12,9 @@ public enum ID {
     BattlePlayer,
     M_Knuckles1,
     EnemyAttackItem,
-    M_Knuckles2;
+    M_Knuckles2,
+    Pikachu,
+    BigChungus;
 
 
 }

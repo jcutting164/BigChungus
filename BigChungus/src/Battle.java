@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class Battle {
@@ -27,10 +28,8 @@ public class Battle {
     private BattlePlayer bPlayer;
     private int track;
     private long timeOfLastShot, timeOfLastShot2, time, timeNow, time2, timeNow2;
-
-
-
-    private M_Knuckles_1 m_knuckles_1;
+    private boolean firstLoop;
+    private int choice=0;
 
 
 
@@ -56,14 +55,14 @@ public class Battle {
         this.battleKeyInput = new BattleKeyInput(handler, player, this, bPlayer);
         game.addKeyListener(this.battleKeyInput);
 
-        if(enemy.getId()==ID.Knuckles){
-            m_knuckles_1=new M_Knuckles_1(0,0,1,1280,ID.M_Knuckles1,this.handler,this,this.enemy, this.bPlayer, this.player);
-        }
-
         AudioPlayer ap = new AudioPlayer();
         ap.load();
         if(enemy.getId()==ID.Knuckles){
             ap.getMusic("Knuckles").loop();
+        }else if(enemy.getId()==ID.Pikachu){
+            ap.getMusic("Pikachu").loop();
+        }else if(enemy.getId()==ID.BigChungus){
+            ap.getMusic("BigChungus").loop();
         }
 
 
@@ -117,7 +116,12 @@ public class Battle {
 
                 g.drawRect(160, 100, 960, 320);
                 if(enemyVisable){
-                    g.drawImage(enemy.BattleForm, 445, 105,390, 305, null);
+                    if(enemy.getId()==ID.BigChungus){
+                        g.drawImage(enemy.BattleForm, 445, 105,290, 305, null);
+                    }else{
+                        g.drawImage(enemy.BattleForm, 445, 105,390, 305, null);
+                    }
+
                 }else{
                     g.setColor(Color.black);
                     g.fillRect(445, 105, 390, 305);
@@ -277,93 +281,374 @@ public class Battle {
                 g.setColor(Color.white);
 
                 g.drawRect(160, 100, 960, 320);
-                g.drawImage(enemy.BattleForm, 445, 105,390, 305, null);
+                if(enemy.getId()==ID.BigChungus){
+                    g.drawImage(enemy.BattleForm, 445, 105,290, 305, null);
+                }else{
+                    g.drawImage(enemy.BattleForm, 445, 105,390, 305, null);
+                }
                 // effect part of template
-                if(enemy.currentMove==0){
-                    timeNow = System.currentTimeMillis();
-                    time = timeNow - timeOfLastShot;
+                if(enemy.getId()==ID.Knuckles){
+                    if(enemy.currentMove==0){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
 
-                    if(time > 10000) {
-                        timeOfLastShot=0;
-                        // end func
-                        // will update damage calculation based on attack / defense, for now is one value
-                        setPlayerTurn(true);
-                        // will do same for player when enemy uses this function for end
-                        setPlayerTurnStart(true);
-                    }else{
-                        timeNow2 = System.currentTimeMillis();
-                        time2 = timeNow2 - timeOfLastShot2;
-                        if(time2>2000 && track < 4){
-                            EnemyAttackItem temp = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player, handler);
-                            temp.boxBounce();
-                            handler.addObject(temp);
-                            timeOfLastShot2=timeNow2;
-                            track++;
+                        if(time > 10000) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>2000 && track < 4){
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player, handler);
+                                temp.boxBounce();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==1){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 14000) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>500 && track < 20){
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player, handler);
+                                temp.randomProtShot();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==2){
+                        // effect code;
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+                        if(time > 10000 || (!handler.isIn()&&track>0)) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+
+                            if(track < 1){
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 34, 105, ID.EnemyAttackItem, tex.Knuckles_A2, 3, 105, 34, bPlayer, player, handler);
+                                temp.DYKDW();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==3){
+                        // effect code;
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+                        if(time > 15000 || (!handler.isIn()&&track>4)) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(track < 5 && time2>3000){
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 290, 270, ID.EnemyAttackItem, tex.Knuckles_A1, 6, 300, 310, bPlayer, player, handler);
+                                temp.LS();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
                         }
                     }
-                }else if(enemy.currentMove==1){
-                    timeNow = System.currentTimeMillis();
-                    time = timeNow - timeOfLastShot;
+                }else if(enemy.getId()==ID.Pikachu) {
+                    if (enemy.currentMove == 0) {
 
-                    if(time > 14000) {
-                        timeOfLastShot=0;
-                        // will update damage calculation based on attack / defense, for now is one value
-                        setPlayerTurn(true);
-                        // will do same for player when enemy uses this function for end
-                        setPlayerTurnStart(true);
-                    }else{
-                        timeNow2 = System.currentTimeMillis();
-                        time2 = timeNow2 - timeOfLastShot2;
-                        if(time2>500 && track < 20){
-                            EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player, handler);
-                            temp.randomProtShot();
-                            handler.addObject(temp);
-                            timeOfLastShot2=timeNow2;
-                            track++;
-                        }
-                    }
-                }else if(enemy.currentMove==2){
-                    // effect code;
-                    timeNow = System.currentTimeMillis();
-                    time = timeNow - timeOfLastShot;
-                    if(time > 10000 || (!handler.isIn()&&track>0)) {
-                        timeOfLastShot=0;
-                        // will update damage calculation based on attack / defense, for now is one value
-                        setPlayerTurn(true);
-                        // will do same for player when enemy uses this function for end
-                        setPlayerTurnStart(true);
-                    }else{
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
 
-                        if(track < 1){
-                            EnemyAttackItem temp = new EnemyAttackItem(0, 0, 41, 117, ID.EnemyAttackItem, tex.Knuckles_A2, 3, 117, 41, bPlayer, player, handler);
-                            temp.DYKDW();
-                            handler.addObject(temp);
-                            timeOfLastShot2=timeNow2;
-                            track++;
+                        if (time > 10000) {
+                            timeOfLastShot = 0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        } else {
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if (time2 > 500 && track < 15) {
+
+
+                                if (firstLoop) {
+                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
+                                    EnemyAttackItem temp2 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
+                                    EnemyAttackItem temp3 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
+                                    EnemyAttackItem temp4 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
+                                    temp1.LightningShot(0);
+                                    temp2.LightningShot(1);
+                                    temp3.LightningShot(2);
+                                    temp4.LightningShot(3);
+
+                                    handler.addObject(temp1);
+                                    handler.addObject(temp2);
+                                    handler.addObject(temp3);
+                                    handler.addObject(temp4);
+
+                                    timeOfLastShot2 = timeNow2;
+                                    track++;
+                                    firstLoop = false;
+                                } else {
+
+                                    ArrayList<EnemyAttackItem> templist = handler.getELIST();
+
+                                    templist.get((track - 1) * 3).setVelX(6);
+                                    templist.get(((track - 1) * 3)).setVelY(6);
+                                    templist.get(1 + ((track - 1)) * 3).setVelX(4);
+                                    templist.get(1 + ((track - 1)) * 3).setVelY(6);
+                                    templist.get(2 + ((track - 1)) * 3).setVelX(-4);
+                                    templist.get(2 + ((track - 1)) * 3).setVelY(6);
+                                    templist.get(3 + ((track - 1)) * 3).setVelX(-6);
+                                    templist.get(3 + ((track - 1)) * 3).setVelY(6);
+                                    templist.get(0 + ((track - 1)) * 3).setImages(tex.Pikachu_A1S);
+                                    templist.get(1 + ((track - 1)) * 3).setImages(tex.Pikachu_A1S);
+                                    templist.get(2 + ((track - 1)) * 3).setImages(tex.Pikachu_A1S);
+                                    templist.get(3 + ((track - 1)) * 3).setImages(tex.Pikachu_A1S);
+                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
+                                    EnemyAttackItem temp2 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
+                                    EnemyAttackItem temp3 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
+                                    EnemyAttackItem temp4 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
+                                    temp1.LightningShot(0);
+                                    temp2.LightningShot(1);
+                                    temp3.LightningShot(2);
+                                    temp4.LightningShot(3);
+
+                                    handler.addObject(temp1);
+                                    handler.addObject(temp2);
+                                    handler.addObject(temp3);
+                                    handler.addObject(temp4);
+
+                                    timeOfLastShot2 = timeNow2;
+                                    track++;
+                                }
+
+                            }
                         }
+                    } else if (enemy.currentMove == 1) {
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if (time > 10000) {
+                            timeOfLastShot = 0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if (time2 > 500 && track < 20) {
+                                if(firstLoop){
+
+                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 90, 55, ID.EnemyAttackItem, tex.Pikachu_A1, 2, 55, 90, bPlayer, player, handler);
+                                    temp1.LargeLightningShot();
+                                    handler.addObject(temp1);
+                                    track++;
+                                    firstLoop=false;
+                                    timeOfLastShot2 = timeNow2;
+                                }else{
+                                    ArrayList<EnemyAttackItem> templist = handler.getELIST();
+                                    templist.get(templist.size()-1).setVelY(20);
+
+
+                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 90, 55, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 55, 90, bPlayer, player, handler);
+                                    temp1.LargeLightningShot();
+                                    handler.addObject(temp1);
+                                    timeOfLastShot2 = timeNow2;
+                                    track++;
+
+                                }
+
+                            }
+                        }
+
+
+
+                    }else if(enemy.currentMove==2){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if (time > 10000) {
+                            timeOfLastShot = 0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(track < 10 && time2>1000){
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 97, 96, ID.EnemyAttackItem, tex.Pikachu_A2, 6, 96, 97, bPlayer, player, handler);
+                                temp.Pokeball();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+
+
+                        }
+
+                    }else if(enemy.currentMove==3){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if (time > 10000) {
+                            timeOfLastShot = 0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(track < 1 && time2>1000){
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 97, 96, ID.EnemyAttackItem, tex.Pikachu_A3, 6, 96, 97, bPlayer, player, handler);
+                                temp.PikachuShot();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+
+
+                        }
+
                     }
-                }else if(enemy.currentMove==3){
-                    // effect code;
-                    timeNow = System.currentTimeMillis();
-                    time = timeNow - timeOfLastShot;
-                    if(time > 15000 || (!handler.isIn()&&track>4)) {
-                        timeOfLastShot=0;
-                        // will update damage calculation based on attack / defense, for now is one value
-                        setPlayerTurn(true);
-                        // will do same for player when enemy uses this function for end
-                        setPlayerTurnStart(true);
-                    }else{
-                        timeNow2 = System.currentTimeMillis();
-                        time2 = timeNow2 - timeOfLastShot2;
-                        if(track < 5 && time2>3000){
-                            EnemyAttackItem temp = new EnemyAttackItem(0, 0, 290, 270, ID.EnemyAttackItem, tex.Knuckles_A1, 6, 300, 310, bPlayer, player, handler);
-                            temp.LS();
-                            handler.addObject(temp);
-                            timeOfLastShot2=timeNow2;
-                            track++;
+                }else if(enemy.getId()==ID.BigChungus){
+                    if (enemy.currentMove == 0) {
+
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if (time > 9000) {
+                            timeOfLastShot = 0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        } else {
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if (time2 > 100 && track < 45) {
+                                EnemyAttackItem temp = new EnemyAttackItem(0,0,36,117,ID.EnemyAttackItem,tex.BigChungus_A1,1,117,36,bPlayer,player,handler);
+                                temp.CarrotShot();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+
+                            }
                         }
+                    } else if (enemy.currentMove == 1) {
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if (time > 3000) {
+                            timeOfLastShot = 0;
+                            if(choice==0)
+                                player.setHealth(player.getHealth()/2);
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else if(time>2000){
+                            if(choice==0)
+                                g.drawImage(tex.BigChungus_A3[0],795,595,134,134,null);
+                            else
+                                g.drawImage(tex.BigChungus_A3[1],795,595,140,140,null);
+                        }else {
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if (time2 > 250 && track < 1) {
+                                EnemyAttackItem temp = new EnemyAttackItem(0,0,128,128,ID.EnemyAttackItem,tex.BigChungus_A3,4,128,128,bPlayer,player,handler);
+                                choice = temp.CoinFlip();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+
+                            }
+                        }
+
+
+
+                    }else if(enemy.currentMove==2){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if (time > 10000) {
+                            timeOfLastShot = 0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(track < 10 && time2>1000){
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 97, 96, ID.EnemyAttackItem, tex.BigChungus_A2, 4, 96, 97, bPlayer, player, handler);
+                                temp.CardAttack();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+
+
+                        }
+
+                    }else if(enemy.currentMove==3){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if (time > 7000) {
+                            timeOfLastShot = 0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(track < 5 && time2>1000){
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 488, 272, ID.EnemyAttackItem, tex.BigChungus_A4, 6, 272, 488, bPlayer, player, handler);
+                                temp.Gottem();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+
+
+                        }
+
                     }
                 }
+
 
 
             }
@@ -446,6 +731,44 @@ public class Battle {
                 timeOfLastShot=System.currentTimeMillis();
                 timeOfLastShot2=System.currentTimeMillis();
             }
+        }else if(enemy.getId()==ID.Pikachu){
+            if(enemy.currentMove==0){
+                track = 0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==1){
+                track = 0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==2){
+                track=0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==3){
+                track=0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }
+            firstLoop=true;
+        }else if(enemy.getId()==ID.BigChungus){
+            if(enemy.currentMove==0){
+                track = 0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==1){
+                track = 0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==2){
+                track=0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==3){
+                track=0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }
+            firstLoop=true;
         }
 
 

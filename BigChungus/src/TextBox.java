@@ -97,7 +97,14 @@ public class TextBox{
 
         g.drawRect(127, 799, 1026, 130);
         g.drawRect(127, 799, 130, 130);
-        g.drawImage(this.character.Face, 127, 799, null);
+        if(this.character.getId()==ID.Knuckles){
+            g.drawImage(this.character.Face, 127, 799, null);
+        }else if(this.character.getId()==ID.Pikachu){
+            g.drawImage(this.character.Face, 127, 799,127, 122, null);
+        }else if(this.character.getId()==ID.BigChungus){
+            g.drawImage(this.character.Face, 130, 800,135, 140, null);
+        }
+
 
 
 

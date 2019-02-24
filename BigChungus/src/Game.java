@@ -137,6 +137,7 @@ public class Game extends Canvas implements Runnable{
 
 
     private void tick() {
+
         if(currentState==null){
             currentState = STATE.FirstArea;
         }if(currentState==STATE.FirstArea && Switch == false){
@@ -149,8 +150,13 @@ public class Game extends Canvas implements Runnable{
             npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "i am an NPCC", player);
             Knuckles knuckles1 = new Knuckles(600, 200, 96, 48, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
             handler.addObject(knuckles1);
+            Pikachu pikachu = new Pikachu(800, 500, 96, 48, handler, this, ID.Pikachu, 2, tbHandler, "Pikaaachuuu", player, true);
+            BigChungus bigChungus = new BigChungus(500, 500, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "CHUNGA", player, true);
+            handler.addObject(pikachu);
             handler.addObject(npc);
+            handler.addObject(bigChungus);
             handler.addObject(player);
+
 
             this.keyInput = new KeyInput(handler, player, tbHandler, inv);
 
@@ -164,6 +170,7 @@ public class Game extends Canvas implements Runnable{
             }
             handler.tick();
             tbHandler.tick();
+
             if(inv.getOpen()){
                 inv.tick();
             }
@@ -178,16 +185,18 @@ public class Game extends Canvas implements Runnable{
             handler.tick();
             currentBattle.tick();
         }else if(currentState==STATE.GameOver && Switch==false){
-        	
+
         }else if(currentState==STATE.GameOver && Switch==true){
-        	
+
         }
+
+
 
 
     }
 
     private void render() {
-        if(currentState==STATE.FirstArea && Switch == true){
+        if(currentState==STATE.FirstArea && Switch){
             BufferStrategy bs = this.getBufferStrategy();
 
             if(bs == null) {
@@ -212,8 +221,6 @@ public class Game extends Canvas implements Runnable{
 
             handler.render(g);
 
-
-
             g2d.translate(camera.getX(), camera.getY());
             tbHandler.render(g);
 
@@ -225,7 +232,7 @@ public class Game extends Canvas implements Runnable{
 
             g.dispose();
             bs.show();
-        }else if(currentState==STATE.Battle && Switch == true){
+        }else if(currentState==STATE.Battle && Switch){
             BufferStrategy bs = this.getBufferStrategy();
 
             if(bs == null) {

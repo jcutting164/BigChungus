@@ -177,6 +177,44 @@ public class Player extends Character {
                     y+= velY*-1;
                     lastKeyHit=100;
                 }
+            }else if(tempObject.getId() == ID.Pikachu){
+                Pikachu tempPikachu = (Pikachu) tempObject;
+                Rectangle tempRect = getBounds();
+                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                    x+= velX * -1;
+                    y+= velY*-1;
+                    if(tempPikachu.getBattleReady()){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, tempPikachu, handler, game));
+                    }
+                }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                    tempPikachu.interaction();
+                    x+= velX * -1;
+                    y+= velY*-1;
+                    lastKeyHit=100;
+                }
+            }else if(tempObject.getId() == ID.BigChungus){
+                BigChungus tempBigChungus = (BigChungus) tempObject;
+                Rectangle tempRect = getBounds();
+                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                    x+= velX * -1;
+                    y+= velY*-1;
+                    if(tempBigChungus.getBattleReady()){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, tempBigChungus, handler, game));
+                    }
+                }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                    tempBigChungus.interaction();
+                    x+= velX * -1;
+                    y+= velY*-1;
+                    lastKeyHit=100;
+                }
             }
         }
     }
@@ -194,7 +232,7 @@ public class Player extends Character {
 
     public Rectangle NPC_RECT(GameObject tempObject){
         Rectangle tempRect = tempObject.getBounds();
-        tempRect.setBounds((int)tempRect.getX(), (int)tempRect.getY(), (int)tempRect.getWidth(), (int)tempRect.getHeight()- (int) (tempRect.getHeight()/2));
+        tempRect.setBounds((int)tempRect.getX(), (int)tempRect.getY(), (int)tempRect.getWidth(), (int)tempRect.getHeight()- 75);
         return tempRect;
     }
 

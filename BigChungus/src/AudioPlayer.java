@@ -23,6 +23,8 @@ public class AudioPlayer {
             soundMap.put("DEATH_SOUND", new Sound("res/DEATH.wav")); */
 
             musicMap.put("Knuckles", new Music("res/BattleMusic/Knuckles.wav"));
+            musicMap.put("Pikachu", new Music("res/BattleMusic/Pikachu.wav"));
+            musicMap.put("BigChungus", new Music("res/BattleMusic/BigChungus.wav"));
 
 
         } catch (SlickException e) {

@@ -29,11 +29,13 @@ public class Pikachu extends Enemy {
 // to be replaced
         this.walkLeft = new Animation(speed, tex.Pikachu_WalkLeft[0], tex.Pikachu_WalkLeft[1], tex.Pikachu_WalkLeft[2]);
         this.walkRight = new Animation(speed, tex.Pikachu_WalkRight[0], tex.Pikachu_WalkRight[1], tex.Pikachu_WalkRight[2]);
+        this.walkUp = new Animation(speed, tex.Pikachu_WalkUp[0], tex.Pikachu_WalkUp[1], tex.Pikachu_WalkUp[2]);
+        this.walkDown = new Animation(speed, tex.Pikachu_WalkDown[0], tex.Pikachu_WalkDown[1], tex.Pikachu_WalkDown[2]);
 
-        this.currentImages= tex.Knuckles_WalkLeft;
+        this.currentImages= tex.Pikachu_WalkLeft;
         this.isVisible = true;
-        this.Face = tex.Knuckles_Face;
-        this.BattleForm = tex.Knuckles_BattleForm;
+        this.Face = tex.PikachuFace[0];
+        this.BattleForm = tex.PikachuBF[0];
     }
 
     public void Turn(){
@@ -92,12 +94,14 @@ public class Pikachu extends Enemy {
 
     public void interaction(){
         if(player.getCurrentImages()==tex.Player_WalkLeft){
-            currentImages=tex.Knuckles_WalkRight;
+            currentImages=tex.Pikachu_WalkRight;
 
         }else if(player.getCurrentImages()==tex.Player_WalkRight){
-            currentImages=tex.Knuckles_WalkLeft;
+            currentImages=tex.Pikachu_WalkLeft;
         }else if(player.getCurrentImages()==tex.Player_WalkUp){
+            currentImages=tex.Pikachu_WalkDown;
         }else if(player.getCurrentImages()==tex.Player_WalkDown){
+            currentImages=tex.Pikachu_WalkUp;
         }
         player.setLimited(true);
         player.setVelX(0);

@@ -13,6 +13,9 @@ public class EnemyAttackItem extends GameObject {
     private BattlePlayer bPlayer;
     private Player player;
     private Handler handler;
+    Textures tex = Game.getInstance();
+    Rectangle playerBounds = new Rectangle(522, 538, 246, 246);
+    private long time, timeNow, timeOfLastShot=0;
 
     public EnemyAttackItem(float x, float y, float height, float width, ID id, BufferedImage[] images, int speed, float scaleX, float scaleY, BattlePlayer bPlayer, Player player, Handler handler){
         super(x, y, height, width, id);
@@ -39,6 +42,67 @@ public class EnemyAttackItem extends GameObject {
 
             velX = (float)  ((-2.0 / distance) * diffX);
             velY = (float) ((-2.0 / distance) * diffY);
+        }else if(movement.equals("Pokeball")){
+            if(y>500){
+                velY=0;
+                for(int i = 0; i<5; i++){
+                    EnemyAttackItem temp1 = new EnemyAttackItem(this.getX(), this.getY(), 97, 96, ID.EnemyAttackItem, tex.Pikachu_A3, 6, 96, 97, bPlayer, player, handler);
+                    temp1.setVelX(ThreadLocalRandom.current().nextInt(-7, 6 + 1));
+                    temp1.setVelY(ThreadLocalRandom.current().nextInt(-7, 6 + 1));
+                    temp1.movement="none";
+                    handler.addObject(temp1);
+                    handler.removeObject(this);
+                }
+
+
+
+            }
+        }else if(movement.equals("PikachuShot")){
+            timeNow = System.currentTimeMillis();
+            time = timeNow - timeOfLastShot;
+            if(time<2000){
+                EnemyAttackItem temp1 = new EnemyAttackItem(this.getX()+30, this.getY()+ThreadLocalRandom.current().nextInt(5, 20 + 1), 17, 16, ID.EnemyAttackItem, tex.Pikachu_A2, 6, 16, 17, bPlayer, player, handler);
+                temp1.setVelX(-10);
+                temp1.setVelY(0);
+                temp1.movement="none";
+                handler.addObject(temp1);
+
+            }else if(time>=4000){
+                timeOfLastShot=timeNow;
+            }
+
+            if(this.getY()>800 && this.getVelY()!=-2){
+                this.setVelY(-1);
+            }else if(this.getY()<500 && this.getVelY()!=2){
+                this.setVelY(1);
+            }
+
+
+        }else if(movement.equals("Gottem")){
+            if(this.getBounds().intersects(playerBounds)){
+                for(int i = 0; i<5; i++){
+                    EnemyAttackItem temp1 = new EnemyAttackItem(this.getX(), this.getY(), 97, 54, ID.EnemyAttackItem, tex.BigChungus_A4, 4, 54, 97, bPlayer, player, handler);
+                    if(this.velX==7 && this.velY==7){
+                        temp1.setVelX(4-i);
+                        temp1.setVelY(4+i);
+                    }else if(this.velX==-7){
+                        temp1.setVelX(-4+i);
+                        temp1.setVelY(4+i);
+
+                    }else if(this.velX==7 && this.velY==-7){
+                        temp1.setVelX(4+i);
+                        temp1.setVelY(-4+i);
+
+                    }else if(this.velX==-5){
+                        temp1.setVelX(-4-i);
+                        temp1.setVelY(-4+i);
+
+                    }
+                    temp1.movement="none";
+                    handler.addObject(temp1);
+                    handler.removeObject(this);
+                }
+            }
         }
 
         collision();
@@ -159,6 +223,127 @@ public class EnemyAttackItem extends GameObject {
         movement="LS";
     }
 
+    public void LightningShot(int num){
+
+        if(num==0){
+            x=300;
+            y=400;
+            velX=0;
+            velY=0;
+        }else if(num==1){
+            x=500;
+            y=400;
+            velX=0;
+            velY=0;
+
+        }else if(num==2){
+            x=800;
+            y=400;
+            velX=0;
+            velY=0;
+
+        }else if(num==3){
+            x=1000;
+            y=400;
+            velX=0;
+            velY=0;
+
+        }
+        movement="LightningShot";
+
+    }
+
+    public void Pokeball(){
+        x=600;
+        y=200;
+        velY=5;
+        movement="Pokeball";
+    }
+
+    public void LargeLightningShot(){
+        int randomNum = ThreadLocalRandom.current().nextInt(500, 700);
+        x=randomNum;
+        y=500;
+        movement="LargeLightningShot";
+    }
+
+    public void PikachuShot(){
+        x=800;
+        y=ThreadLocalRandom.current().nextInt(500, 700);
+        movement="PikachuShot";
+        this.velY=2;
+    }
+
+    public void CarrotShot(){
+        x=0;
+        y=ThreadLocalRandom.current().nextInt(0, 500);
+        velX=9;
+        velY=6;
+
+        movement="CarrotShot";
+    }
+    public int CoinFlip(){
+        x=800;
+        y=600;
+        movement="CoinFlip";
+        return ThreadLocalRandom.current().nextInt(0,5);
+
+    }
+
+    public void CardAttack(){
+        int temp = ThreadLocalRandom.current().nextInt(0,4);
+        if(temp==0){
+            x=200;
+            y=300;
+            velX=12;
+            velY=12;
+        }else if(temp==1){
+            x=800;
+            y=300;
+            velX=-12;
+            velY=12;
+        }else if(temp==2){
+            x=200;
+            y=1200;
+            velX=12;
+            velY=-12;
+        }else if(temp==3){
+            x=800;
+            y=1200;
+            velX=-10;
+            velY=-14;
+        }
+        movement="CardAttack";
+    }
+
+    public void Gottem(){
+        int temp = ThreadLocalRandom.current().nextInt(0,4);
+        if(temp==0){
+            x=200;
+            y=300;
+            velX=7;
+            velY=7;
+        }else if(temp==1){
+            x=800;
+            y=300;
+            velX=-7;
+            velY=7;
+        }else if(temp==2){
+            x=0;
+            y=1200;
+            velX=7;
+            velY=-7;
+        }else if(temp==3){
+            x=1000;
+            y=1200;
+            velX=-5;
+            velY=-9;
+        }
+
+        movement="Gottem";
+    }
+
+
     public void collision(){
         if(movement.equals("boxBounce")){
             if(x<=512 || x>=752){
@@ -170,6 +355,7 @@ public class EnemyAttackItem extends GameObject {
 
 
         }
+
         if(movement.equals("LS")){
 
             Rectangle temp = getBounds();
@@ -197,6 +383,12 @@ public class EnemyAttackItem extends GameObject {
             }
         }
 
+    }
+
+    public void setImages(BufferedImage[] temp){
+        this.images=temp;
+
+        this.animation=new Animation(1, this.images);
     }
 
 

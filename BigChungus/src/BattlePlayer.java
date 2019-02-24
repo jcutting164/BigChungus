@@ -97,5 +97,11 @@ public class BattlePlayer extends GameObject {
         this.track = track;
     }
 
+    public Rectangle getSpecialBounds(){
+        Rectangle temp = getBounds();
+        temp.setBounds((int)temp.getX()-100, (int)temp.getY()-100, (int)temp.getWidth()+200, (int)temp.getHeight()+200);
+        return temp;
+    }
+
 
 }
