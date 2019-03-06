@@ -18,6 +18,7 @@ public abstract class Enemy extends NPC {
     protected Color nameColor;
     protected int currentMove;
     protected int moves;
+    protected boolean runnable;
 
     public Enemy(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player){
         super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player);
@@ -26,6 +27,7 @@ public abstract class Enemy extends NPC {
         this.tbHandler = tbHandler;
         this.text = text;
         this.player = player;
+        this.runnable=true;
 
 
 

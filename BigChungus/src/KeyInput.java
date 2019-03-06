@@ -71,47 +71,14 @@ public class KeyInput extends KeyAdapter{
                 }
 
             }
-        }else if(player.getLimited() == true){
+        }else if(player.getLimited()){
 
             for(int i = 0; i< handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
 
                 if(tempObject.getId() == ID.Player) {
                     // key events for NPC.Player 1
-
-                    if(inv.getOpen()){
-                        if(key==KeyEvent.VK_DOWN){
-
-                            if(!inv.getOptions()[inv.inv.size()]){
-                                for(int j = 0; j<inv.inv.size()-1; j++){
-                                    if(inv.getOptions()[j]){
-                                        inv.setSpecOption(false, j);
-                                        inv.setSpecOption(true, inv.getCurrentOption()+1);
-                                        inv.setCurrentOption(inv.getCurrentOption()+1);
-                                        break;
-                                    }
-                                }
-                            }
-
-                        }else if(key==KeyEvent.VK_UP){
-                            if(!inv.getOptions()[0]){
-                                for(int j = 0; j<inv.inv.size(); j++){
-                                    if(inv.getOptions()[j]){
-                                        inv.setSpecOption(false, j);
-                                        inv.setSpecOption(true, inv.getCurrentOption()-1);
-                                        inv.setCurrentOption(inv.getCurrentOption()-1);
-                                        break;
-                                    }
-                                }
-                            }
-
-                        }else if(key==KeyEvent.VK_Z){
-                            player.setLimited(false);
-                            inv.setOpen(false);
-                        }else if(key==KeyEvent.VK_X){
-                            inv.inv.get(inv.getCurrentOption()).use();
-                        }
-                    }else{
+                    if(!tbHandler.object.isEmpty()){
                         if(key == KeyEvent.VK_X && tbHandler.object.get(0).getDone()) {
                             player.setLimited(false);
                             tbHandler.removeObject(0);
@@ -119,7 +86,43 @@ public class KeyInput extends KeyAdapter{
                     }
 
 
+                if(inv.getOpen()){
+                    if(key==KeyEvent.VK_DOWN){
+
+                        if(!inv.getOptions()[inv.inv.size()]){
+                            for(int j = 0; j<inv.inv.size()-1; j++){
+                                if(inv.getOptions()[j]){
+                                    inv.setSpecOption(false, j);
+                                    inv.setSpecOption(true, inv.getCurrentOption()+1);
+                                    inv.setCurrentOption(inv.getCurrentOption()+1);
+                                    break;
+                                }
+                            }
+                        }
+
+                    }else if(key==KeyEvent.VK_UP){
+                        if(!inv.getOptions()[0]){
+                            for(int j = 0; j<inv.inv.size(); j++){
+                                if(inv.getOptions()[j]){
+                                    inv.setSpecOption(false, j);
+                                    inv.setSpecOption(true, inv.getCurrentOption()-1);
+                                    inv.setCurrentOption(inv.getCurrentOption()-1);
+                                    break;
+                                }
+                            }
+                        }
+
+                    }else if(key==KeyEvent.VK_Z){
+                        player.setLimited(false);
+                        inv.setOpen(false);
+                    }else if(key==KeyEvent.VK_X){
+                        inv.inv.get(inv.getCurrentOption()).use();
+                    }
                 }
+
+
+                }
+
 
             }
         }

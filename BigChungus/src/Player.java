@@ -1,8 +1,12 @@
+
+
 import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Player extends Character {
+public class Player extends Character implements Serializable {
 
     private int lastKeyReleased;
     private int lastKeyHit;
@@ -12,14 +16,20 @@ public class Player extends Character {
     private boolean limited;
     private BufferedImage[] currentImages;
     private String name;
+    private Inventory inv;
+    private Magic magic;
+    private int mana, maxMana;
 
 
 
-    public Player(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed){
+    public Player(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, Inventory inv, Magic magic){
         super(x, y, height, width,handler,game, id, speed);
         this.handler = handler;
         this.game = game;
-
+        this.inv = inv;
+        this.magic = magic;
+        this.mana=100;
+        this.maxMana=100;
 
 
         this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
@@ -30,7 +40,7 @@ public class Player extends Character {
         this.Face = tex.Player_Face[0];
         this.health = 100;
         this.maxhealth=this.health;
-        this.name="Josh";
+        this.name="Filler";
     }
 
 
@@ -168,7 +178,7 @@ public class Player extends Character {
                     if(tempKnuckles.getBattleReady()){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, tempKnuckles, handler, game));
+                        game.setCurrentBattle(new Battle(this, tempKnuckles, handler, game,  game.getAp()));
                     }
                 }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -187,7 +197,7 @@ public class Player extends Character {
                     if(tempPikachu.getBattleReady()){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, tempPikachu, handler, game));
+                        game.setCurrentBattle(new Battle(this, tempPikachu, handler, game, game.getAp()));
                     }
                 }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -206,7 +216,7 @@ public class Player extends Character {
                     if(tempBigChungus.getBattleReady()){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, tempBigChungus, handler, game));
+                        game.setCurrentBattle(new Battle(this, tempBigChungus, handler, game, game.getAp()));
                     }
                 }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -215,6 +225,23 @@ public class Player extends Character {
                     y+= velY*-1;
                     lastKeyHit=100;
                 }
+            }else if(tempObject.getId()==ID.SaveIcon){
+                SaveObject tempSaveIcon = (SaveObject) tempObject;
+                Rectangle tempRect = tempSaveIcon.getBounds();
+                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()/2);
+                if(tempRect.intersects(getBounds())){
+                    x+= velX*-1;
+                    y+= velY*-1;
+
+                }
+
+                if(getBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+                    tempSaveIcon.interaction();
+                    x+= velX*-1;
+                    y+= velY*-1;
+                    lastKeyHit=100;
+                }
+
             }
         }
     }
@@ -258,6 +285,26 @@ public class Player extends Character {
         this.name = name;
     }
 
+    public Inventory getInv(){
+        return this.inv;
+    }
+    public Magic getMagic(){
+        return this.magic;
+    }
+
+    public void drawManaBar(int y, Graphics g){
+        g.setColor(Color.red.darker());
+        g.fillRect(540, y, 200, 32);
+        if(mana >= maxMana*.5){
+            g.setColor(Color.blue.brighter().brighter().brighter());
+        }else{
+            g.setColor(Color.red);
+        }
+
+        g.fillRect(540, y, mana*(200/maxMana), 32);
+        g.setColor(Color.white);
+        g.drawRect(540, y, 200, 32);
+    }
 
 
 }

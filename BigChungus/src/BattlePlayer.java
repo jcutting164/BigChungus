@@ -1,3 +1,5 @@
+import org.newdawn.slick.openal.Audio;
+
 import java.awt.*;
 
 
@@ -7,10 +9,10 @@ public class BattlePlayer extends GameObject {
     private long time, timeNow, timeOfLastShot;
     private int track;
     private Player player;
+    private AudioPlayer ap;
 
 
-
-    public BattlePlayer(float x, float y, float height, float width, ID id, Player player, Game game){
+    public BattlePlayer(float x, float y, float height, float width, ID id, Player player, Game game, AudioPlayer ap){
         super(x, y, height, width, id);
         this.velX = 0;
         this.velY = 0;
@@ -20,6 +22,7 @@ public class BattlePlayer extends GameObject {
         this.track=0;
         this.player =player;
         this.game = game;
+        this.ap = ap;
 
     }
 
@@ -29,6 +32,13 @@ public class BattlePlayer extends GameObject {
     	if(player.getHealth() <= 0){
     		game.setCurrentState(Game.STATE.GameOver);
     		game.setSwitch(true);
+    		//ap.load();
+    		ap.getMusic("Knuckles").stop();
+            ap.getMusic("Pikachu").stop();
+            ap.getMusic("BigChungus").stop();
+            ap.getSound("GameOver").play();
+
+
     	}
         x+=velX;
         y+=velY;

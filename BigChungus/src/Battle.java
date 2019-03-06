@@ -1,5 +1,8 @@
+import org.newdawn.slick.openal.Audio;
+
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Battle {
@@ -30,12 +33,13 @@ public class Battle {
     private long timeOfLastShot, timeOfLastShot2, time, timeNow, time2, timeNow2;
     private boolean firstLoop;
     private int choice=0;
+    private AudioPlayer ap;
 
 
 
 
 
-    public Battle(Player player, Enemy enemy, Handler handler, Game game){
+    public Battle(Player player, Enemy enemy, Handler handler, Game game, AudioPlayer ap){
         this.player = player;
         this.enemy = enemy;
         this.handler = handler;
@@ -51,11 +55,11 @@ public class Battle {
         this.selectedOption[2] = false;
         this.selectedOption[3] = false;
         this.firstTimeInTurn=false;
-        this.bPlayer = new BattlePlayer(640, 650, 16, 16, ID.BattlePlayer, player, game);
+        this.ap = ap;
+        this.bPlayer = new BattlePlayer(640, 650, 16, 16, ID.BattlePlayer, player, game, ap);
         this.battleKeyInput = new BattleKeyInput(handler, player, this, bPlayer);
         game.addKeyListener(this.battleKeyInput);
 
-        AudioPlayer ap = new AudioPlayer();
         ap.load();
         if(enemy.getId()==ID.Knuckles){
             ap.getMusic("Knuckles").loop();
@@ -79,9 +83,46 @@ public class Battle {
 
         }
 
+        if(player.getInv().getOpen()){
+            player.getInv().tick();
+        }
+        if(player.getMagic().getOpen()){
+            player.getMagic().tick();
+        }
+
     }
 
     public void render(Graphics g){
+
+        if(player.getInv().getOpen()){
+            player.getInv().render(g);
+
+            fnt = new Font("Serif", 0, 20);
+            g.setFont(fnt);
+            g.setColor(Color.white);
+            g.drawString("HP", 500,825);
+            player.drawHealthBar(800, g);
+
+        }else if(player.getMagic().getOpen()){
+            fnt = new Font("Serif", 0, 20);
+            g.setFont(fnt);
+            g.setColor(Color.white);
+            g.drawString("Mana", 480,825);
+            player.getMagic().render(g);
+            player.drawManaBar(800, g);
+        }else{
+            g.setColor(Color.white);
+            g.drawRect(512, 528, 256, 256);
+            g.drawRect(511, 527, 258, 258);
+
+            fnt = new Font("Serif", 0, 20);
+            g.setFont(fnt);
+            g.setColor(Color.white);
+            g.drawString("HP", 500,825);
+            player.drawHealthBar(800, g);
+
+
+        }
         enemy.drawHealthBar( 25, g);
 
         fnt = new Font("Serif", 0, 29);
@@ -91,9 +132,7 @@ public class Battle {
 
 
         g.setColor(Color.white);
-        g.drawRect(512, 528, 256, 256);
-        g.drawRect(511, 527, 258, 258);
-        player.drawHealthBar(800, g);
+
         fnt = new Font("Serif", 1, 16);
         g.setFont(fnt);
         g.drawString(player.getHealth() + " / " + player.getMaxHealth(), 750, 824);
@@ -127,8 +166,10 @@ public class Battle {
                     g.fillRect(445, 105, 390, 305);
                 }
 
+                if(!player.getInv().getOpen()&&!player.getMagic().getOpen()){
+                    g.drawImage(tex.Player_WalkUp[0], 612, 600, 38, 148, null);
+                }
 
-                g.drawImage(tex.Player_WalkUp[0], 600, 600, 38, 148, null);
                 if(!selection1){
                     for(int i = 0; i<4; i++){
                         if(i==0){
@@ -147,8 +188,8 @@ public class Battle {
                         }
 
                         else if(i==3){
-                            currentOption = "SPECIAL";
-                            text_x = 184;
+                            currentOption = "RUN";
+                            text_x = 210;
                         }
 
 
@@ -214,30 +255,39 @@ public class Battle {
                         if(selection2){
                             // magic / item function to be created soon with init and deletion system for turn basing
                         }else{
-                            g.setColor(Color.red);
-                            g.drawRect(154, 800, 512, 96);
-                            g.drawRect(153, 799, 514, 98);
+
                         }
 
 
                     }else if(selectedOption[2]){
+
                         if(selection2){
                             // items / item function to be created soon with init and deletion system for turn basing
                         }else{
-                            g.setColor(Color.green);
-                            g.drawRect(154, 800, 512, 96);
-                            g.drawRect(153, 799, 514, 98);
+                            // open player.getInv()
                         }
 
 
                     }else if(selectedOption[3]){
-                        if(selection2){
-                            // special / item function to be created soon with init and deletion system for turn basing
-                        }else{
-                            g.setColor(Color.blue);
-                            g.drawRect(154, 800, 512, 96);
-                            g.drawRect(153, 799, 514, 98);
+                        // run odds and end of battle
+                        if(enemy.runnable){
+                            if(ThreadLocalRandom.current().nextInt(0,20)==0){
+                                if(true){
+                                    endBattle();
+                                }
+                            }else if(enemy.getHealth()<=enemy.getMaxHealth()/2){
+                                if(ThreadLocalRandom.current().nextInt(0,10)==0){
+                                    endBattle();
+                                }
+                            }else if(enemy.getHealth()<=enemy.getMaxHealth()/4){
+                                if(ThreadLocalRandom.current().nextInt(0,5)==0){
+                                    endBattle();
+                                }
+                            }
                         }
+                        playerTurn=false;
+                        enemyTurnStart=true;
+
 
 
                     }
@@ -847,6 +897,12 @@ public class Battle {
         this.enemyTurnStart = enemyTurnStart;
     }
 
+    public void endBattle(){
+        ap.getMusic("Pikachu").stop();
+        game.setCurrentState(Game.STATE.FirstArea);
+        game.setSwitch(false);
+        handler.removeObject(enemy);
+    }
 
 
 }

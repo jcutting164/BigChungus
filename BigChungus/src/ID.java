@@ -14,7 +14,8 @@ public enum ID {
     EnemyAttackItem,
     M_Knuckles2,
     Pikachu,
-    BigChungus;
+    BigChungus,
+    SaveIcon;
 
 
 }

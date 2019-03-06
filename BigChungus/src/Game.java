@@ -4,9 +4,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.*;
+import java.io.*;
+import java.util.ArrayList;
 
 
-public class Game extends Canvas implements Runnable{
+public class Game extends Canvas implements Runnable {
 
 
 
@@ -38,6 +40,9 @@ public class Game extends Canvas implements Runnable{
     private Battle currentBattle;
     private Font fnt;
     private Inventory inv;
+    private Magic magic;
+    private AudioPlayer ap;
+    transient ArrayList<BufferedImage> images;
 
 
     public enum STATE {
@@ -51,12 +56,16 @@ public class Game extends Canvas implements Runnable{
     private Window window;
 
     public Game() {
+        this.ap = new AudioPlayer();
+        this.ap.load();
         tex = new Textures();
-        window = new Window(WIDTH, HEIGHT, "Temp", this);
+        window = new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
         handler = new Handler();
         tbHandler = new TBHandler();
         currentState=null;
         Switch=false;
+
+
         inv = new Inventory(this);
         inv.addItem(new Items("Basic HP", "A healing potion that will give you 20 HP", inv));
         inv.addItem(new Items("asdf HP", "A healing potion that will give you 20 HP", inv));
@@ -71,6 +80,9 @@ public class Game extends Canvas implements Runnable{
         inv.addItem(new Items("asdf HP", "A healing potion that will give you 20 HP", inv));
         inv.addItem(new Items("fda HP", "A healing potion that will give you 20 HP", inv));
         inv.addItem(new Items("fdfdfd HP", "A healing potion that will give you 20 HP", inv));
+
+        magic = new Magic(this);
+        magic.addItem(new Spells("Basic Heal Spell", "Heals 10 hp and uses 10 mana", magic));
 /*
         currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
         camera = new Camera(0,0);
@@ -146,8 +158,8 @@ public class Game extends Canvas implements Runnable{
             camera = new Camera(0,0);
             loadLevel(currentLevel);
 
-            player = new Player(200, 200, 19, 74, handler, this, ID.Player, 2);
-            npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "i am an NPCC", player);
+            player = new Player(200, 200, 19, 74, handler, this, ID.Player, 2,inv, magic);
+            npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "asdfasdfasdfasdfja;sldkjfaslkdjfasldf;a", player);
             Knuckles knuckles1 = new Knuckles(600, 200, 96, 48, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
             handler.addObject(knuckles1);
             Pikachu pikachu = new Pikachu(800, 500, 96, 48, handler, this, ID.Pikachu, 2, tbHandler, "Pikaaachuuu", player, true);
@@ -156,6 +168,7 @@ public class Game extends Canvas implements Runnable{
             handler.addObject(npc);
             handler.addObject(bigChungus);
             handler.addObject(player);
+            handler.addObject(new SaveObject(300, 300, 64, 64,this));
 
 
             this.keyInput = new KeyInput(handler, player, tbHandler, inv);
@@ -351,7 +364,36 @@ public class Game extends Canvas implements Runnable{
     public void setCurrentBattle(Battle currentBattle){
         this.currentBattle = currentBattle;
     }
+
+    public AudioPlayer getAp(){
+        return this.ap;
+    }
     
-    
+    public void save(){
+        try{
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("player.bin"));
+            os.writeObject(player);
+            os.close();
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void loadSave(){
+        try{
+
+            ObjectInputStream playerIS = new ObjectInputStream(new FileInputStream("player.bin"));
+            player = (Player) playerIS.readObject();
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
+    }
 
 }

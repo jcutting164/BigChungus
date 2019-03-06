@@ -24,6 +24,7 @@ public class Textures {
     SpriteSheet SS_BigChungus;
     SpriteSheet SSA_BigChungus_1;
     SpriteSheet SSA_BigChungus_2;
+    SpriteSheet SS_Save_Icon;
 
 
 
@@ -42,6 +43,7 @@ public class Textures {
     private BufferedImage BI_BigChungus;
     private BufferedImage BI_A_BigChungus_1;
     private BufferedImage BI_A_BigChungus_2;
+    private BufferedImage BI_Save_Icon;
 
 
     private InputStream IS_BI_Player;
@@ -59,6 +61,7 @@ public class Textures {
     private InputStream IS_BI_BigChungus;
     private InputStream IS_A_BigChungus_1;
     private InputStream IS_A_BigChungus_2;
+    private InputStream IS_Save_Icon;
 
     public BufferedImage[] Player_WalkLeft = new BufferedImage[2];
     public BufferedImage[] Player_WalkRight = new BufferedImage[2];
@@ -95,6 +98,7 @@ public class Textures {
     public BufferedImage[] BigChungus_A3 = new BufferedImage[2];
     public BufferedImage[] BigChungus_A4 = new BufferedImage[4];
 
+    public BufferedImage[] SaveIcon = new BufferedImage[1];
 
 
     public Textures(){
@@ -148,7 +152,8 @@ public class Textures {
             IS_A_BigChungus_2 = new FileInputStream("res/Attacks/EnemyAttacks/BigChungus/BCattacks.png");
             BI_A_BigChungus_2 = ImageIO.read(IS_A_BigChungus_2);
 
-
+            IS_Save_Icon = new FileInputStream("res/SaveIcon.png");
+            BI_Save_Icon = ImageIO.read(IS_Save_Icon);
 
 
         }catch(Exception e){
@@ -170,6 +175,7 @@ public class Textures {
         SS_BigChungus = new SpriteSheet(BI_BigChungus);
         SSA_BigChungus_1 = new SpriteSheet(BI_A_BigChungus_1);
         SSA_BigChungus_2 = new SpriteSheet(BI_A_BigChungus_2);
+        SS_Save_Icon = new SpriteSheet(BI_Save_Icon);
 
         getTextures();
 
@@ -280,6 +286,7 @@ public class Textures {
         BigChungus_A4[2] = SSA_BigChungus_2.getSubImage(1039,1385,272,495);
         BigChungus_A4[3] = SSA_BigChungus_2.getSubImage(1460,1533,495,272);
 
+        SaveIcon[0] = SS_Save_Icon.getSubImage(0,0,258,259);
 
 
 

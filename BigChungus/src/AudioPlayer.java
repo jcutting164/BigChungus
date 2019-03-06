@@ -26,6 +26,8 @@ public class AudioPlayer {
             musicMap.put("Pikachu", new Music("res/BattleMusic/Pikachu.wav"));
             musicMap.put("BigChungus", new Music("res/BattleMusic/BigChungus.wav"));
 
+            soundMap.put("GameOver", new Sound("res/MiscMusic/GameOver.wav"));
+
 
         } catch (SlickException e) {
             // TODO Auto-generated catch block

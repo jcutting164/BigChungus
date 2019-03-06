@@ -27,6 +27,7 @@ public class BigChungus extends Enemy {
         this.nameColor = Color.gray;
         this.maxhealth=this.health;
         this.moves = 4;
+        this.runnable=false;
 
 // to be replaced
         this.walkRight = new Animation(speed, tex.BigChungus_WalkRight[1], tex.BigChungus_WalkRight[2]);

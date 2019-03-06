@@ -25,6 +25,7 @@ public class Knuckles extends Enemy {
         this.nameColor = Color.red;
         this.maxhealth=this.health;
         this.moves = 4;
+        this.runnable=false;
 
 // to be replaced
         this.walkLeft = new Animation(speed, tex.Knuckles_WalkLeft[0], tex.Knuckles_WalkLeft[1], tex.Knuckles_WalkLeft[2], tex.Knuckles_WalkLeft[3], tex.Knuckles_WalkLeft[4], tex.Knuckles_WalkLeft[5], tex.Knuckles_WalkLeft[6], tex.Knuckles_WalkLeft[7]);

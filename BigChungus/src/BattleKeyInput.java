@@ -1,6 +1,6 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.util.ArrayList;
 
 
 public class BattleKeyInput extends KeyAdapter{
@@ -34,71 +34,169 @@ public class BattleKeyInput extends KeyAdapter{
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         if(battle.getPlayerTurn()){
-            if(key == KeyEvent.VK_UP ) {
-                keyDown[0]=true;
-                player.setLastKeyHit(0);
-            }else if((key == KeyEvent.VK_DOWN)) {
-                keyDown[1]=true;
-                player.setLastKeyHit(1);
-            }else if(key == KeyEvent.VK_LEFT) {
-                keyDown[2]=true;
-                player.setLastKeyHit(2);
-                if(!battle.getSelection1()){
-                    if(battle.getSelectedOption()[1]){
-                        battle.setSelectedOption(true, false, false, false);
-                    }else if(battle.getSelectedOption()[2]){
-                        battle.setSelectedOption(false, true, false, false);
-                    }else if(battle.getSelectedOption()[3]){
-                        battle.setSelectedOption(false, false, true, false);
+            if(!player.getLimited()){
+                if(key == KeyEvent.VK_UP ) {
+                    keyDown[0]=true;
+                    player.setLastKeyHit(0);
+                }else if((key == KeyEvent.VK_DOWN)) {
+                    keyDown[1]=true;
+                    player.setLastKeyHit(1);
+                }else if(key == KeyEvent.VK_LEFT) {
+                    keyDown[2]=true;
+                    player.setLastKeyHit(2);
+                    if(!battle.getSelection1()){
+                        if(battle.getSelectedOption()[1]){
+                            battle.setSelectedOption(true, false, false, false);
+                        }else if(battle.getSelectedOption()[2]){
+                            battle.setSelectedOption(false, true, false, false);
+                        }else if(battle.getSelectedOption()[3]){
+                            battle.setSelectedOption(false, false, true, false);
+                        }
                     }
+
+
+
+
+                }else if(key == KeyEvent.VK_RIGHT) {
+                    keyDown[3]=true;
+                    player.setLastKeyHit(3);
+                    if(!battle.getSelection1()){
+                        if(battle.getSelectedOption()[0]){
+                            battle.setSelectedOption(false, true, false, false);
+                        }else if(battle.getSelectedOption()[1]){
+                            battle.setSelectedOption(false, false, true, false);
+                        }else if(battle.getSelectedOption()[2]){
+                            battle.setSelectedOption(false, false, false, true);
+                        }
+                    }
+
+                }else if(key == KeyEvent.VK_X) {
+                    player.setLastKeyHit(4);
+                    if(!battle.getSelection1()){
+
+                        battle.setSelection1(true);
+                        if(battle.getSelectedOption()[0]){
+                            battle.setSelectedOption2(true);
+
+                        }else if(battle.getSelectedOption()[1]){
+                            player.setLimited(true);
+
+                            player.getMagic().setOpen(true);
+                            player.getMagic().setOptions(true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+                            player.getMagic().setPage(1);
+                            player.getMagic().setCurrentOption(0);
+
+                        }else if(battle.getSelectedOption()[2]){
+                            player.setLimited(true);
+
+                            player.getInv().setOpen(true);
+                            player.getInv().setOptions(true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+                            player.getInv().setPage(1);
+                            player.getInv().setCurrentOption(0);
+
+                        }else if(battle.getSelectedOption()[3]){
+
+                        }
+                    }else if(battle.getSelection1() && !battle.getSelection2()){
+                        battle.setSelection2(true);
+                        battle.setFirstTimeInTurn(true);
+                    }
+
+
+                }else if(key== KeyEvent.VK_F){
+                    battle.setPlayerTurn(true);
+                }else if(key==KeyEvent.VK_Z){
+                    if(battle.getSelection1() && !battle.getSelection2()){
+                        battle.setSelection1(false);
+                    }
+                }else if(key==KeyEvent.VK_ESCAPE){
+                    System.exit(1);
                 }
+            }else if(player.getLimited()){
+                if(key==KeyEvent.VK_DOWN){
 
-
-
-
-            }else if(key == KeyEvent.VK_RIGHT) {
-                keyDown[3]=true;
-                player.setLastKeyHit(3);
-                if(!battle.getSelection1()){
-                    if(battle.getSelectedOption()[0]){
-                        battle.setSelectedOption(false, true, false, false);
+                    if(battle.getSelectedOption()[2]){
+                        if(!player.getInv().getOptions()[player.getInv().inv.size()]){
+                            for(int j = 0; j<player.getInv().inv.size()-1; j++){
+                                if(player.getInv().getOptions()[j]){
+                                    player.getInv().setSpecOption(false, j);
+                                    player.getInv().setSpecOption(true, player.getInv().getCurrentOption()+1);
+                                    player.getInv().setCurrentOption(player.getInv().getCurrentOption()+1);
+                                    break;
+                                }
+                            }
+                        }
                     }else if(battle.getSelectedOption()[1]){
-                        battle.setSelectedOption(false, false, true, false);
-                    }else if(battle.getSelectedOption()[2]){
-                        battle.setSelectedOption(false, false, false, true);
+                        if(!player.getMagic().getOptions()[player.getMagic().magic.size()]){
+                            for(int j = 0; j<player.getMagic().magic.size()-1; j++){
+                                if(player.getMagic().getOptions()[j]){
+                                    player.getMagic().setSpecOption(false, j);
+                                    player.getMagic().setSpecOption(true, player.getMagic().getCurrentOption()+1);
+                                    player.getMagic().setCurrentOption(player.getMagic().getCurrentOption()+1);
+                                    break;
+                                }
+                            }
+                        }
                     }
-                }
 
-            }else if(key == KeyEvent.VK_X) {
-                player.setLastKeyHit(4);
-                if(!battle.getSelection1()){
 
-                    battle.setSelection1(true);
-                    if(battle.getSelectedOption()[0]){
-                        battle.setSelectedOption2(true);
 
+                }else if(key==KeyEvent.VK_UP){
+                    if(battle.getSelectedOption()[2]){
+                        if(!player.getInv().getOptions()[0]){
+                            for(int j = 0; j<player.getInv().inv.size(); j++){
+                                if(player.getInv().getOptions()[j]){
+                                    player.getInv().setSpecOption(false, j);
+                                    player.getInv().setSpecOption(true, player.getInv().getCurrentOption()-1);
+                                    player.getInv().setCurrentOption(player.getInv().getCurrentOption()-1);
+                                    break;
+                                }
+                            }
+                        }
                     }else if(battle.getSelectedOption()[1]){
-
-                    }else if(battle.getSelectedOption()[2]){
-
-                    }else if(battle.getSelectedOption()[3]){
-
+                        if(!player.getMagic().getOptions()[0]){
+                            for(int j = 0; j<player.getMagic().magic.size(); j++){
+                                if(player.getMagic().getOptions()[j]){
+                                    player.getMagic().setSpecOption(false, j);
+                                    player.getMagic().setSpecOption(true, player.getMagic().getCurrentOption()-1);
+                                    player.getMagic().setCurrentOption(player.getMagic().getCurrentOption()-1);
+                                    break;
+                                }
+                            }
+                        }
                     }
-                }else if(battle.getSelection1() && !battle.getSelection2()){
-                    battle.setSelection2(true);
-                    battle.setFirstTimeInTurn(true);
-                }
 
 
-            }else if(key== KeyEvent.VK_F){
-                battle.setPlayerTurn(true);
-            }else if(key==KeyEvent.VK_Z){
-                if(battle.getSelection1() && !battle.getSelection2()){
+                }else if(key==KeyEvent.VK_Z&&battle.getSelectedOption()[2]){
+                    player.setLimited(false);
+                    player.getInv().setOpen(false);
                     battle.setSelection1(false);
+                }else if(key==KeyEvent.VK_X&&battle.getSelectedOption()[2]){
+                    player.getInv().inv.get(player.getInv().getCurrentOption()).use();
+                    player.setLimited(false);
+                    player.getInv().setOpen(false);
+                    battle.setPlayerTurn(false);
+                    battle.setEnemyTurnStart(true);
+                    battle.setSelectedOption2(true);
+
+
+                }else if(key==KeyEvent.VK_Z&&battle.getSelectedOption()[1]){
+                    player.setLimited(false);
+                    player.getMagic().setOpen(false);
+                    battle.setSelection1(false);
+                }else if(key==KeyEvent.VK_X&&battle.getSelectedOption()[1]){
+                    player.getMagic().magic.get(player.getMagic().getCurrentOption()).use();
+                    player.setLimited(false);
+                    player.getMagic().setOpen(false);
+                    battle.setPlayerTurn(false);
+                    battle.setEnemyTurnStart(true);
+                    battle.setSelectedOption2(true);
+                }else if(key==KeyEvent.VK_ESCAPE){
+                    System.exit(1);
                 }
-            }else if(key==KeyEvent.VK_ESCAPE){
-                System.exit(1);
             }
+
+
 
 
             for(int i = 0; i< handler.object.size(); i++) {

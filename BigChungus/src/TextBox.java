@@ -15,7 +15,7 @@ public class TextBox{
     private int lines;
     private int characters;
     private String currentString;
-    private int currentLine;
+    private int currentLine=0;
     private Font fnt;
     private int textLength;
     private String flag;
@@ -38,7 +38,7 @@ public class TextBox{
         System.out.println(lines);
         segments = new String[lines];
         System.out.println(segments);
-
+// splits up text into parts
         for(int i = 1; i < lines+1; i++){
             if(textLength >= 85){
                 segments[i-1] = text.substring((i*85)-85, i*85);
@@ -55,6 +55,9 @@ public class TextBox{
         this.currentString = "";
         this.flag = "INIT CLAUSE";
 
+        for(int i = 0; i<segments.length; i++){
+            System.out.println(segments[i]);
+        }
 
 
     }
@@ -66,9 +69,13 @@ public class TextBox{
 
     public void tick(){
 
+        System.out.println(textLength);
+        System.out.println(" "+currentString.length());
         if(!flag.equals("END CLAUSE")){
             if(flag.equals("INIT CLAUSE")){
-                currentLine = 0;
+                //currentLine = 0;
+                flag="";
+                textLength=segments[currentLine].length();
             }
             if(currentString.length() == textLength){
 
@@ -77,7 +84,8 @@ public class TextBox{
                 if(currentLine == lines){
                     flag = "END CLAUSE";
                     done = true;
-                }
+                }else
+                    flag="INIT CLAUSE";
             }else{
                 currentString = currentString + (segments[currentLine].charAt(currentString.length()));
             }
@@ -103,7 +111,8 @@ public class TextBox{
             g.drawImage(this.character.Face, 127, 799,127, 122, null);
         }else if(this.character.getId()==ID.BigChungus){
             g.drawImage(this.character.Face, 130, 800,135, 140, null);
-        }
+        }else if(this.character.getId()==ID.Player)
+            g.drawImage(this.character.Face, 130, 800,135, 140, null);
 
 
 
