@@ -1,10 +1,11 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 // 97 characters can fit per line of text
 
 
-public class TextBox{
+public class TextBox implements Serializable {
 
     private Character character;
     private String string;
@@ -35,14 +36,11 @@ public class TextBox{
             lines = characters / 85;
         }
 
-        System.out.println(lines);
         segments = new String[lines];
-        System.out.println(segments);
 // splits up text into parts
         for(int i = 1; i < lines+1; i++){
             if(textLength >= 85){
                 segments[i-1] = text.substring((i*85)-85, i*85);
-                System.out.println(segments[i-1]);
                 textLength -= 85;
             }else{
                 segments[i-1] = text.substring((i*85)-85, (i*85)-85+textLength);
@@ -55,9 +53,7 @@ public class TextBox{
         this.currentString = "";
         this.flag = "INIT CLAUSE";
 
-        for(int i = 0; i<segments.length; i++){
-            System.out.println(segments[i]);
-        }
+
 
 
     }
@@ -69,8 +65,7 @@ public class TextBox{
 
     public void tick(){
 
-        System.out.println(textLength);
-        System.out.println(" "+currentString.length());
+
         if(!flag.equals("END CLAUSE")){
             if(flag.equals("INIT CLAUSE")){
                 //currentLine = 0;

@@ -7,31 +7,37 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 
-public class Game extends Canvas implements Runnable {
 
+public class Game extends Canvas implements Runnable, Serializable {
 
 
     /**
      *
      */
-    private static final long serialVersionUID = -1300776496297261616L;
+    private static final long serialVersionUID  = -1300776496297261616L;
+
 
     // height is 960
     public static final float WIDTH = 1280, HEIGHT = WIDTH / 12 * 9;
 
     //temp
-    private BufferedImage player2;
 
-    private Thread thread;
+    private transient Thread thread;
     private boolean running = false;
-    private BufferedImage spriteSheet = null;
+    private transient BufferedImage spriteSheet = null;
     private Handler handler;
     private Player player;
     private NPC npc;
     static Textures tex;
     private Camera camera;
-    BufferedImage currentLevel;
+    transient BufferedImage currentLevel;
     TextBox tb;
     private TBHandler tbHandler;
     private KeyInput keyInput;
@@ -39,10 +45,15 @@ public class Game extends Canvas implements Runnable {
     private boolean Switch;
     private Battle currentBattle;
     private Font fnt;
-    private Inventory inv;
     private Magic magic;
     private AudioPlayer ap;
-    transient ArrayList<BufferedImage> images;
+    private Inventory inv;
+    private SaveObject so;
+    private Knuckles knuckles1;
+    private Pikachu pikachu;
+    private BigChungus bigChungus;
+
+
 
 
     public enum STATE {
@@ -56,23 +67,24 @@ public class Game extends Canvas implements Runnable {
     private Window window;
 
     public Game() {
+
         this.ap = new AudioPlayer();
         this.ap.load();
         tex = new Textures();
         window = new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
         handler = new Handler();
+        //loadSave();
         tbHandler = new TBHandler();
         currentState=null;
-        Switch=false;
 
 
-        inv = new Inventory(this);
+        inv = new Inventory();
         inv.addItem(new Items("Basic HP", "A healing potion that will give you 20 HP", inv));
-        inv.addItem(new Items("asdf HP", "A healing potion that will give you 20 HP", inv));
-        inv.addItem(new Items("fda HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("Mediocre Potion", "A healing potion that will give you 40 HP", inv));
+        inv.addItem(new Items("Max Potion", "A healing potion that will give you MAX HP", inv));
 
-        inv.addItem(new Items("asdf HP", "A healing potion that will give you 20 HP", inv));
-        inv.addItem(new Items("hgfds HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("Sword", "A sharp sword", inv));
+        inv.addItem(new Items("Magic Ball", "Zoinks idk what this does lol", inv));
         inv.addItem(new Items(" asdf HP", "A healing potion that will give you 20 HP", inv));
         inv.addItem(new Items("rete HP", "A healing potion that will give you 20 HP", inv));
         inv.addItem(new Items("asdf HP", "A healing potion that will give you 20 HP", inv));
@@ -81,23 +93,10 @@ public class Game extends Canvas implements Runnable {
         inv.addItem(new Items("fda HP", "A healing potion that will give you 20 HP", inv));
         inv.addItem(new Items("fdfdfd HP", "A healing potion that will give you 20 HP", inv));
 
-        magic = new Magic(this);
+        magic = new Magic();
         magic.addItem(new Spells("Basic Heal Spell", "Heals 10 hp and uses 10 mana", magic));
-/*
-        currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
-        camera = new Camera(0,0);
-        loadLevel(currentLevel);
 
-        player = new NPC.Player(200, 200, 19, 74, handler, this, ID.NPC.Player, 2);
-        npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "i am an NPCC", player);
-
-        handler.addObject(npc);
-        handler.addObject(player);
-        this.keyInput = new KeyInput(handler, player, tbHandler);
-
-        this.addKeyListener(keyInput);
-*/
-
+        //loadSave();
 
 
     }
@@ -121,6 +120,7 @@ public class Game extends Canvas implements Runnable {
 
 
     public void run() {
+
         this.requestFocus();
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
@@ -149,59 +149,70 @@ public class Game extends Canvas implements Runnable {
 
 
     private void tick() {
-
-        if(currentState==null){
-            currentState = STATE.FirstArea;
-        }if(currentState==STATE.FirstArea && Switch == false){
-            handler.clear();
-            currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
-            camera = new Camera(0,0);
-            loadLevel(currentLevel);
-
-            player = new Player(200, 200, 19, 74, handler, this, ID.Player, 2,inv, magic);
-            npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "asdfasdfasdfasdfja;sldkjfaslkdjfasldf;a", player);
-            Knuckles knuckles1 = new Knuckles(600, 200, 96, 48, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
-            handler.addObject(knuckles1);
-            Pikachu pikachu = new Pikachu(800, 500, 96, 48, handler, this, ID.Pikachu, 2, tbHandler, "Pikaaachuuu", player, true);
-            BigChungus bigChungus = new BigChungus(500, 500, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "CHUNGA", player, true);
-            handler.addObject(pikachu);
-            handler.addObject(npc);
-            handler.addObject(bigChungus);
-            handler.addObject(player);
-            handler.addObject(new SaveObject(300, 300, 64, 64,this));
+        try{
+            if(currentState==null){
+                currentState = STATE.FirstArea;
+            }if(currentState==STATE.FirstArea && Switch == false){
+               // handler.clear();
 
 
-            this.keyInput = new KeyInput(handler, player, tbHandler, inv);
 
-            this.addKeyListener(keyInput);
-            Switch=true;
-        }else if(currentState==STATE.FirstArea && Switch==true){
-            for(int i = 0; i < handler.object.size(); i++){
-                if(handler.object.get(i).getId() == ID.Player){
-                    camera.tick(handler.object.get(i));
+                currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
+                camera = new Camera(0,0);
+                loadLevel(currentLevel);
+                loadLevel(currentLevel);
+
+                player = new Player(200, 200, 19, 74, handler, this, ID.Player, 2,inv, magic);
+                npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "asdfasdfasdfasdfja;sldkjfaslkdjfasldf;a", player);
+                Knuckles knuckles1 = new Knuckles(600, 200, 96, 48, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
+                handler.addObject(knuckles1);
+                Pikachu pikachu = new Pikachu(800, 500, 96, 48, handler, this, ID.Pikachu, 2, tbHandler, "Pikaaachuuu", player, true);
+                BigChungus bigChungus = new BigChungus(500, 500, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "CHUNGA", player, true);
+                handler.addObject(pikachu);
+                handler.addObject(npc);
+                handler.addObject(bigChungus);
+                handler.addObject(player);
+                so = new SaveObject(300, 300, 64, 64);
+                handler.addObject(so);
+
+
+                this.keyInput = new KeyInput(handler, player, tbHandler, player.getInv());
+
+                this.addKeyListener(keyInput);
+
+                Switch=true;
+            }else if(currentState==STATE.FirstArea && Switch==true){
+                for(int i = 0; i < handler.object.size(); i++){
+                    if(handler.object.get(i).getId() == ID.Player){
+                        camera.tick(handler.object.get(i));
+                    }
                 }
+                handler.tick();
+                tbHandler.tick();
+
+                if(player.getInv().getOpen()){
+                    player.getInv().tick();
+                }
+            }else if(currentState==STATE.Battle && Switch == false){
+                handler.clear();
+                removeKeyListener(keyInput);
+
+                Switch = true;
+                //create new battle object or get the battle object from player (defined by collision)
+
+            }else if(currentState==STATE.Battle && Switch == true){
+                handler.tick();
+                currentBattle.tick();
+            }else if(currentState==STATE.GameOver && Switch==false){
+
+            }else if(currentState==STATE.GameOver && Switch==true){
+
             }
-            handler.tick();
-            tbHandler.tick();
-
-            if(inv.getOpen()){
-                inv.tick();
-            }
-        }else if(currentState==STATE.Battle && Switch == false){
-            handler.clear();
-            removeKeyListener(keyInput);
-
-            Switch = true;
-            //create new battle object or get the battle object from player (defined by collision)
-
-        }else if(currentState==STATE.Battle && Switch == true){
-            handler.tick();
-            currentBattle.tick();
-        }else if(currentState==STATE.GameOver && Switch==false){
-
-        }else if(currentState==STATE.GameOver && Switch==true){
-
+        }catch(Exception e){
+            e.printStackTrace();
         }
+
+
 
 
 
@@ -237,8 +248,8 @@ public class Game extends Canvas implements Runnable {
             g2d.translate(camera.getX(), camera.getY());
             tbHandler.render(g);
 
-            if(inv.getOpen()){
-                inv.render(g);
+            if(player.getInv().getOpen()){
+                player.getInv().render(g);
             }
 
 
@@ -322,8 +333,7 @@ public class Game extends Canvas implements Runnable {
     private void loadLevel(BufferedImage image){
         int w = image.getWidth();
         int h = image.getHeight();
-        System.out.println(w);
-        System.out.println(h);
+
 
         for(int xx = 0; xx < w; xx++){
             for(int yy = 0; yy < h; yy++){
@@ -368,24 +378,102 @@ public class Game extends Canvas implements Runnable {
     public AudioPlayer getAp(){
         return this.ap;
     }
-    
+
     public void save(){
         try{
-            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("player.bin"));
-            os.writeObject(player);
+
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("game.bin"));
+            os.writeObject(this);
             os.close();
+
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }catch(IOException e){
             e.printStackTrace();
         }
+
     }
 
     public void loadSave(){
         try{
 
-            ObjectInputStream playerIS = new ObjectInputStream(new FileInputStream("player.bin"));
-            player = (Player) playerIS.readObject();
+
+
+            ObjectInputStream os = new ObjectInputStream(new FileInputStream("game.bin"));
+            Game temp = (Game) os.readObject();
+            System.out.println("temp+ "+temp);
+            this.ap=temp.getAp();
+            this.ap.load();
+            tex = new Textures();
+            //window = new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
+            window=new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
+            handler = temp.handler;
+            currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
+            camera = new Camera(0,0);
+            //loadLevel(currentLevel);
+            tbHandler = temp.tbHandler;
+            //currentState=null;
+            //Switch=false;
+            //player=temp.player;
+            //player.setGame(temp);
+         //   knuckles1=temp.knuckles1;
+            //System.out.println(knuckles1);
+         //   knuckles1.setGame(temp);
+         //   pikachu=temp.pikachu;
+         //   pikachu.setGame(temp);
+         //   bigChungus=temp.bigChungus;
+          //  bigChungus.setGame(temp);
+           // npc=temp.npc;
+            //npc.setGame(temp);
+            for(int i = 0; i<handler.object.size(); i++){
+                if(handler.object.get(i).getId()==ID.Player){
+                    player=(Player)handler.object.get(i);
+                    handler.object.set(i, player);
+                }else if(handler.object.get(i).getId()==ID.BigChungus){
+                    bigChungus=(BigChungus) handler.object.get(i);
+                    handler.object.set(i, bigChungus);
+                }else if(handler.object.get(i).getId()==ID.Knuckles){
+                    knuckles1=(Knuckles) handler.object.get(i);
+                    handler.object.set(i, knuckles1);
+                }else if(handler.object.get(i).getId()==ID.Pikachu){
+                    pikachu=(Pikachu) handler.object.get(i);
+                    handler.object.set(i, pikachu);
+                }else if(handler.object.get(i).getId()==ID.NPC){
+                    npc=(NPC) handler.object.get(i);
+                    handler.object.set(i, npc);
+                }
+
+            }
+            player.setGame(this);
+            bigChungus.setGame(this);
+            knuckles1.setGame(this);
+            pikachu.setGame(this);
+            npc.setGame(this);
+            this.keyInput = new KeyInput(handler, player, tbHandler, player.getInv());
+            this.addKeyListener(keyInput);
+            this.Switch=false;
+
+
+
+
+
+
+            // need to reinit all images as they are not saved
+            //player.setCurrentImages();
+
+
+
+            // reinit all stuffs
+
+            //this.handler = this.so.getHandler();
+
+            // possible problem: THe handler that is being saved contains different objects that it wants to tick and render than the new ones
+
+
+
+
+
+
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }catch(IOException e){
@@ -396,4 +484,15 @@ public class Game extends Canvas implements Runnable {
 
     }
 
+    public Handler getHandler(){
+        return this.handler;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public TBHandler getTbHandler() {
+        return tbHandler;
+    }
 }

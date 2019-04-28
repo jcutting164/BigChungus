@@ -1,5 +1,6 @@
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,7 +9,7 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
 
-public class AudioPlayer {
+public class AudioPlayer implements Serializable {
 
     public static Map<String, Sound> soundMap = new HashMap<String, Sound>();
     public static Map<String, Music> musicMap = new HashMap<String, Music>();

@@ -2,18 +2,19 @@ import org.newdawn.slick.Music;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public abstract class Enemy extends NPC {
+public abstract class Enemy extends NPC implements Serializable {
     private int lastKeyReleased;
     Handler handler;
     private boolean battleReady;
     TBHandler tbHandler;
     String text;
     private Player player;
-    private BufferedImage[] currentImages;
-    protected BufferedImage BattleForm;
+    private transient BufferedImage[] currentImages;
+    protected transient BufferedImage BattleForm;
     private String name;
     protected Color nameColor;
     protected int currentMove;

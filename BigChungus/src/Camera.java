@@ -1,4 +1,6 @@
-public class Camera {
+import java.io.Serializable;
+
+public class Camera implements Serializable {
 
     private float x, y;
 

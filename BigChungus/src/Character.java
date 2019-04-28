@@ -2,21 +2,22 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 
-public abstract class Character extends GameObject{
+public abstract class Character extends GameObject implements Serializable {
 
     Handler handler;
-    Game game;
+    protected Game game;
     int tempImage;
     protected int health;
     protected int maxhealth;
 
-    protected Animation walkLeft;
-    protected Animation walkRight;
-    protected Animation walkDown;
-    protected Animation walkUp;
-    protected BufferedImage Face;
+    protected transient Animation walkLeft;
+    protected transient Animation walkRight;
+    protected transient Animation walkDown;
+    protected transient Animation walkUp;
+    protected transient BufferedImage Face;
     protected int speed;
 
     Textures tex = Game.getInstance();
@@ -97,6 +98,13 @@ public abstract class Character extends GameObject{
     }
     public void setMaxHealth(int maxhealth){
         this.maxhealth = maxhealth;
+    }
+
+    public Game getGame(){
+        return this.game;
+    }
+    public void setGame(Game game){
+        this.game = game;
     }
 
 }

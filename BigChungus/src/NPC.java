@@ -1,16 +1,17 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 
-public class NPC extends Character{
+public class NPC extends Character implements Serializable {
     private int lastKeyReleased;
     Handler handler;
     private boolean battleReady;
     TBHandler tbHandler;
     String text;
     private Player player;
-    private BufferedImage[] currentImages;
+    private transient BufferedImage[] currentImages;
 
 
     public NPC(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player){
@@ -55,7 +56,19 @@ public class NPC extends Character{
     }
     public void render(Graphics g){
 
-        g.drawImage(currentImages[0], (int) this.x, (int)this.y, 38, 148, null);
+        try{
+            g.drawImage(currentImages[0], (int) this.x, (int)this.y, 48, 128, null);
+        }catch(Exception e){
+            tex=Game.getInstance();
+
+            this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
+            this.walkRight = new Animation(speed, tex.Player_WalkRight[0], tex.Player_WalkRight[1]);
+            this.walkUp = new Animation(speed, tex.Player_WalkUp[1], tex.Player_WalkUp[2]);
+            this.walkDown = new Animation(speed, tex.Player_WalkDown[0], tex.Player_WalkDown[1]);
+            this.currentImages= tex.Player_WalkDown;
+            this.isVisible = true;
+            this.Face = tex.Player_Face[0];
+        }
 
 
     }

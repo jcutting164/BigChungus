@@ -1,8 +1,9 @@
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
-public class SpriteSheet {
+public class SpriteSheet implements Serializable {
 
-    private BufferedImage image;
+    private transient BufferedImage image;
 
     public SpriteSheet(BufferedImage image){
         this.image = image;

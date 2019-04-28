@@ -1,14 +1,14 @@
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Handler {
-    private Player player;
+public class Handler implements Serializable {
 
     LinkedList<GameObject> object = new LinkedList<GameObject>();
 
     public Handler(){
-        this.player = player;
+
     }
 
     public void tick() {

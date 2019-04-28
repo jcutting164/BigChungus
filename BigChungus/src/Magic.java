@@ -1,13 +1,12 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.awt.Font;
 
 
-public class Magic {
+public class Magic implements Serializable {
 
-    private Game game;
     private boolean isOpen;
     private Font fnt;
     private boolean[] options;
@@ -17,8 +16,7 @@ public class Magic {
 
     ArrayList<Spells> magic = new ArrayList<>();
 
-    public Magic(Game game){
-        this.game = game;
+    public Magic(){
         this.options = new boolean[20];
         for(int i = 0; i<20; i++){
             options[i] = false;

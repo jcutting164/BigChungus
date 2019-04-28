@@ -2,15 +2,16 @@ import org.newdawn.slick.Music;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
-public class Pikachu extends Enemy {
+public class Pikachu extends Enemy implements Serializable {
     private int lastKeyReleased;
     Handler handler;
     private boolean battleReady;
     TBHandler tbHandler;
     String text;
     private Player player;
-    private BufferedImage[] currentImages;
+    private transient BufferedImage[] currentImages;
 
     public Pikachu(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player, boolean battleReady){
         super(x, y, height, width,handler,game, id, speed, tbHandler, "PI-KA-CHUUU", player);
@@ -64,7 +65,20 @@ public class Pikachu extends Enemy {
     }
     public void render(Graphics g){
 
-        g.drawImage(currentImages[0], (int) this.x, (int)this.y, 48, 96, null);
+        try{
+            g.drawImage(currentImages[0], (int) this.x, (int)this.y, 48, 96, null);
+        }catch(Exception e){
+            tex=Game.getInstance();
+
+            this.walkLeft = new Animation(speed, tex.Pikachu_WalkLeft[0], tex.Pikachu_WalkLeft[1], tex.Pikachu_WalkLeft[2]);
+            this.walkRight = new Animation(speed, tex.Pikachu_WalkRight[0], tex.Pikachu_WalkRight[1], tex.Pikachu_WalkRight[2]);
+            this.walkUp = new Animation(speed, tex.Pikachu_WalkUp[0], tex.Pikachu_WalkUp[1], tex.Pikachu_WalkUp[2]);
+            this.walkDown = new Animation(speed, tex.Pikachu_WalkDown[0], tex.Pikachu_WalkDown[1], tex.Pikachu_WalkDown[2]);
+
+            this.currentImages= tex.Pikachu_WalkLeft;
+            this.Face = tex.PikachuFace[0];
+            this.BattleForm = tex.PikachuBF[0];
+        }
 
 
     }

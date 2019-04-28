@@ -1,12 +1,13 @@
 import java.awt.Canvas;
 
 import java.awt.Dimension;
+import java.io.Serializable;
 
 
 import javax.swing.JFrame;
 
 
-public class Window extends Canvas{
+public class Window extends Canvas implements Serializable {
 
     /**
      *

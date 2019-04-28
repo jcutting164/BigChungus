@@ -1,13 +1,14 @@
 import java.awt.*;
+import java.io.Serializable;
 
-public class Block extends GameObject{
+public class Block extends GameObject implements Serializable {
 
     Handler handler;
     Game game;
     Player player;
 
 
-    Textures tex = Game.getInstance();
+    transient Textures  tex = Game.getInstance();
 
 
     public Block(float x, float y, float height, float width, Handler handler, Game game, ID id){

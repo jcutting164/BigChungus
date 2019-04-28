@@ -1,4 +1,6 @@
-public enum ID {
+import java.io.Serializable;
+
+public enum ID implements Serializable {
 
     Knuckles(),
     Player(),

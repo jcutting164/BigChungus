@@ -1,9 +1,10 @@
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 
 
-public class TBHandler {
+public class TBHandler implements Serializable {
     private Player player;
 
     LinkedList<TextBox> object = new LinkedList<TextBox>();

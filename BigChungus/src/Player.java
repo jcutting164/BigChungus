@@ -8,17 +8,17 @@ import java.util.ArrayList;
 
 public class Player extends Character implements Serializable {
 
-    private int lastKeyReleased;
-    private int lastKeyHit;
-    Handler handler;
-    private boolean downStop;
-    private Rectangle range;
-    private boolean limited;
-    private BufferedImage[] currentImages;
-    private String name;
-    private Inventory inv;
-    private Magic magic;
-    private int mana, maxMana;
+    private  int lastKeyReleased;
+    private  int lastKeyHit;
+    transient Handler handler;
+    private  boolean downStop;
+    private  Rectangle range;
+    private  boolean limited;
+    private transient BufferedImage[] currentImages;
+    private  String name;
+    private  Inventory inv;
+    private  Magic magic;
+    private  int mana, maxMana;
 
 
 
@@ -68,55 +68,65 @@ public class Player extends Character implements Serializable {
     public void render(Graphics g){
 
         //g.drawImage(tex.Player_WalkLeft[0], (int) this.x, (int)this.y, 38, 148, null);
+        try{
+            if(velX != 0 && velY==0){
+                if(velX < 0){
+                    walkLeft.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    currentImages = tex.Player_WalkLeft;
 
+                }else if(velX > 0){
+                    walkRight.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    currentImages = tex.Player_WalkRight;
+                }
+
+
+                //deals with sprites when player stops moving
+            }else if(velX==0 && velY==0){
+                if(this.currentImages == tex.Player_WalkLeft)
+                    g.drawImage(tex.Player_WalkLeft[0], (int)x, (int)y, 38, 148, null);
+                else if(this.currentImages==tex.Player_WalkRight)
+                    g.drawImage(tex.Player_WalkRight[0], (int)x, (int)y, 38, 148, null);
+                else if(this.currentImages==tex.Player_WalkUp)
+                    g.drawImage(tex.Player_WalkUp[0], (int)x, (int)y, 38, 148, null);
+                else if(this.currentImages==tex.Player_WalkDown)
+                    g.drawImage(tex.Player_WalkDown[0], (int)x, (int)y, 38, 148, null);
+                else{
+                    g.drawImage(tex.Player_WalkDown[0], (int)x, (int)y, 38, 148, null);
+                }
+                // deals with pure y moving animation
+            }else if(velX==0 && velY!=0){
+                if(velY < 0){
+                    walkUp.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    currentImages = tex.Player_WalkUp;
+
+                }else if(velY > 0){
+                    walkDown.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    currentImages = tex.Player_WalkDown;
+                }
+
+                //deals with diagonal movement
+            }else if(velX!=0 && velY!=0){
+                if((velY < 0 && velX < 0) || (velY<0 && velX>0)){
+                    walkUp.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    currentImages = tex.Player_WalkUp;
+
+                }else if((velX > 0 && velY > 0) || (velY>0 && velX<0)){
+                    walkDown.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    currentImages = tex.Player_WalkDown;
+                }
+            }
+        }catch(Exception e){
+            tex=Game.getInstance();
+            this.handler=game.getHandler();
+            walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
+            walkRight = new Animation(speed, tex.Player_WalkRight[0], tex.Player_WalkRight[1]);
+            walkUp = new Animation(speed, tex.Player_WalkUp[1], tex.Player_WalkUp[2]);
+            walkDown = new Animation(speed, tex.Player_WalkDown[1], tex.Player_WalkDown[2]);
+            Face = tex.Player_Face[0];
+        }
 
         // deals with pure x moving animation
-        if(velX != 0 && velY==0){
-            if(velX < 0){
-                walkLeft.drawAnimation(g, (int)x, (int)y, 38, 148);
-                currentImages = tex.Player_WalkLeft;
 
-            }else if(velX > 0){
-                walkRight.drawAnimation(g, (int)x, (int)y, 38, 148);
-                currentImages = tex.Player_WalkRight;
-            }
-
-
-        //deals with sprites when player stops moving
-        }else if(velX==0 && velY==0){
-            if(this.currentImages == tex.Player_WalkLeft)
-                g.drawImage(tex.Player_WalkLeft[0], (int)x, (int)y, 38, 148, null);
-            else if(this.currentImages==tex.Player_WalkRight)
-                g.drawImage(tex.Player_WalkRight[0], (int)x, (int)y, 38, 148, null);
-            else if(this.currentImages==tex.Player_WalkUp)
-                g.drawImage(tex.Player_WalkUp[0], (int)x, (int)y, 38, 148, null);
-            else if(this.currentImages==tex.Player_WalkDown)
-                g.drawImage(tex.Player_WalkDown[0], (int)x, (int)y, 38, 148, null);
-            else{
-                g.drawImage(tex.Player_WalkDown[0], (int)x, (int)y, 38, 148, null);
-            }
-            // deals with pure y moving animation
-        }else if(velX==0 && velY!=0){
-            if(velY < 0){
-                walkUp.drawAnimation(g, (int)x, (int)y, 38, 148);
-                currentImages = tex.Player_WalkUp;
-
-            }else if(velY > 0){
-                walkDown.drawAnimation(g, (int)x, (int)y, 38, 148);
-                currentImages = tex.Player_WalkDown;
-            }
-
-            //deals with diagonal movement
-        }else if(velX!=0 && velY!=0){
-            if((velY < 0 && velX < 0) || (velY<0 && velX>0)){
-                walkUp.drawAnimation(g, (int)x, (int)y, 38, 148);
-                currentImages = tex.Player_WalkUp;
-
-            }else if((velX > 0 && velY > 0) || (velY>0 && velX<0)){
-                walkDown.drawAnimation(g, (int)x, (int)y, 38, 148);
-                currentImages = tex.Player_WalkDown;
-            }
-        }
 
 
     }
@@ -139,7 +149,9 @@ public class Player extends Character implements Serializable {
     public void collision(){
         // IDEA FOR RENDERING ONLY NEEDED THINGS
         // WHILE COLLISION CHEKCING, CHECK EVERYTHING AGAINST SPECIAL BOUNDS AND ASSIGN VISIBILITY
+
         for(int i = 0; i < this.handler.object.size(); i++){
+
             GameObject tempObject = this.handler.object.get(i);
 
             if(tempObject.getId() == ID.BlackGround){
@@ -228,17 +240,19 @@ public class Player extends Character implements Serializable {
             }else if(tempObject.getId()==ID.SaveIcon){
                 SaveObject tempSaveIcon = (SaveObject) tempObject;
                 Rectangle tempRect = tempSaveIcon.getBounds();
-                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()/2);
-                if(tempRect.intersects(getBounds())){
+                Rectangle interactRect = new Rectangle((int)tempRect.getX(), (int)tempRect.getY(), (int)tempRect.getWidth(), (int)tempRect.getHeight()/2);
+                tempRect.setRect((int)tempRect.getX()-10, (int)tempRect.getY()-10, (int)tempRect.getWidth()+20, (int)tempRect.getHeight()+20);
+
+                //tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()/2);
+                if(interactRect.intersects(getBounds())){
                     x+= velX*-1;
                     y+= velY*-1;
 
                 }
 
                 if(getBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
-                    tempSaveIcon.interaction();
-                    x+= velX*-1;
-                    y+= velY*-1;
+                    tempSaveIcon.interaction(game);
+
                     lastKeyHit=100;
                 }
 
@@ -298,13 +312,31 @@ public class Player extends Character implements Serializable {
         if(mana >= maxMana*.5){
             g.setColor(Color.blue.brighter().brighter().brighter());
         }else{
-            g.setColor(Color.red);
+            g.setColor(Color.black);
         }
 
         g.fillRect(540, y, mana*(200/maxMana), 32);
         g.setColor(Color.white);
         g.drawRect(540, y, 200, 32);
     }
+    public int getMaxMana(){
+        return this.maxMana;
+    }
+    public void setMaxMana(int maxMana){
+        this.maxMana=maxMana;
+    }
+    public int getMana(){
+        return this.mana;
+    }
+    public void setMana(int mana){
+        this.mana=mana;
+    }
 
+    public void setInv(Inventory inv) {
+        this.inv = inv;
+    }
 
+    public void setMagic(Magic magic) {
+        this.magic = magic;
+    }
 }

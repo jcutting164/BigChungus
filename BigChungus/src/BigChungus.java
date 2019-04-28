@@ -3,15 +3,16 @@ import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
-public class BigChungus extends Enemy {
+public class BigChungus extends Enemy implements Serializable {
     private int lastKeyReleased;
     Handler handler;
     private boolean battleReady;
     TBHandler tbHandler;
     String text;
     private Player player;
-    private BufferedImage[] currentImages;
+    private transient BufferedImage[] currentImages;
 
 
     public BigChungus(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player, boolean battleReady){
@@ -71,7 +72,19 @@ public class BigChungus extends Enemy {
 
         //walkRight.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
         //Rectangle temp = this.getBounds();
-        g.drawImage(currentImages[0], (int)x, (int)y, (int)width, (int)height, null);
+        try{
+            g.drawImage(currentImages[0], (int) this.x, (int)this.y, (int)width, (int)height, null);
+        }catch(Exception e){
+            tex=Game.getInstance();
+
+            this.walkRight = new Animation(speed, tex.BigChungus_WalkRight[1], tex.BigChungus_WalkRight[2]);
+
+
+            this.currentImages= tex.BigChungus_WalkRight;
+            this.isVisible = true;
+            this.Face = tex.BigChungusFace[0];
+            this.BattleForm = tex.BigChungusBF[0];
+        }
 
     }
 

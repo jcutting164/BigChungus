@@ -1,9 +1,10 @@
 import org.newdawn.slick.openal.Audio;
 
 import java.awt.*;
+import java.io.Serializable;
 
 
-public class BattlePlayer extends GameObject {
+public class BattlePlayer extends GameObject implements Serializable {
     private Game game;
     private boolean cooldown;
     private long time, timeNow, timeOfLastShot;

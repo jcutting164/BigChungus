@@ -1,7 +1,8 @@
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class Animation {
+public class Animation implements Serializable {
 
     private int speed;
     private int frames;

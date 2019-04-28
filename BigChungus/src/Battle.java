@@ -1,11 +1,12 @@
 import org.newdawn.slick.openal.Audio;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class Battle {
+public class Battle implements Serializable {
     private Player player;
     private Enemy enemy;
     private Game game;
@@ -102,6 +103,11 @@ public class Battle {
             g.setColor(Color.white);
             g.drawString("HP", 500,825);
             player.drawHealthBar(800, g);
+            g.setColor(Color.white);
+
+            fnt = new Font("Serif", 1, 16);
+            g.setFont(fnt);
+            g.drawString(player.getHealth() + " / " + player.getMaxHealth(), 750, 824);
 
         }else if(player.getMagic().getOpen()){
             fnt = new Font("Serif", 0, 20);
@@ -110,6 +116,11 @@ public class Battle {
             g.drawString("Mana", 480,825);
             player.getMagic().render(g);
             player.drawManaBar(800, g);
+            g.setColor(Color.white);
+
+            fnt = new Font("Serif", 1, 16);
+            g.setFont(fnt);
+            g.drawString(player.getMana() + " / " + player.getMaxMana(), 750, 824);
         }else{
             g.setColor(Color.white);
             g.drawRect(512, 528, 256, 256);
@@ -120,6 +131,11 @@ public class Battle {
             g.setColor(Color.white);
             g.drawString("HP", 500,825);
             player.drawHealthBar(800, g);
+            g.setColor(Color.white);
+
+            fnt = new Font("Serif", 1, 16);
+            g.setFont(fnt);
+            g.drawString(player.getHealth() + " / " + player.getMaxHealth(), 750, 824);
 
 
         }
@@ -131,11 +147,7 @@ public class Battle {
         g.drawString(enemy.getName(), 25, 35);
 
 
-        g.setColor(Color.white);
 
-        fnt = new Font("Serif", 1, 16);
-        g.setFont(fnt);
-        g.drawString(player.getHealth() + " / " + player.getMaxHealth(), 750, 824);
 
 
 

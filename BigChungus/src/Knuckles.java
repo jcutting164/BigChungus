@@ -2,15 +2,16 @@ import org.newdawn.slick.Music;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
-public class Knuckles extends Enemy {
+public class Knuckles extends Enemy implements Serializable {
     private int lastKeyReleased;
     Handler handler;
     private boolean battleReady;
     TBHandler tbHandler;
     String text;
     private Player player;
-    private BufferedImage[] currentImages;
+    private transient BufferedImage[] currentImages;
 
     public Knuckles(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player, boolean battleReady){
         super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player);
@@ -32,7 +33,7 @@ public class Knuckles extends Enemy {
         this.walkRight = new Animation(speed, tex.Knuckles_WalkRight[0], tex.Knuckles_WalkRight[1], tex.Knuckles_WalkRight[2], tex.Knuckles_WalkRight[3], tex.Knuckles_WalkRight[4], tex.Knuckles_WalkRight[5], tex.Knuckles_WalkRight[6], tex.Knuckles_WalkRight[7]);
 
         this.currentImages= tex.Knuckles_WalkLeft;
-        this.isVisible = true;
+
         this.Face = tex.Knuckles_Face;
         this.BattleForm = tex.Knuckles_BattleForm;
     }
@@ -48,6 +49,8 @@ public class Knuckles extends Enemy {
         x+=velX;
         y+=velY;
 
+
+
         if(velX > 0 && velY==0){
             walkRight.runAnimation();
         }else if(velX < 0 && velY==0){
@@ -62,8 +65,23 @@ public class Knuckles extends Enemy {
 
     }
     public void render(Graphics g){
+        try{
+            g.drawImage(currentImages[0], (int) this.x, (int)this.y, 48, 96, null);
+        }catch(Exception e){
+            tex=Game.getInstance();
 
-        g.drawImage(currentImages[0], (int) this.x, (int)this.y, 48, 96, null);
+            walkLeft = new Animation(speed, tex.Knuckles_WalkLeft[0], tex.Knuckles_WalkLeft[1], tex.Knuckles_WalkLeft[2], tex.Knuckles_WalkLeft[3], tex.Knuckles_WalkLeft[4], tex.Knuckles_WalkLeft[5], tex.Knuckles_WalkLeft[6], tex.Knuckles_WalkLeft[7]);
+            walkRight = new Animation(speed, tex.Knuckles_WalkRight[0], tex.Knuckles_WalkRight[1], tex.Knuckles_WalkRight[2], tex.Knuckles_WalkRight[3], tex.Knuckles_WalkRight[4], tex.Knuckles_WalkRight[5], tex.Knuckles_WalkRight[6], tex.Knuckles_WalkRight[7]);
+
+            currentImages= tex.Knuckles_WalkLeft;
+
+            Face = tex.Knuckles_Face;
+            BattleForm = tex.Knuckles_BattleForm;
+        }
+
+
+
+
 
 
     }

@@ -1,7 +1,8 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
 
     protected float x, y, height, width;
     protected float velX, velY;

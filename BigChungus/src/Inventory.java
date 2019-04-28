@@ -1,13 +1,12 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.awt.Font;
 
 
-public class Inventory {
+public class Inventory implements Serializable {
 
-    private Game game;
     private boolean isOpen;
     private Font fnt;
     private boolean[] options;
@@ -17,8 +16,7 @@ public class Inventory {
 
     ArrayList<Items> inv = new ArrayList<>();
 
-    public Inventory(Game game){
-        this.game = game;
+    public Inventory(){
         this.options = new boolean[20];
         for(int i = 0; i<20; i++){
             options[i] = false;

@@ -1,9 +1,10 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class BattleKeyInput extends KeyAdapter{
+public class BattleKeyInput extends KeyAdapter implements Serializable {
 
 
     private Handler handler;

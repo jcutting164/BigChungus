@@ -1,9 +1,10 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.security.Key;
 
 
-public class KeyInput extends KeyAdapter{
+public class KeyInput extends KeyAdapter implements Serializable {
 
 
     private Handler handler;
@@ -79,7 +80,7 @@ public class KeyInput extends KeyAdapter{
                 if(tempObject.getId() == ID.Player) {
                     // key events for NPC.Player 1
                     if(!tbHandler.object.isEmpty()){
-                        if(key == KeyEvent.VK_X && tbHandler.object.get(0).getDone()) {
+                        if(key == KeyEvent.VK_Z && tbHandler.object.get(0).getDone()) {
                             player.setLimited(false);
                             tbHandler.removeObject(0);
                         }

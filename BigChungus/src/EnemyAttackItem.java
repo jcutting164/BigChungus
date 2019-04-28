@@ -3,9 +3,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class EnemyAttackItem extends GameObject {
+public class EnemyAttackItem extends GameObject implements Serializable {
     private BufferedImage[] images;
     private Animation animation;
     private float scaleX, scaleY;

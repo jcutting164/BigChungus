@@ -3,11 +3,12 @@ import jdk.internal.util.xml.impl.Input;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
 
-public class Textures {
+public class Textures implements Serializable {
 
     SpriteSheet SS_Player;
     SpriteSheet SS_FirstArea;
@@ -28,77 +29,78 @@ public class Textures {
 
 
 
-    private BufferedImage BI_Player;
-    public BufferedImage BI_FirstArea;
-    private BufferedImage BI_Knuckles;
-    private BufferedImage BI_A_Knuckles_1;
-    private BufferedImage BI_A_Knuckles_2;
-    private BufferedImage BI_PikachuMovement;
-    private BufferedImage BI_PikachuBF;
-    private BufferedImage BI_PikachuFace;
-    private BufferedImage BI_A_Pikachu_1;
-    private BufferedImage BI_A_Pikachu_2;
-    private BufferedImage BI_A_Pikachu_3;
-    private BufferedImage BI_A_Pikachu_4;
-    private BufferedImage BI_BigChungus;
-    private BufferedImage BI_A_BigChungus_1;
-    private BufferedImage BI_A_BigChungus_2;
-    private BufferedImage BI_Save_Icon;
+
+    private transient BufferedImage BI_Player;
+    public transient BufferedImage BI_FirstArea;
+    private transient BufferedImage BI_Knuckles;
+    private transient BufferedImage BI_A_Knuckles_1;
+    private transient BufferedImage BI_A_Knuckles_2;
+    private transient BufferedImage BI_PikachuMovement;
+    private transient BufferedImage BI_PikachuBF;
+    private transient BufferedImage BI_PikachuFace;
+    private transient BufferedImage BI_A_Pikachu_1;
+    private transient BufferedImage BI_A_Pikachu_2;
+    private transient BufferedImage BI_A_Pikachu_3;
+    private transient BufferedImage BI_A_Pikachu_4;
+    private transient BufferedImage BI_BigChungus;
+    private transient BufferedImage BI_A_BigChungus_1;
+    private transient BufferedImage BI_A_BigChungus_2;
+    private transient BufferedImage BI_Save_Icon;
 
 
-    private InputStream IS_BI_Player;
-    private InputStream IS_BI_FirstArea;
-    private InputStream IS_BI_Knuckles;
-    private InputStream IS_A_Knuckles_1;
-    private InputStream IS_A_Knuckles_2;
-    private InputStream IS_BI_PikachuMovement;
-    private InputStream IS_BI_PikachuBF;
-    private InputStream IS_BI_PikachuFace;
-    private InputStream IS_A_Pikachu_1;
-    private InputStream IS_A_Pikachu_2;
-    private InputStream IS_A_Pikachu_3;
-    private InputStream IS_A_Pikachu_4;
-    private InputStream IS_BI_BigChungus;
-    private InputStream IS_A_BigChungus_1;
-    private InputStream IS_A_BigChungus_2;
-    private InputStream IS_Save_Icon;
+    private transient InputStream IS_BI_Player;
+    private transient InputStream IS_BI_FirstArea;
+    private transient InputStream IS_BI_Knuckles;
+    private transient InputStream IS_A_Knuckles_1;
+    private transient InputStream IS_A_Knuckles_2;
+    private transient InputStream IS_BI_PikachuMovement;
+    private transient InputStream IS_BI_PikachuBF;
+    private transient InputStream IS_BI_PikachuFace;
+    private transient InputStream IS_A_Pikachu_1;
+    private transient InputStream IS_A_Pikachu_2;
+    private transient InputStream IS_A_Pikachu_3;
+    private transient InputStream IS_A_Pikachu_4;
+    private transient InputStream IS_BI_BigChungus;
+    private transient InputStream IS_A_BigChungus_1;
+    private transient InputStream IS_A_BigChungus_2;
+    private transient InputStream IS_Save_Icon;
 
-    public BufferedImage[] Player_WalkLeft = new BufferedImage[2];
-    public BufferedImage[] Player_WalkRight = new BufferedImage[2];
-    public BufferedImage[] Player_WalkUp = new BufferedImage[3];
-    public BufferedImage[] Player_WalkDown = new BufferedImage[3];
-    public BufferedImage[] Player_Face = new BufferedImage[1];
-
-
-    public BufferedImage[] Knuckles_WalkLeft = new BufferedImage[8];
-    public BufferedImage[] Knuckles_WalkRight = new BufferedImage[8];
-    public BufferedImage Knuckles_Face;
-    public BufferedImage Knuckles_BattleForm;
-    public BufferedImage[] Knuckles_A1 = new BufferedImage[4];
-    public BufferedImage[] Knuckles_A2 = new BufferedImage[1];
+    public transient BufferedImage[] Player_WalkLeft = new BufferedImage[2];
+    public transient BufferedImage[] Player_WalkRight = new BufferedImage[2];
+    public transient BufferedImage[] Player_WalkUp = new BufferedImage[3];
+    public transient BufferedImage[] Player_WalkDown = new BufferedImage[3];
+    public transient BufferedImage[] Player_Face = new BufferedImage[1];
 
 
-    public BufferedImage[] Pikachu_WalkLeft = new BufferedImage[3];
-    public BufferedImage[] Pikachu_WalkRight = new BufferedImage[3];
-    public BufferedImage[] Pikachu_WalkUp = new BufferedImage[3];
-    public BufferedImage[] Pikachu_WalkDown = new BufferedImage[3];
-    public BufferedImage[] PikachuBF = new BufferedImage[1];
-    public BufferedImage[] PikachuFace = new BufferedImage[1];
-    public BufferedImage[] Pikachu_A1 = new BufferedImage[2];
-    public BufferedImage[] Pikachu_A1S = new BufferedImage[1];
-    public BufferedImage[] Pikachu_A2 = new BufferedImage[1];
-    public BufferedImage[] Pikachu_A3 = new BufferedImage[1];
+    public transient BufferedImage[] Knuckles_WalkLeft = new BufferedImage[8];
+    public transient BufferedImage[] Knuckles_WalkRight = new BufferedImage[8];
+    public transient BufferedImage Knuckles_Face;
+    public transient BufferedImage Knuckles_BattleForm;
+    public transient BufferedImage[] Knuckles_A1 = new BufferedImage[4];
+    public transient BufferedImage[] Knuckles_A2 = new BufferedImage[1];
 
-    public BufferedImage[] BigChungus_WalkRight = new BufferedImage[3];
-    public BufferedImage[] BigChungus_WalkLeft = new BufferedImage[3];
-    public BufferedImage[] BigChungusFace = new BufferedImage[1];
-    public BufferedImage[] BigChungusBF = new BufferedImage[1];
-    public BufferedImage[] BigChungus_A1 = new BufferedImage[1];
-    public BufferedImage[] BigChungus_A2 = new BufferedImage[4];
-    public BufferedImage[] BigChungus_A3 = new BufferedImage[2];
-    public BufferedImage[] BigChungus_A4 = new BufferedImage[4];
 
-    public BufferedImage[] SaveIcon = new BufferedImage[1];
+    public transient BufferedImage[] Pikachu_WalkLeft = new BufferedImage[3];
+    public transient BufferedImage[] Pikachu_WalkRight = new BufferedImage[3];
+    public transient BufferedImage[] Pikachu_WalkUp = new BufferedImage[3];
+    public transient BufferedImage[] Pikachu_WalkDown = new BufferedImage[3];
+    public transient BufferedImage[] PikachuBF = new BufferedImage[1];
+    public transient BufferedImage[] PikachuFace = new BufferedImage[1];
+    public transient BufferedImage[] Pikachu_A1 = new BufferedImage[2];
+    public transient BufferedImage[] Pikachu_A1S = new BufferedImage[1];
+    public transient BufferedImage[] Pikachu_A2 = new BufferedImage[1];
+    public transient BufferedImage[] Pikachu_A3 = new BufferedImage[1];
+
+    public transient BufferedImage[] BigChungus_WalkRight = new BufferedImage[3];
+    public transient BufferedImage[] BigChungus_WalkLeft = new BufferedImage[3];
+    public transient BufferedImage[] BigChungusFace = new BufferedImage[1];
+    public transient BufferedImage[] BigChungusBF = new BufferedImage[1];
+    public transient BufferedImage[] BigChungus_A1 = new BufferedImage[1];
+    public transient BufferedImage[] BigChungus_A2 = new BufferedImage[4];
+    public transient BufferedImage[] BigChungus_A3 = new BufferedImage[2];
+    public transient BufferedImage[] BigChungus_A4 = new BufferedImage[4];
+
+    public transient BufferedImage[] SaveIcon = new BufferedImage[12];
 
 
     public Textures(){
@@ -152,7 +154,7 @@ public class Textures {
             IS_A_BigChungus_2 = new FileInputStream("res/Attacks/EnemyAttacks/BigChungus/BCattacks.png");
             BI_A_BigChungus_2 = ImageIO.read(IS_A_BigChungus_2);
 
-            IS_Save_Icon = new FileInputStream("res/SaveIcon.png");
+            IS_Save_Icon = new FileInputStream("res/SaveIcon/SaveIconF.png");
             BI_Save_Icon = ImageIO.read(IS_Save_Icon);
 
 
@@ -286,12 +288,13 @@ public class Textures {
         BigChungus_A4[2] = SSA_BigChungus_2.getSubImage(1039,1385,272,495);
         BigChungus_A4[3] = SSA_BigChungus_2.getSubImage(1460,1533,495,272);
 
-        SaveIcon[0] = SS_Save_Icon.getSubImage(0,0,258,259);
-
-
-
+        for(int i = 0; i<12; i++)
+            SaveIcon[i]=SS_Save_Icon.getSubImage(i*768, 0, 768, 768);
 
     }
+    //private void assignTex(Game game){
+   //     this.game.knuckles;
+   // }
 
 
 
