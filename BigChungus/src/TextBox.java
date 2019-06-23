@@ -21,6 +21,8 @@ public class TextBox implements Serializable {
     private int textLength;
     private String flag;
     private boolean done;
+    private int length = 80;
+
 
 
     public TextBox(Character character, String text) {
@@ -30,20 +32,20 @@ public class TextBox implements Serializable {
         this.textLength = text.length();
         this.g = g;
         this.characters = text.length();
-        if(characters % 85 > 0){
-            lines = (characters / 85) + 1;
+        if(characters % length > 0){
+            lines = (characters / length) + 1;
         }else{
-            lines = characters / 85;
+            lines = characters / length;
         }
 
         segments = new String[lines];
 // splits up text into parts
         for(int i = 1; i < lines+1; i++){
-            if(textLength >= 85){
-                segments[i-1] = text.substring((i*85)-85, i*85);
-                textLength -= 85;
+            if(textLength >= length){
+                segments[i-1] = text.substring((i*length)-length, i*length);
+                textLength -= length;
             }else{
-                segments[i-1] = text.substring((i*85)-85, (i*85)-85+textLength);
+                segments[i-1] = text.substring((i*length)-length, (i*length)-length+textLength);
             }
 
         }
@@ -73,7 +75,26 @@ public class TextBox implements Serializable {
                 textLength=segments[currentLine].length();
             }
             if(currentString.length() == textLength){
+                    if(currentLine!=lines-1){
+                        System.out.println(lines);
+                        System.out.println(currentLine);
+                        if(!(segments[currentLine+1].charAt(0)==' ')){
+                            currentString+='-';
+                            segments[currentLine]+='-';
+                        }
+                    }
 
+                    currentLine++;
+                    currentString = "";
+                    if(currentLine == lines){
+                        flag = "END CLAUSE";
+                        done = true;
+                    }else
+                        flag="INIT CLAUSE";
+
+
+
+            }else if(currentString.length()>textLength){
                 currentLine++;
                 currentString = "";
                 if(currentLine == lines){
@@ -84,6 +105,8 @@ public class TextBox implements Serializable {
             }else{
                 currentString = currentString + (segments[currentLine].charAt(currentString.length()));
             }
+
+
         }
 
 
@@ -108,7 +131,11 @@ public class TextBox implements Serializable {
             g.drawImage(this.character.Face, 130, 800,135, 140, null);
         }else if(this.character.getId()==ID.Player)
             g.drawImage(this.character.Face, 130, 800,135, 140, null);
-
+        else if(this.character.getsID()==ID.TheLastEntity)
+            g.drawImage(this.character.Face,140,800,100,100,null);
+        else if(this.character.getsID()==ID.Book){
+            g.drawImage(this.character.Face, 130, 800,135, 140, null);
+        }
 
 
 

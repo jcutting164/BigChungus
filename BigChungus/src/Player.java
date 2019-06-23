@@ -5,8 +5,11 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Player extends Character implements Serializable {
+    private Random rand = new Random();
+
 
     private  int lastKeyReleased;
     private  int lastKeyHit;
@@ -61,9 +64,18 @@ public class Player extends Character implements Serializable {
             walkUp.runAnimation();
         }
 
-        range = new Rectangle((int)x/2, (int)y/2, 2*38, 2*148);
+        range = new Rectangle((int)x/2, (int)y/2, 2*(int)width, 2*(int)height);
 
+        if((velX>0 || velY>0) && game.getEndangered()){
+            int value = rand.nextInt(500);
+            if(value==1){
 
+                game.setSwitch(false);
+                game.setCurrentState(Game.STATE.Battle);
+                game.setCurrentBattle(new Battle(this, new Knuckles(0,0,0,0,handler,game,ID.Knuckles,0,game.getTbHandler(),"Knuckles",game.getPlayer(),true), handler, game,  game.getAp()));
+
+            }
+        }
     }
     public void render(Graphics g){
 
@@ -71,11 +83,11 @@ public class Player extends Character implements Serializable {
         try{
             if(velX != 0 && velY==0){
                 if(velX < 0){
-                    walkLeft.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    walkLeft.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkLeft;
 
                 }else if(velX > 0){
-                    walkRight.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    walkRight.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkRight;
                 }
 
@@ -83,35 +95,35 @@ public class Player extends Character implements Serializable {
                 //deals with sprites when player stops moving
             }else if(velX==0 && velY==0){
                 if(this.currentImages == tex.Player_WalkLeft)
-                    g.drawImage(tex.Player_WalkLeft[0], (int)x, (int)y, 38, 148, null);
+                    g.drawImage(tex.Player_WalkLeft[0], (int)x, (int)y, (int)width, (int)height, null);
                 else if(this.currentImages==tex.Player_WalkRight)
-                    g.drawImage(tex.Player_WalkRight[0], (int)x, (int)y, 38, 148, null);
+                    g.drawImage(tex.Player_WalkRight[0], (int)x, (int)y, (int)width, (int)height, null);
                 else if(this.currentImages==tex.Player_WalkUp)
-                    g.drawImage(tex.Player_WalkUp[0], (int)x, (int)y, 38, 148, null);
+                    g.drawImage(tex.Player_WalkUp[0], (int)x, (int)y, (int)width, (int)height, null);
                 else if(this.currentImages==tex.Player_WalkDown)
-                    g.drawImage(tex.Player_WalkDown[0], (int)x, (int)y, 38, 148, null);
+                    g.drawImage(tex.Player_WalkDown[0], (int)x, (int)y, (int)width, (int)height, null);
                 else{
-                    g.drawImage(tex.Player_WalkDown[0], (int)x, (int)y, 38, 148, null);
+                    g.drawImage(tex.Player_WalkDown[0], (int)x, (int)y, (int)width, (int)height, null);
                 }
                 // deals with pure y moving animation
             }else if(velX==0 && velY!=0){
                 if(velY < 0){
-                    walkUp.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    walkUp.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkUp;
 
                 }else if(velY > 0){
-                    walkDown.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    walkDown.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkDown;
                 }
 
                 //deals with diagonal movement
             }else if(velX!=0 && velY!=0){
                 if((velY < 0 && velX < 0) || (velY<0 && velX>0)){
-                    walkUp.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    walkUp.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkUp;
 
                 }else if((velX > 0 && velY > 0) || (velY>0 && velX<0)){
-                    walkDown.drawAnimation(g, (int)x, (int)y, 38, 148);
+                    walkDown.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkDown;
                 }
             }
@@ -154,10 +166,12 @@ public class Player extends Character implements Serializable {
 
             GameObject tempObject = this.handler.object.get(i);
 
-            if(tempObject.getId() == ID.BlackGround){
+            if(tempObject.getId() == ID.BlackGround || tempObject.getId()==ID.Tree){
                 Rectangle tempRect = getBounds();
                 tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                 if(tempRect.getBounds().intersects(tempObject.getBounds())){
+
+
 
                     x+= velX * -1;
                     y+= velY*-1;
@@ -176,8 +190,8 @@ public class Player extends Character implements Serializable {
                 }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
                     tempNPC.interaction();
-                    x+= velX * -1;
-                    y+= velY*-1;
+                    //x+= velX * -1;
+                   // y+= velY*-1;
                     lastKeyHit=100;
                 }
             }else if(tempObject.getId() == ID.Knuckles){
@@ -256,24 +270,70 @@ public class Player extends Character implements Serializable {
                     lastKeyHit=100;
                 }
 
+            }else if(tempObject.getId()==ID.Transition){
+                Transition tempTransition = (Transition) tempObject;
+
+                if(tempTransition.getDestination().equals("Room2_1") && getBounds().intersects(tempTransition.getBounds())){
+                    handler.clear();
+                    game.setCurrentRoom("Room2_1");
+                    game.setCurrentLevel(tex.Room2_1);
+
+                    game.loadLevel("Room2_1");
+
+
+                    handler.addObject(game.getPlayer());
+                    game.getPlayer().setX(tempTransition.getNewPlayerX());
+                    game.getPlayer().setY(tempTransition.getNewPlayerY());
+                    game.setEndangered(true);
+
+                }else if(tempTransition.getDestination().equals("Room1_1") && getBounds().intersects(tempTransition.getBounds())){
+                    handler.clear();
+                    game.setCurrentRoom("Room1_1");
+                    game.setCurrentLevel(tex.Room1_1);
+
+                    game.loadLevel("Room1_1");
+
+
+                    handler.addObject(game.getPlayer());
+                    game.getPlayer().setX(tempTransition.getNewPlayerX());
+                    game.getPlayer().setY(tempTransition.getNewPlayerY());
+                    game.setEndangered(false);
+                }
+
+            }else if((tempObject.getId()==ID.Item || tempObject.getId()==ID.Spell) && getBounds().intersects(tempObject.getBounds())){
+                if(tempObject.getId()==ID.Item){
+                    Items temp = (Items) (tempObject);
+                    if(!temp.getObtained()){
+                        temp.setObtained(true);
+                        game.getPlayer().inv.addItem(temp);
+                    }
+                }else if(tempObject.getId()==ID.Spell){
+                    Spells temp = (Spells) (tempObject);
+                    if(!temp.getObtained()){
+                        temp.setObtained(true);
+                        game.getPlayer().magic.addItem(temp);
+                    }
+                }
+
+
             }
         }
     }
 
 
     public Rectangle getBounds(){
-        return new Rectangle((int)x, (int)y, 38, 148);
+        return new Rectangle((int)x, (int)y, (int)width, (int)height);
     }
 
     public Rectangle getSpecialBounds(){
         Rectangle tempRect = getBounds();
-        tempRect.setBounds((int)tempRect.getX()-10, (int)tempRect.getY(), (int)tempRect.getWidth()+20, (int)tempRect.getHeight()+10);
+        tempRect.setBounds((int)tempRect.getX()-10, (int)tempRect.getY()-10, (int)tempRect.getWidth()+20, (int)tempRect.getHeight()+20);
         return tempRect;
     }
 
     public Rectangle NPC_RECT(GameObject tempObject){
         Rectangle tempRect = tempObject.getBounds();
-        tempRect.setBounds((int)tempRect.getX(), (int)tempRect.getY(), (int)tempRect.getWidth(), (int)tempRect.getHeight()- 75);
+        tempRect.setBounds((int)tempRect.getX(), (int)tempRect.getY(), (int)tempRect.getWidth(), (int)tempRect.getHeight()/2);
         return tempRect;
     }
 

@@ -1,7 +1,6 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
-import java.security.Key;
 
 
 public class KeyInput extends KeyAdapter implements Serializable {
@@ -63,11 +62,22 @@ public class KeyInput extends KeyAdapter implements Serializable {
                         //hud.setScore(hud.getScore() + 10000);
                         tbHandler.removeObject(0);
                     }else if(key==KeyEvent.VK_C){
+                        player.setVelX(0);
+                        player.setVelY(0);
                         player.setLimited(true);
                         inv.setOpen(true);
                         inv.setOptions(true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
                         inv.setPage(1);
                         inv.setCurrentOption(0);
+                    }else if(key==KeyEvent.VK_V){
+                        player.setVelX(0);
+                        player.setVelY(0);
+                        player.setLimited(true);
+                        player.getMagic().setOpen(true);
+                        player.getMagic().setOptions(true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+                        player.getMagic().setPage(1);
+                        player.getMagic().setCurrentOption(0);
+
                     }
                 }
 
@@ -119,6 +129,39 @@ public class KeyInput extends KeyAdapter implements Serializable {
                     }else if(key==KeyEvent.VK_X){
                         inv.inv.get(inv.getCurrentOption()).use();
                     }
+                }else if(player.getMagic().getOpen()){
+                    if(key==KeyEvent.VK_DOWN){
+
+                        if(!player.getMagic().getOptions()[player.getMagic().magic.size()]){
+                            for(int j = 0; j<inv.inv.size()-1; j++){
+                                if(player.getMagic().getOptions()[j]){
+                                    player.getMagic().setSpecOption(false, j);
+                                    player.getMagic().setSpecOption(true, inv.getCurrentOption()+1);
+                                    player.getMagic().setCurrentOption(inv.getCurrentOption()+1);
+                                    break;
+                                }
+                            }
+                        }
+
+                    }else if(key==KeyEvent.VK_UP){
+                        if(!player.getMagic().getOptions()[0]){
+                            for(int j = 0; j<player.getMagic().magic.size(); j++){
+                                if(player.getMagic().getOptions()[j]){
+                                    player.getMagic().setSpecOption(false, j);
+                                    player.getMagic().setSpecOption(true, inv.getCurrentOption()-1);
+                                    player.getMagic().setCurrentOption(inv.getCurrentOption()-1);
+                                    break;
+                                }
+                            }
+                        }
+
+                    }else if(key==KeyEvent.VK_Z){
+                        player.setLimited(false);
+                        player.getMagic().setOpen(false);
+                    }else if(key==KeyEvent.VK_X){
+                        player.getMagic().magic.get(player.getMagic().getCurrentOption()).use();
+                    }
+
                 }
 
 

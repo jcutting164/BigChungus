@@ -26,7 +26,13 @@ public class Textures implements Serializable {
     SpriteSheet SSA_BigChungus_1;
     SpriteSheet SSA_BigChungus_2;
     SpriteSheet SS_Save_Icon;
-
+    SpriteSheet SS_Pavement;
+    SpriteSheet SS_Room1_1;
+    SpriteSheet SS_Room2_1;
+    SpriteSheet SS_People;
+    SpriteSheet SS_Forest;
+    SpriteSheet SS_Room2_1O;
+    SpriteSheet SS_ExtraItems;
 
 
 
@@ -46,7 +52,13 @@ public class Textures implements Serializable {
     private transient BufferedImage BI_A_BigChungus_1;
     private transient BufferedImage BI_A_BigChungus_2;
     private transient BufferedImage BI_Save_Icon;
-
+    private transient BufferedImage BI_Pavement;
+    private transient BufferedImage BI_Room1_1;
+    private transient BufferedImage BI_People;
+    private transient BufferedImage BI_Forest;
+    private transient BufferedImage BI_Room2_1;
+    private transient BufferedImage BI_Room2_1O;
+    private transient BufferedImage BI_ExtraItems;
 
     private transient InputStream IS_BI_Player;
     private transient InputStream IS_BI_FirstArea;
@@ -64,6 +76,13 @@ public class Textures implements Serializable {
     private transient InputStream IS_A_BigChungus_1;
     private transient InputStream IS_A_BigChungus_2;
     private transient InputStream IS_Save_Icon;
+    private transient InputStream IS_Pavement;
+    private transient InputStream IS_Room1_1;
+    private transient InputStream IS_People;
+    private transient InputStream IS_Forest;
+    private transient InputStream IS_Room2_1;
+    private transient InputStream IS_Room2_1O;
+    private transient InputStream IS_ExtraItems;
 
     public transient BufferedImage[] Player_WalkLeft = new BufferedImage[2];
     public transient BufferedImage[] Player_WalkRight = new BufferedImage[2];
@@ -101,6 +120,20 @@ public class Textures implements Serializable {
     public transient BufferedImage[] BigChungus_A4 = new BufferedImage[4];
 
     public transient BufferedImage[] SaveIcon = new BufferedImage[12];
+
+    public transient BufferedImage[] Pavement = new BufferedImage[1];
+
+    public transient BufferedImage Room1_1;
+    public transient BufferedImage Room2_1;
+    public transient BufferedImage Room2_1O;
+
+    public transient BufferedImage TheLastEntity;
+    public transient BufferedImage TheLastEntityFace;
+    public transient BufferedImage Book;
+
+    public transient BufferedImage Grass;
+    public transient BufferedImage Tree;
+    public transient BufferedImage Orb;
 
 
     public Textures(){
@@ -157,6 +190,27 @@ public class Textures implements Serializable {
             IS_Save_Icon = new FileInputStream("res/SaveIcon/SaveIconF.png");
             BI_Save_Icon = ImageIO.read(IS_Save_Icon);
 
+            IS_Pavement = new FileInputStream("res/Rooms/BrickPavement.jpg");
+            BI_Pavement = ImageIO.read(IS_Pavement);
+
+
+            IS_Room1_1 = new FileInputStream("res/Rooms/Room1_1.png");
+            BI_Room1_1 = ImageIO.read(IS_Room1_1);
+
+            IS_People = new FileInputStream("res/PeopleSprites.png");
+            BI_People = ImageIO.read(IS_People);
+
+            IS_Forest = new FileInputStream("res/Forest.png");
+            BI_Forest= ImageIO.read(IS_Forest);
+
+            IS_Room2_1 = new FileInputStream("res/Rooms/Room2_1.png");
+            BI_Room2_1 = ImageIO.read(IS_Room2_1);
+
+            IS_Room2_1O = new FileInputStream("res/Rooms/Room2_1O.png");
+            BI_Room2_1O = ImageIO.read(IS_Room2_1O);
+
+            IS_ExtraItems = new FileInputStream("res/Orb.png");
+            BI_ExtraItems = ImageIO.read(IS_ExtraItems);
 
         }catch(Exception e){
             e.printStackTrace();
@@ -178,6 +232,13 @@ public class Textures implements Serializable {
         SSA_BigChungus_1 = new SpriteSheet(BI_A_BigChungus_1);
         SSA_BigChungus_2 = new SpriteSheet(BI_A_BigChungus_2);
         SS_Save_Icon = new SpriteSheet(BI_Save_Icon);
+        SS_Pavement = new SpriteSheet(BI_Pavement);
+        SS_Room1_1 = new SpriteSheet(BI_Room1_1);
+        SS_People = new SpriteSheet(BI_People);
+        SS_Forest = new SpriteSheet(BI_Forest);
+        SS_Room2_1 = new SpriteSheet(BI_Room2_1);
+        SS_Room2_1O = new SpriteSheet(BI_Room2_1O);
+        SS_ExtraItems = new SpriteSheet(BI_ExtraItems);
 
         getTextures();
 
@@ -290,6 +351,20 @@ public class Textures implements Serializable {
 
         for(int i = 0; i<12; i++)
             SaveIcon[i]=SS_Save_Icon.getSubImage(i*768, 0, 768, 768);
+
+        Pavement[0]= SS_Pavement.getSubImage(0,0,1600,1600);
+        Room1_1 = SS_Room1_1.getSubImage(0,0,32,32);
+        Room2_1= SS_Room2_1.getSubImage(0,0,32,32);
+        Room2_1O=SS_Room2_1O.getSubImage(0,0,32,32);
+        TheLastEntity = SS_People.getSubImage(500,11,64,71);
+        TheLastEntityFace=SS_People.getSubImage(510,11,50,40);
+        Book=SS_People.getSubImage(243,10,18,25);
+
+        Grass=SS_Forest.getSubImage(0,0,32,31);
+        Tree = SS_Forest.getSubImage(31,28,32,34);
+        Orb = SS_ExtraItems.getSubImage(0,0,200,200);
+
+
 
     }
     //private void assignTex(Game game){

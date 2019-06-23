@@ -17,7 +17,14 @@ public enum ID implements Serializable {
     M_Knuckles2,
     Pikachu,
     BigChungus,
-    SaveIcon;
+    SaveIcon,
+    Transition,
+    Pavement,
+    TheLastEntity,
+    Book,
+    Grass,
+    Tree,
+    ObtainableItems;
 
 
 }

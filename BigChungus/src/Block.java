@@ -6,6 +6,7 @@ public class Block extends GameObject implements Serializable {
     Handler handler;
     Game game;
     Player player;
+    Image img;
 
 
     transient Textures  tex = Game.getInstance();
@@ -18,7 +19,16 @@ public class Block extends GameObject implements Serializable {
         this.player = player;
         this.isVisible = true;
 
-
+        if(id == ID.GrayGround){
+            img=tex.Room1_1;
+        }else if(id == ID.BlackGround){
+            img=tex.Room1_1;
+        }else if(id==ID.Pavement){
+            img=tex.Pavement[0];
+        }else if(id==ID.Grass)
+            img=tex.Grass;
+        else if(id==ID.Tree)
+            img=tex.Tree;
         //walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
 
     }
@@ -29,14 +39,21 @@ public class Block extends GameObject implements Serializable {
     }
 
     public void render(Graphics g){
-        if(id == ID.GrayGround){
-            g.setColor(Color.gray);
-            g.fillRect((int)x, (int)y, (int)width, (int)height);
-        }else if(id == ID.BlackGround){
-            g.setColor(Color.black);
-            g.fillRect((int)x, (int)y, (int)width, (int)height);
-        }
 
+
+
+        if(img!=tex.Room1_1){
+            g.drawImage(img,(int)x,(int)y,(int)height,(int)width,null);
+        }else{
+            if(id==ID.GrayGround){
+                g.setColor(Color.gray);
+                g.fillRect((int)x, (int)y, (int)width, (int)height);
+            }else if(id==ID.BlackGround){
+                g.setColor(Color.black);
+                g.fillRect((int)x, (int)y, (int)width, (int)height);
+            }
+
+        }
 
 
 

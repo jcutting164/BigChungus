@@ -12,25 +12,48 @@ public class NPC extends Character implements Serializable {
     String text;
     private Player player;
     private transient BufferedImage[] currentImages;
+    private String spec;
+    private ID sID;
 
 
-    public NPC(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player){
+    public NPC(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player, ID sID){
         super(x, y, height, width,handler,game, id, speed);
         this.handler = handler;
         this.game = game;
         this.tbHandler = tbHandler;
         this.text = text;
         this.player = player;
+        this.spec=spec;
+        this.sID = sID;
 
 
+        if(sID==ID.TheLastEntity){
+            this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
+            this.walkRight = new Animation(speed, tex.Player_WalkRight[0], tex.Player_WalkRight[1]);
+            this.walkUp = new Animation(speed, tex.Player_WalkUp[1], tex.Player_WalkUp[2]);
+            this.walkDown = new Animation(speed, tex.Player_WalkDown[0], tex.Player_WalkDown[1]);
+            System.out.println(tex.TheLastEntity);
+            System.out.println(this.currentImages);
+            this.currentImages = new BufferedImage[1];
+            this.currentImages[0] = tex.TheLastEntity;
+            this.Face = tex.TheLastEntityFace;
 
-        this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
-        this.walkRight = new Animation(speed, tex.Player_WalkRight[0], tex.Player_WalkRight[1]);
-        this.walkUp = new Animation(speed, tex.Player_WalkUp[1], tex.Player_WalkUp[2]);
-        this.walkDown = new Animation(speed, tex.Player_WalkDown[0], tex.Player_WalkDown[1]);
-        this.currentImages= tex.Player_WalkDown;
+        }else if(sID==ID.Book){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.Book;
+            this.Face=tex.Player_Face[0];
+        }
+        else{
+            this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
+            this.walkRight = new Animation(speed, tex.Player_WalkRight[0], tex.Player_WalkRight[1]);
+            this.walkUp = new Animation(speed, tex.Player_WalkUp[1], tex.Player_WalkUp[2]);
+            this.walkDown = new Animation(speed, tex.Player_WalkDown[0], tex.Player_WalkDown[1]);
+            this.currentImages= tex.Player_WalkDown;
+            this.Face = tex.Player_Face[0];
+        }
+
+
         this.isVisible = true;
-        this.Face = tex.Player_Face[0];
         this.battleReady=false;
     }
 
@@ -57,7 +80,7 @@ public class NPC extends Character implements Serializable {
     public void render(Graphics g){
 
         try{
-            g.drawImage(currentImages[0], (int) this.x, (int)this.y, 48, 128, null);
+            g.drawImage(currentImages[0], (int) this.x, (int)this.y, (int)this.width, (int)this.height, null);
         }catch(Exception e){
             tex=Game.getInstance();
 
@@ -67,7 +90,10 @@ public class NPC extends Character implements Serializable {
             this.walkDown = new Animation(speed, tex.Player_WalkDown[0], tex.Player_WalkDown[1]);
             this.currentImages= tex.Player_WalkDown;
             this.isVisible = true;
-            this.Face = tex.Player_Face[0];
+            if(this.spec.equals("The Last Entity")){
+                this.Face = tex.TheLastEntityFace;
+
+            }
         }
 
 
@@ -98,14 +124,14 @@ public class NPC extends Character implements Serializable {
 
     public void interaction(){
         if(player.getCurrentImages()==tex.Player_WalkLeft){
-            currentImages=tex.Player_WalkRight;
+            //currentImages=tex.Player_WalkRight;
 
         }else if(player.getCurrentImages()==tex.Player_WalkRight){
-            currentImages=tex.Player_WalkLeft;
+            //currentImages=tex.Player_WalkLeft;
         }else if(player.getCurrentImages()==tex.Player_WalkUp){
-            currentImages=tex.Player_WalkDown;
+            //currentImages=tex.Player_WalkDown;
         }else if(player.getCurrentImages()==tex.Player_WalkDown){
-            currentImages=tex.Player_WalkUp;
+            //currentImages=tex.Player_WalkUp;
         }
         player.setLimited(true);
         player.setVelX(0);
@@ -127,7 +153,7 @@ public class NPC extends Character implements Serializable {
 
 
     public Rectangle getBounds(){
-        return new Rectangle((int)x, (int)y, 38, 148);
+        return new Rectangle((int)x, (int)y, (int)width, (int)height);
     }
 
     public void setCurrentImages(BufferedImage[] currentImages){
@@ -143,4 +169,11 @@ public class NPC extends Character implements Serializable {
         this.battleReady = battleReady;
     }
 
+    public ID getsID() {
+        return sID;
+    }
+
+    public void setsID(ID sID) {
+        this.sID = sID;
+    }
 }

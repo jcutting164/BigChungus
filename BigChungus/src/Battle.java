@@ -76,11 +76,30 @@ public class Battle implements Serializable {
 
     }
 
-
+                                                                  
     public void tick(){
+        if(player.getHealth() <= 0){
+            		game.setCurrentState(Game.STATE.GameOver);
+            		game.setSwitch(true);
+            		//ap.load();
+            		ap.getMusic("Knuckles").stop();
+                    ap.getMusic("Pikachu").stop();
+                    ap.getMusic("BigChungus").stop();
+                    ap.getSound("GameOver").play();
+
+
+            	}
+
+        if(enemy.getHealth()<=0) {
+            endBattle();
+        }
         if(playerTurn){
 
         }else if(!playerTurn){
+
+
+
+
 
         }
 
@@ -911,9 +930,25 @@ public class Battle implements Serializable {
 
     public void endBattle(){
         ap.getMusic("Pikachu").stop();
+        ap.getMusic("Knuckles").stop();
+        ap.getMusic("BigChungus").stop();
         game.setCurrentState(Game.STATE.FirstArea);
         game.setSwitch(false);
-        handler.removeObject(enemy);
+        //game.removeKeyListener(battleKeyInput);
+
+
+
+
+
+
+
+
+
+
+    }
+
+    public Enemy getEnemy(){
+        return this.enemy;
     }
 
 

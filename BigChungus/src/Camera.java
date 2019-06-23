@@ -14,9 +14,9 @@ public class Camera implements Serializable {
         y+= ((object.getY() - y) - 960/2 )* 0.05f;
 
         if(x <= 0) x=0;
-        if( x >= 1270) x = 1270;
+        if( x >= 4000) x = 4000;
         if(y <= 0) y=0;
-        if(y >= 970) y =970;
+        if(y >= 2000) y =2000;
 
     }
 

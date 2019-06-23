@@ -5,14 +5,10 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.util.HashMap;
 
 
 public class Game extends Canvas implements Runnable, Serializable {
@@ -37,7 +33,7 @@ public class Game extends Canvas implements Runnable, Serializable {
     private NPC npc;
     static Textures tex;
     private Camera camera;
-    transient BufferedImage currentLevel;
+    private transient BufferedImage currentLevel;
     TextBox tb;
     private TBHandler tbHandler;
     private KeyInput keyInput;
@@ -52,15 +48,18 @@ public class Game extends Canvas implements Runnable, Serializable {
     private Knuckles knuckles1;
     private Pikachu pikachu;
     private BigChungus bigChungus;
+    transient private HashMap<String, BufferedImage> rooms = new HashMap<>();
+    private String currentRoom="Room1_1";
 
-
+    private boolean endangered=false;
 
 
     public enum STATE {
         Menu,
         FirstArea,
         Battle,
-        GameOver;
+        GameOver,
+        Normal;
     };
 
 
@@ -68,9 +67,15 @@ public class Game extends Canvas implements Runnable, Serializable {
 
     public Game() {
 
+
+
+
         this.ap = new AudioPlayer();
         this.ap.load();
         tex = new Textures();
+        rooms.put("Testing Room", tex.SS_FirstArea.grabImage(1, 1, 16, 16));
+        rooms.put("Room1_1", tex.Room1_1);
+        rooms.put("Room2_1",tex.Room2_1);
         window = new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
         handler = new Handler();
         //loadSave();
@@ -79,22 +84,10 @@ public class Game extends Canvas implements Runnable, Serializable {
 
 
         inv = new Inventory();
-        inv.addItem(new Items("Basic HP", "A healing potion that will give you 20 HP", inv));
-        inv.addItem(new Items("Mediocre Potion", "A healing potion that will give you 40 HP", inv));
-        inv.addItem(new Items("Max Potion", "A healing potion that will give you MAX HP", inv));
-
-        inv.addItem(new Items("Sword", "A sharp sword", inv));
-        inv.addItem(new Items("Magic Ball", "Zoinks idk what this does lol", inv));
-        inv.addItem(new Items(" asdf HP", "A healing potion that will give you 20 HP", inv));
-        inv.addItem(new Items("rete HP", "A healing potion that will give you 20 HP", inv));
-        inv.addItem(new Items("asdf HP", "A healing potion that will give you 20 HP", inv));
-        inv.addItem(new Items("fdsa HP", "A healing potion that will give you 20 HP", inv));
-        inv.addItem(new Items("asdf HP", "A healing potion that will give you 20 HP", inv));
-        inv.addItem(new Items("fda HP", "A healing potion that will give you 20 HP", inv));
-        inv.addItem(new Items("fdfdfd HP", "A healing potion that will give you 20 HP", inv));
+        inv.addItem(new Items("Apple2","Not good",inv,-200,-200,0,0,ID.Item));
 
         magic = new Magic();
-        magic.addItem(new Spells("Basic Heal Spell", "Heals 10 hp and uses 10 mana", magic));
+        magic.addItem(new Spells("Auto kill", "Yeet and Delete", magic,0,0,0,0,ID.Spell,this));
 
         //loadSave();
 
@@ -157,23 +150,35 @@ public class Game extends Canvas implements Runnable, Serializable {
 
 
 
-                currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
-                camera = new Camera(0,0);
-                loadLevel(currentLevel);
-                loadLevel(currentLevel);
 
-                player = new Player(200, 200, 19, 74, handler, this, ID.Player, 2,inv, magic);
-                npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "asdfasdfasdfasdfja;sldkjfaslkdjfasldf;a", player);
-                Knuckles knuckles1 = new Knuckles(600, 200, 96, 48, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
-                handler.addObject(knuckles1);
-                Pikachu pikachu = new Pikachu(800, 500, 96, 48, handler, this, ID.Pikachu, 2, tbHandler, "Pikaaachuuu", player, true);
-                BigChungus bigChungus = new BigChungus(500, 500, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "CHUNGA", player, true);
-                handler.addObject(pikachu);
-                handler.addObject(npc);
-                handler.addObject(bigChungus);
-                handler.addObject(player);
-                so = new SaveObject(300, 300, 64, 64);
-                handler.addObject(so);
+
+
+                if(currentRoom.equals("Room1_1")){
+                    currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
+                    //currentRoom = "Room1_1";
+                    camera = new Camera(0,0);
+                    player = new Player(900, 100, 92, 25, handler, this, ID.Player, 2,inv, magic);
+                    loadLevel(currentRoom);
+
+
+                    //npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "asdfasdfasdfasdfja;sldkjfaslkdjfasldf;a", player, ID.TheLastEntity);
+                    //Knuckles knuckles1 = new Knuckles(600, 200, 96, 48, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
+                    //handler.addObject(knuckles1);
+                    //Pikachu pikachu = new Pikachu(800, 500, 96, 48, handler, this, ID.Pikachu, 2, tbHandler, "Pikaaachuuu", player, true);
+                    //BigChungus bigChungus = new BigChungus(500, 500, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "CHUNGA", player, true);
+                    // handler.addObject(pikachu);
+                    //handler.addObject(npc);
+                    //handler.addObject(bigChungus);
+                    handler.addObject(player);
+                    //handler.addObject(new Transition(200, 1000, 64, 64, ID.Transition, "First"));
+                    so = new SaveObject(725, 25, 64, 64);
+                    handler.addObject(so);
+
+                }else if(currentRoom.equals("Room2_1")){
+                    handler.clear();
+                    loadLevel(currentRoom);
+                    handler.addObject(player);
+                }
 
 
                 this.keyInput = new KeyInput(handler, player, tbHandler, player.getInv());
@@ -182,6 +187,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 
                 Switch=true;
             }else if(currentState==STATE.FirstArea && Switch==true){
+
                 for(int i = 0; i < handler.object.size(); i++){
                     if(handler.object.get(i).getId() == ID.Player){
                         camera.tick(handler.object.get(i));
@@ -192,20 +198,52 @@ public class Game extends Canvas implements Runnable, Serializable {
 
                 if(player.getInv().getOpen()){
                     player.getInv().tick();
-                }
-            }else if(currentState==STATE.Battle && Switch == false){
+                }else if(player.getMagic().getOpen())
+                    player.getMagic().tick();
+            }else if(currentState==STATE.Battle && !Switch){
                 handler.clear();
-                removeKeyListener(keyInput);
+                this.removeKeyListener(keyInput);
 
                 Switch = true;
                 //create new battle object or get the battle object from player (defined by collision)
 
-            }else if(currentState==STATE.Battle && Switch == true){
+            }else if(currentState==STATE.Battle && Switch ){
                 handler.tick();
                 currentBattle.tick();
-            }else if(currentState==STATE.GameOver && Switch==false){
+            }else if(currentState==STATE.GameOver && !Switch){
 
-            }else if(currentState==STATE.GameOver && Switch==true){
+            }else if(currentState==STATE.GameOver && Switch){
+
+            }else if(currentState==STATE.Normal && !Switch){
+                System.out.println(currentLevel);
+                handler.clear();
+                System.out.println("Current level is: "+currentLevel);
+                loadLevel(currentRoom);
+
+
+                //setCurrentBattle(null);
+
+
+
+                player = new Player(player.getX(), player.getY(), 92, 25, handler, this, ID.Player, 2,inv, magic);
+                handler.addObject(player);
+                camera = new Camera(0,0);
+                this.addKeyListener(new KeyInput(handler, player, tbHandler, player.getInv()));
+                Switch=true;
+
+            }else if(currentState==STATE.Normal && Switch){
+                for(int i = 0; i < handler.object.size(); i++){
+                    if(handler.object.get(i).getId() == ID.Player){
+                        camera.tick(handler.object.get(i));
+                    }
+                }
+                handler.tick();
+                tbHandler.tick();
+
+                if(player.getInv().getOpen()){
+                    player.getInv().tick();
+                }else if(player.getMagic().getOpen())
+                    player.getMagic().tick();
 
             }
         }catch(Exception e){
@@ -232,7 +270,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 
 
 
-            g.setColor(Color.gray);
+            g.setColor(Color.black);
             g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
 
 
@@ -250,6 +288,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 
             if(player.getInv().getOpen()){
                 player.getInv().render(g);
+            }else if(player.getMagic().getOpen()){
+                player.getMagic().render(g);
             }
 
 
@@ -294,6 +334,59 @@ public class Game extends Canvas implements Runnable, Serializable {
         	
         	g.dispose();
             bs.show();
+        }else if(currentState==STATE.Normal && !Switch){
+            BufferStrategy bs = this.getBufferStrategy();
+
+            if(bs == null) {
+                this.createBufferStrategy(3);
+                return;
+            }
+            Graphics g = bs.getDrawGraphics();
+
+
+
+
+            g.setColor(Color.black);
+            g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
+
+        }else if(currentState==STATE.Normal && Switch){
+            BufferStrategy bs = this.getBufferStrategy();
+
+            if(bs == null) {
+                this.createBufferStrategy(3);
+                return;
+            }
+            Graphics g = bs.getDrawGraphics();
+
+
+
+            g.setColor(Color.black);
+            g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
+
+
+            Graphics2D g2d = (Graphics2D) g;
+
+            g2d.translate(-camera.getX(), -camera.getY());
+
+            System.out.println("rendering");
+
+
+            handler.render(g);
+            g2d.translate(camera.getX(), camera.getY());
+            tbHandler.render(g);
+
+            if(player.getInv().getOpen()){
+                player.getInv().render(g);
+            }else if(player.getMagic().getOpen()){
+                player.getMagic().render(g);
+            }
+
+
+
+
+
+
+
         }
 
 
@@ -330,27 +423,101 @@ public class Game extends Canvas implements Runnable, Serializable {
 
     }
 
-    private void loadLevel(BufferedImage image){
+    public void loadLevel(String room){
+
+        BufferedImage image = rooms.get(room);
+        System.out.println(rooms.get(room));
+        System.out.println(tex.Room2_1);
+        System.out.println(image);
         int w = image.getWidth();
         int h = image.getHeight();
 
 
         for(int xx = 0; xx < w; xx++){
-            for(int yy = 0; yy < h; yy++){
+            for(int yy = 0; yy < h; yy++) {
                 int pixel = image.getRGB(xx, yy);
                 int red = (pixel >> 16) & 0xff;
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
-                if(red == 255)
-                    handler.addObject(new Block(xx*32, yy*32, 64, 64, handler, this, ID.GrayGround));
-                else if(green == 255){
-                    handler.addObject(new Block(xx*32, yy*32, 64, 64, handler, this, ID.BlackGround));
+                if (red == 255&&green==0&&blue==0)
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.GrayGround));
+                else if (green == 255&&red==0&&blue==0) {
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.BlackGround));
+                }else if(blue==255&&red==0&&green==0){
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Pavement));
+                }else if(red==57&&green==255&&blue==50){
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Grass));
+                    // grass
+                }else if(red==191&&green==0&&blue==149){
+                    //tree
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Tree));
+                }else if(red==0&&green==0&&blue==0){
                 }
             }
+        }
+        if(currentRoom.equals("Room1_1")){
+            handler.addObject(new NPC(1050,500,64,64,handler,this,ID.NPC,3,tbHandler,"You... are the last of us. I am unable to continue to fight him. My last gift to you... the prophecy.",player,ID.TheLastEntity));
+            handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, Kanto, and the Land of Dead Memes in order to _____ HIM (a piece is scribbled out)",player, ID.Book));
+            // transition object to room 2_2
+            handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",850,100,player));
+            handler.addObject(new Items("Apple","Good Snack boi",player.getInv(),900,1700,16,16,ID.Item));
 
+
+
+        }else if(currentRoom.equals("Room2_1")){
+
+            setBackground(Color.black);
+            loadLevel(tex.Room2_1O);
+            handler.addObject(new Transition(835,0,32,300,ID.Transition, "Room1_1",900,1800,player));
 
         }
     }
+
+    public void loadLevel(BufferedImage image){
+
+
+        int w = image.getWidth();
+        int h = image.getHeight();
+
+
+        for(int xx = 0; xx < w; xx++){
+            for(int yy = 0; yy < h; yy++) {
+                int pixel = image.getRGB(xx, yy);
+                int red = (pixel >> 16) & 0xff;
+                int green = (pixel >> 8) & 0xff;
+                int blue = (pixel) & 0xff;
+                if (red == 255&&green==0&&blue==0)
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.GrayGround));
+                else if (green == 255&&red==0&&blue==0) {
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.BlackGround));
+                }else if(blue==255&&red==0&&green==0){
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Pavement));
+                }else if(red==57&&green==255&&blue==50){
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Grass));
+                    // grass
+                }else if(red==191&&green==0&&blue==149){
+                    //tree
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Tree));
+                }else if(red==0&&green==0&&blue==0){
+                }
+            }
+        }
+        if(currentRoom.equals("Room1_1")){
+            handler.addObject(new NPC(1050,500,64,64,handler,this,ID.NPC,3,tbHandler,"You... are the last of us. I am unable to continue to fight him. My last gift to you... the prophecy.",player,ID.TheLastEntity));
+            handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, Kanto, and the Land of Dead Memes in order to _____ HIM (a piece is scribbled out)",player, ID.Book));
+            // transition object to room 2_2
+            handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",850,100,player));
+            handler.addObject(new Items("Apple","Good Snack boi",player.getInv(),900,1700,64,64,ID.Item));
+
+
+
+        }else if(currentRoom.equals("Room2_1")){
+
+            setBackground(Color.black);
+
+        }
+    }
+
 
     public KeyInput getKeyInput() {
         return keyInput;
@@ -401,14 +568,16 @@ public class Game extends Canvas implements Runnable, Serializable {
 
             ObjectInputStream os = new ObjectInputStream(new FileInputStream("game.bin"));
             Game temp = (Game) os.readObject();
-            System.out.println("temp+ "+temp);
+            this.currentRoom=temp.currentRoom;
             this.ap=temp.getAp();
             this.ap.load();
             tex = new Textures();
-            //window = new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
+            rooms.put("Testing Room", tex.SS_FirstArea.grabImage(1, 1, 64, 64));
+            rooms.put("Room1_1", tex.Room1_1);
+            rooms.put("Room2_1",tex.Room2_1);
             window=new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
             handler = temp.handler;
-            currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
+            currentLevel = tex.Room1_1;
             camera = new Camera(0,0);
             //loadLevel(currentLevel);
             tbHandler = temp.tbHandler;
@@ -494,5 +663,24 @@ public class Game extends Canvas implements Runnable, Serializable {
 
     public TBHandler getTbHandler() {
         return tbHandler;
+    }
+
+    public void setCurrentLevel(BufferedImage currentLevel){
+        this.currentLevel=currentLevel;
+    }
+    public BufferedImage getCurrentLevel(){
+        return this.currentLevel;
+    }
+
+    public void setCurrentRoom(String currentRoom) {
+        this.currentRoom = currentRoom;
+    }
+
+    public boolean getEndangered() {
+        return endangered;
+    }
+
+    public void setEndangered(boolean endangered) {
+        this.endangered = endangered;
     }
 }

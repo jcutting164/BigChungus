@@ -19,6 +19,7 @@ public abstract class Character extends GameObject implements Serializable {
     protected transient Animation walkUp;
     protected transient BufferedImage Face;
     protected int speed;
+    protected ID sID;
 
     Textures tex = Game.getInstance();
 
@@ -107,4 +108,11 @@ public abstract class Character extends GameObject implements Serializable {
         this.game = game;
     }
 
+    public ID getsID() {
+        return sID;
+    }
+
+    public void setsID(ID sID) {
+        this.sID = sID;
+    }
 }

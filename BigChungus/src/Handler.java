@@ -54,6 +54,15 @@ public class Handler implements Serializable {
         }
     }
 
+    public void roomClear(){
+        for(int i = 0; i<this.object.size(); i++){
+            if(!(this.object.get(i).getId()==ID.Player)){
+                this.object.remove(i);
+                roomClear();
+            }
+        }
+    }
+
     public boolean isIn(){
         boolean tempBool=false;
         for(int i = 0; i<this.object.size(); i++){

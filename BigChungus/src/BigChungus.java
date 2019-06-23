@@ -16,7 +16,7 @@ public class BigChungus extends Enemy implements Serializable {
 
 
     public BigChungus(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player, boolean battleReady){
-        super(x, y, height, width,handler,game, id, speed, tbHandler, "CHUNGA CHUNGA CHUNG", player);
+        super(x, y, height, width,handler,game, id, speed, tbHandler, "CHUNGA CHUNGA CHUNG", player,ID.BigChungus);
         this.handler = handler;
         this.game = game;
         this.tbHandler = tbHandler;

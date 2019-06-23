@@ -21,8 +21,8 @@ public abstract class Enemy extends NPC implements Serializable {
     protected int moves;
     protected boolean runnable;
 
-    public Enemy(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player){
-        super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player);
+    public Enemy(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player,ID sId){
+        super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player, sId);
         this.handler = handler;
         this.game = game;
         this.tbHandler = tbHandler;

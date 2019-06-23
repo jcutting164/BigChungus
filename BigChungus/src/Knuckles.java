@@ -14,7 +14,7 @@ public class Knuckles extends Enemy implements Serializable {
     private transient BufferedImage[] currentImages;
 
     public Knuckles(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player, boolean battleReady){
-        super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player);
+        super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player, ID.Knuckles);
         this.handler = handler;
         this.game = game;
         this.tbHandler = tbHandler;
