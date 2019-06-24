@@ -53,6 +53,9 @@ public class Game extends Canvas implements Runnable, Serializable {
 
     private boolean endangered=false;
 
+    // obtainable items and spells creation
+    Items Room1_1_Apple;
+
 
     public enum STATE {
         Menu,
@@ -90,6 +93,8 @@ public class Game extends Canvas implements Runnable, Serializable {
         magic.addItem(new Spells("Auto kill", "Yeet and Delete", magic,0,0,0,0,ID.Spell,this));
 
         //loadSave();
+
+
 
 
     }
@@ -145,6 +150,10 @@ public class Game extends Canvas implements Runnable, Serializable {
         try{
             if(currentState==null){
                 currentState = STATE.FirstArea;
+                camera = new Camera(0,0);
+                player = new Player(900, 100, 92, 25, handler, this, ID.Player, 2,inv, magic);
+                // items and spells addition
+                Room1_1_Apple = new Items("Apple","Good Snack boi",player.getInv(),900,1700,16,16,ID.Item);
             }if(currentState==STATE.FirstArea && Switch == false){
                // handler.clear();
 
@@ -156,10 +165,10 @@ public class Game extends Canvas implements Runnable, Serializable {
                 if(currentRoom.equals("Room1_1")){
                     currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
                     //currentRoom = "Room1_1";
-                    camera = new Camera(0,0);
-                    player = new Player(900, 100, 92, 25, handler, this, ID.Player, 2,inv, magic);
-                    loadLevel(currentRoom);
 
+                    loadLevel(currentRoom);
+                    //TPoser tposer = new TPoser(900,900, 184, 184, handler, this, ID.TPoser, 7, tbHandler, "DOY DOY DOY", player, true);
+                    //handler.addObject(tposer);
 
                     //npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "asdfasdfasdfasdfja;sldkjfaslkdjfasldf;a", player, ID.TheLastEntity);
                     //Knuckles knuckles1 = new Knuckles(600, 200, 96, 48, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
@@ -173,6 +182,9 @@ public class Game extends Canvas implements Runnable, Serializable {
                     //handler.addObject(new Transition(200, 1000, 64, 64, ID.Transition, "First"));
                     so = new SaveObject(725, 25, 64, 64);
                     handler.addObject(so);
+
+
+
 
                 }else if(currentRoom.equals("Room2_1")){
                     handler.clear();
@@ -460,7 +472,7 @@ public class Game extends Canvas implements Runnable, Serializable {
             handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, Kanto, and the Land of Dead Memes in order to _____ HIM (a piece is scribbled out)",player, ID.Book));
             // transition object to room 2_2
             handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",850,100,player));
-            handler.addObject(new Items("Apple","Good Snack boi",player.getInv(),900,1700,16,16,ID.Item));
+            handler.addObject(Room1_1_Apple);
 
 
 

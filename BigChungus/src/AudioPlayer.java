@@ -26,6 +26,8 @@ public class AudioPlayer implements Serializable {
             musicMap.put("Knuckles", new Music("res/BattleMusic/Knuckles.wav"));
             musicMap.put("Pikachu", new Music("res/BattleMusic/Pikachu.wav"));
             musicMap.put("BigChungus", new Music("res/BattleMusic/BigChungus.wav"));
+            musicMap.put("Malario", new Music("res/BattleMusic/Malario.wav"));
+            musicMap.put("TPoser",new Music("res/BattleMusic/Tposer.wav"));
 
             soundMap.put("GameOver", new Sound("res/MiscMusic/GameOver.wav"));
 

@@ -24,7 +24,9 @@ public enum ID implements Serializable {
     Book,
     Grass,
     Tree,
-    ObtainableItems;
+    ObtainableItems,
+    Malario,
+    TPoser;
 
 
 }

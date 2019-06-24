@@ -1,4 +1,4 @@
-import jdk.internal.util.xml.impl.Input;
+
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
@@ -33,6 +33,9 @@ public class Textures implements Serializable {
     SpriteSheet SS_Forest;
     SpriteSheet SS_Room2_1O;
     SpriteSheet SS_ExtraItems;
+    SpriteSheet SS_Malario;
+    SpriteSheet SSA_Malario;
+    SpriteSheet SS_Tposer;
 
 
 
@@ -59,6 +62,9 @@ public class Textures implements Serializable {
     private transient BufferedImage BI_Room2_1;
     private transient BufferedImage BI_Room2_1O;
     private transient BufferedImage BI_ExtraItems;
+    private transient BufferedImage BI_Malario;
+    private transient BufferedImage BI_A_Malario;
+    private transient BufferedImage BI_Tposer;
 
     private transient InputStream IS_BI_Player;
     private transient InputStream IS_BI_FirstArea;
@@ -83,12 +89,16 @@ public class Textures implements Serializable {
     private transient InputStream IS_Room2_1;
     private transient InputStream IS_Room2_1O;
     private transient InputStream IS_ExtraItems;
+    private transient InputStream IS_Malario;
+    private transient InputStream IS_A_Malario;
+    private transient InputStream IS_Tposer;
 
     public transient BufferedImage[] Player_WalkLeft = new BufferedImage[2];
     public transient BufferedImage[] Player_WalkRight = new BufferedImage[2];
     public transient BufferedImage[] Player_WalkUp = new BufferedImage[3];
     public transient BufferedImage[] Player_WalkDown = new BufferedImage[3];
     public transient BufferedImage[] Player_Face = new BufferedImage[1];
+
 
 
     public transient BufferedImage[] Knuckles_WalkLeft = new BufferedImage[8];
@@ -135,6 +145,13 @@ public class Textures implements Serializable {
     public transient BufferedImage Tree;
     public transient BufferedImage Orb;
 
+    public transient BufferedImage MalarioBF;
+    public transient BufferedImage[] Malario_A1=new BufferedImage[1];
+    public transient BufferedImage[] Malario_A2=new BufferedImage[1];
+
+    public transient BufferedImage TposerBF;
+    public transient BufferedImage[] Tposer_A1=new BufferedImage[1];
+    public transient BufferedImage[] Tposer_A2=new BufferedImage[1];
 
     public Textures(){
         BufferedImageLoader loader = new BufferedImageLoader();
@@ -212,6 +229,15 @@ public class Textures implements Serializable {
             IS_ExtraItems = new FileInputStream("res/Orb.png");
             BI_ExtraItems = ImageIO.read(IS_ExtraItems);
 
+            IS_Malario = new FileInputStream("res/Malario/Malario.png");
+            BI_Malario=ImageIO.read(IS_Malario);
+
+            IS_A_Malario = new FileInputStream("res/Attacks/EnemyAttacks/Malario/MalarioAttacks.png");
+            BI_A_Malario = ImageIO.read(IS_A_Malario);
+
+            IS_Tposer=new FileInputStream("res/Tposer/TPoser.png");
+            BI_Tposer=ImageIO.read(IS_Tposer);
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -239,6 +265,9 @@ public class Textures implements Serializable {
         SS_Room2_1 = new SpriteSheet(BI_Room2_1);
         SS_Room2_1O = new SpriteSheet(BI_Room2_1O);
         SS_ExtraItems = new SpriteSheet(BI_ExtraItems);
+        SS_Malario=new SpriteSheet(BI_Malario);
+        SSA_Malario=new SpriteSheet(BI_A_Malario);
+        SS_Tposer=new SpriteSheet(BI_Tposer);
 
         getTextures();
 
@@ -363,7 +392,13 @@ public class Textures implements Serializable {
         Grass=SS_Forest.getSubImage(0,0,32,31);
         Tree = SS_Forest.getSubImage(31,28,32,34);
         Orb = SS_ExtraItems.getSubImage(0,0,200,200);
+        MalarioBF=SS_Malario.getSubImage(0,0,184,184);
+        Malario_A1[0]=SSA_Malario.getSubImage(0,0,422,185);
+        Malario_A2[0]=SSA_Malario.getSubImage(0,207,422,350);
 
+        TposerBF=SS_Tposer.getSubImage(0,0,239,305);
+        Tposer_A1[0] = SS_Tposer.getSubImage(320,0,273,302);
+        Tposer_A2[0] = SS_Tposer.getSubImage(390,438,198,161);
 
 
     }

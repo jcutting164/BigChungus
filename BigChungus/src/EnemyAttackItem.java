@@ -344,6 +344,78 @@ public class EnemyAttackItem extends GameObject implements Serializable {
         movement="Gottem";
     }
 
+    public void Fireball(){
+        int temp = ThreadLocalRandom.current().nextInt(500,800);
+        y=temp;
+        x=300;
+        velX=5;
+        velY=0;
+        movement="Fireball";
+    }
+    public void Mosquito(){
+        int temp = ThreadLocalRandom.current().nextInt(2);
+        if(temp==0){
+
+            int temp2 = ThreadLocalRandom.current().nextInt(100,200);
+            x=temp2;
+            y=400;
+            velY=ThreadLocalRandom.current().nextInt(1,8);
+            velX=ThreadLocalRandom.current().nextInt(3,7);
+        }else if(temp==1){
+            int temp2 = ThreadLocalRandom.current().nextInt(600,800);
+            x=temp2;
+            y=300;
+            velY=ThreadLocalRandom.current().nextInt(1,8);
+            velX=ThreadLocalRandom.current().nextInt(1,7)*-1;
+
+        }
+        movement="Mosquito";
+    }
+    public void letterT(){
+
+        int temp = ThreadLocalRandom.current().nextInt(2);
+        if(temp==0){
+            x=340;
+            y=350;
+            velX=6;
+            velY=6;
+
+        }else if(temp==1){
+            x=890;
+            y=350;
+            velX=-6;
+            velY=6;
+
+        }
+
+        movement="letterT";
+    }
+    public void teaCup(){
+
+        int temp = ThreadLocalRandom.current().nextInt(3);
+        if(temp==0){
+            x=500;
+            y=300;
+            velX=0;
+            velY=6;
+
+        }else if(temp==1){
+            x=750;
+            y=300;
+            velX=0;
+            velY=6;
+
+        }else if(temp==2){
+            x=625;
+            y=300;
+            velX=0;
+            velY=6;
+        }
+
+
+        movement="teaCup";
+    }
+
 
     public void collision(){
         if(movement.equals("boxBounce")){

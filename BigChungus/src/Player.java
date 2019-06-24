@@ -69,10 +69,18 @@ public class Player extends Character implements Serializable {
         if((velX>0 || velY>0) && game.getEndangered()){
             int value = rand.nextInt(500);
             if(value==1){
+                int value2 = rand.nextInt(2);
+                if(value2==0){
+                    game.setSwitch(false);
+                    game.setCurrentState(Game.STATE.Battle);
+                    game.setCurrentBattle(new Battle(this, new Malario(0,0,0,0,handler,game,ID.Malario,0,game.getTbHandler(),"Malario",game.getPlayer(),true), handler, game,  game.getAp()));
+                }else if(value2==1){
+                    game.setSwitch(false);
+                    game.setCurrentState(Game.STATE.Battle);
+                    game.setCurrentBattle(new Battle(this, new TPoser(0,0,0,0,handler,game,ID.TPoser,0,game.getTbHandler(),"TPoser",game.getPlayer(),true), handler, game,  game.getAp()));
+                }
 
-                game.setSwitch(false);
-                game.setCurrentState(Game.STATE.Battle);
-                game.setCurrentBattle(new Battle(this, new Knuckles(0,0,0,0,handler,game,ID.Knuckles,0,game.getTbHandler(),"Knuckles",game.getPlayer(),true), handler, game,  game.getAp()));
+
 
             }
         }
@@ -316,6 +324,44 @@ public class Player extends Character implements Serializable {
                 }
 
 
+            }else if(tempObject.getId() == ID.Malario){
+                Malario tempMalario = (Malario) tempObject;
+                Rectangle tempRect = getBounds();
+                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                    x+= velX * -1;
+                    y+= velY*-1;
+                    if(tempMalario.getBattleReady()){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, tempMalario, handler, game, game.getAp()));
+                    }
+                }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                    tempMalario.interaction();
+                    x+= velX * -1;
+                    y+= velY*-1;
+                    lastKeyHit=100;
+                }
+            }else if(tempObject.getId()==ID.TPoser){
+                TPoser tempTposer = (TPoser) tempObject;
+                Rectangle tempRect = getBounds();
+                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                    x+= velX * -1;
+                    y+= velY*-1;
+                    if(tempTposer.getBattleReady()){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, tempTposer, handler, game, game.getAp()));
+                    }
+                }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                    tempTposer.interaction();
+                    x+= velX * -1;
+                    y+= velY*-1;
+                    lastKeyHit=100;
+                }
             }
         }
     }

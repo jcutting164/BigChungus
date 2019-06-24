@@ -68,6 +68,10 @@ public class Battle implements Serializable {
             ap.getMusic("Pikachu").loop();
         }else if(enemy.getId()==ID.BigChungus){
             ap.getMusic("BigChungus").loop();
+        }else if(enemy.getsID()==ID.Malario){
+            ap.getMusic("Malario").loop();
+        }else if(enemy.getsID()==ID.TPoser){
+            ap.getMusic("TPoser").loop();
         }
 
 
@@ -85,6 +89,7 @@ public class Battle implements Serializable {
             		ap.getMusic("Knuckles").stop();
                     ap.getMusic("Pikachu").stop();
                     ap.getMusic("BigChungus").stop();
+                    ap.getMusic("Malario").stop();
                     ap.getSound("GameOver").play();
 
 
@@ -728,6 +733,96 @@ public class Battle implements Serializable {
                         }
 
                     }
+                }else if(enemy.getId()==ID.Malario) {
+                    if(enemy.currentMove==0){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 10000) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>2000 && track < 4){
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 66, 104, ID.EnemyAttackItem, tex.Malario_A1, 3, 104, 66, bPlayer, player, handler);
+                                temp.Mosquito();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==1){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 14000) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>500 && track < 20){
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 18, 18, ID.EnemyAttackItem, tex.Malario_A2, 3, 18, 18, bPlayer, player, handler);
+                                temp.Fireball();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }
+                }else if(enemy.getsID()==ID.TPoser){
+                    if(enemy.currentMove==0){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 10000) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>50 && track < 200){
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 48, 48, ID.EnemyAttackItem, tex.Tposer_A1, 3, 48, 48, bPlayer, player, handler);
+                                temp.letterT();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==1){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 14000) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>25 && track < 200){
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 50, 66, ID.EnemyAttackItem, tex.Tposer_A2, 3, 66, 50, bPlayer, player, handler);
+                                temp.teaCup();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }
                 }
 
 
@@ -850,6 +945,42 @@ public class Battle implements Serializable {
                 timeOfLastShot2=System.currentTimeMillis();
             }
             firstLoop=true;
+        }else if(enemy.getsID()==ID.Malario){
+            if(enemy.currentMove==0){
+                track = 0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==1){
+                track = 0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==2){
+                track=0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==3){
+                track=0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }
+        }else if(enemy.getsID()==ID.TPoser){
+            if(enemy.currentMove==0){
+                track = 0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==1){
+                track = 0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==2){
+                track=0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }else if(enemy.currentMove==3){
+                track=0;
+                timeOfLastShot=System.currentTimeMillis();
+                timeOfLastShot2=System.currentTimeMillis();
+            }
         }
 
 
@@ -932,9 +1063,12 @@ public class Battle implements Serializable {
         ap.getMusic("Pikachu").stop();
         ap.getMusic("Knuckles").stop();
         ap.getMusic("BigChungus").stop();
+        ap.getMusic("Malario").stop();
+        ap.getMusic("TPoser").stop();
+
         game.setCurrentState(Game.STATE.FirstArea);
         game.setSwitch(false);
-        //game.removeKeyListener(battleKeyInput);
+        game.removeKeyListener(battleKeyInput);
 
 
 
