@@ -8,6 +8,7 @@ import java.io.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -49,12 +50,14 @@ public class Game extends Canvas implements Runnable, Serializable {
     private Pikachu pikachu;
     private BigChungus bigChungus;
     transient private HashMap<String, BufferedImage> rooms = new HashMap<>();
+    private HashMap<String, ArrayList<Integer>> ranges=new HashMap<>();
     private String currentRoom="Room1_1";
 
     private boolean endangered=false;
 
     // obtainable items and spells creation
     Items Room1_1_Apple;
+    Spells Room2_2_Basic_Heal;
 
 
     public enum STATE {
@@ -79,8 +82,27 @@ public class Game extends Canvas implements Runnable, Serializable {
         rooms.put("Testing Room", tex.SS_FirstArea.grabImage(1, 1, 16, 16));
         rooms.put("Room1_1", tex.Room1_1);
         rooms.put("Room2_1",tex.Room2_1);
+        rooms.put("Room2_2",tex.Room2_2);
+        rooms.put("Room2_3",tex.Room2_3);
+
+        ranges.put("Room1_1",new ArrayList<>());
+        ranges.get("Room1_1").add(4000);
+        ranges.get("Room1_1").add(2000);
+
+        ranges.put("Room2_1",new ArrayList<>());
+        ranges.get("Room2_1").add(700);
+        ranges.get("Room2_1").add(1000);
+
+        ranges.put("Room2_2",new ArrayList<>());
+        ranges.get("Room2_2").add((-64));
+        ranges.get("Room2_2").add(-64);
+
+        ranges.put("Room2_3",new ArrayList<>());
+        ranges.get("Room2_3").add((4810));
+        ranges.get("Room2_3").add(5140);
+
         window = new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
-        handler = new Handler();
+        handler = new Handler(this);
         //loadSave();
         tbHandler = new TBHandler();
         currentState=null;
@@ -90,7 +112,7 @@ public class Game extends Canvas implements Runnable, Serializable {
         inv.addItem(new Items("Apple2","Not good",inv,-200,-200,0,0,ID.Item));
 
         magic = new Magic();
-        magic.addItem(new Spells("Auto kill", "Yeet and Delete", magic,0,0,0,0,ID.Spell,this));
+        magic.addItem(new Spells("Auto kill", "Yeet and Delete", magic,0,0,0,0,ID.Spell,this,0));
 
         //loadSave();
 
@@ -148,12 +170,20 @@ public class Game extends Canvas implements Runnable, Serializable {
 
     private void tick() {
         try{
+
             if(currentState==null){
                 currentState = STATE.FirstArea;
-                camera = new Camera(0,0);
+                camera = new Camera(0,0,this);
+                camera.updateRange("Room1_1");
                 player = new Player(900, 100, 92, 25, handler, this, ID.Player, 2,inv, magic);
                 // items and spells addition
                 Room1_1_Apple = new Items("Apple","Good Snack boi",player.getInv(),900,1700,16,16,ID.Item);
+                Room2_2_Basic_Heal = new Spells("Basic Heal", "Heals 5 HP uses 5 Mana", player.getMagic(),800,150,32,32,ID.Spell,this,5);
+
+
+
+
+
             }if(currentState==STATE.FirstArea && Switch == false){
                // handler.clear();
 
@@ -161,7 +191,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 
 
 
-
+                // only for rooms that you can get into a battle in
+                // NOT passive rooms
                 if(currentRoom.equals("Room1_1")){
                     currentLevel = tex.SS_FirstArea.grabImage(1, 1, 64, 64);
                     //currentRoom = "Room1_1";
@@ -190,6 +221,10 @@ public class Game extends Canvas implements Runnable, Serializable {
                     handler.clear();
                     loadLevel(currentRoom);
                     handler.addObject(player);
+                }else if(currentRoom.equals("Room2_3")){
+                    handler.clear();
+                    loadLevel(currentRoom);
+                    handler.addObject(player);
                 }
 
 
@@ -199,6 +234,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 
                 Switch=true;
             }else if(currentState==STATE.FirstArea && Switch==true){
+                System.out.println("X: "+player.getX()+" Y: "+player.getY());
 
                 for(int i = 0; i < handler.object.size(); i++){
                     if(handler.object.get(i).getId() == ID.Player){
@@ -210,8 +246,10 @@ public class Game extends Canvas implements Runnable, Serializable {
 
                 if(player.getInv().getOpen()){
                     player.getInv().tick();
+
                 }else if(player.getMagic().getOpen())
                     player.getMagic().tick();
+
             }else if(currentState==STATE.Battle && !Switch){
                 handler.clear();
                 this.removeKeyListener(keyInput);
@@ -229,7 +267,6 @@ public class Game extends Canvas implements Runnable, Serializable {
             }else if(currentState==STATE.Normal && !Switch){
                 System.out.println(currentLevel);
                 handler.clear();
-                System.out.println("Current level is: "+currentLevel);
                 loadLevel(currentRoom);
 
 
@@ -239,7 +276,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 
                 player = new Player(player.getX(), player.getY(), 92, 25, handler, this, ID.Player, 2,inv, magic);
                 handler.addObject(player);
-                camera = new Camera(0,0);
+                camera = new Camera(0,0,this);
+                camera.updateRange(currentRoom);
                 this.addKeyListener(new KeyInput(handler, player, tbHandler, player.getInv()));
                 Switch=true;
 
@@ -300,8 +338,55 @@ public class Game extends Canvas implements Runnable, Serializable {
 
             if(player.getInv().getOpen()){
                 player.getInv().render(g);
+                player.drawHealthBar(8,540,g);
+                player.drawManaBar(8,600,g);
+
+                fnt = new Font("Serif", 0, 20);
+                g.setFont(fnt);
+                g.setColor(Color.white);
+                g.drawString("HP", 8,530);
+                g.setColor(Color.white);
+
+                fnt = new Font("Serif", 1, 16);
+                g.setFont(fnt);
+                g.drawString(player.getHealth() + " / " + player.getMaxHealth(), 215, 565);
+
+
+
+                fnt = new Font("Serif", 0, 20);
+                g.setFont(fnt);
+                g.setColor(Color.white);
+                g.drawString("Mana", 8,595);
+                g.setColor(Color.white);
+
+                fnt = new Font("Serif", 1, 16);
+                g.setFont(fnt);
+                g.drawString(player.getMana() + " / " + player.getMaxMana(), 215, 620);
+
             }else if(player.getMagic().getOpen()){
                 player.getMagic().render(g);
+                player.drawHealthBar(8,540,g);
+                player.drawManaBar(8,600,g);
+
+                fnt = new Font("Serif", 0, 20);
+                g.setFont(fnt);
+                g.setColor(Color.white);
+                g.drawString("Mana", 8,595);
+                g.setColor(Color.white);
+
+                fnt = new Font("Serif", 1, 16);
+                g.setFont(fnt);
+                g.drawString(player.getMana() + " / " + player.getMaxMana(), 215, 620);
+
+                fnt = new Font("Serif", 0, 20);
+                g.setFont(fnt);
+                g.setColor(Color.white);
+                g.drawString("HP", 8,530);
+                g.setColor(Color.white);
+
+                fnt = new Font("Serif", 1, 16);
+                g.setFont(fnt);
+                g.drawString(player.getHealth() + " / " + player.getMaxHealth(), 215, 565);
             }
 
 
@@ -437,6 +522,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 
     public void loadLevel(String room){
 
+
+       // Graphics g = bs.getDrawGraphics();
         BufferedImage image = rooms.get(room);
         System.out.println(rooms.get(room));
         System.out.println(tex.Room2_1);
@@ -451,14 +538,16 @@ public class Game extends Canvas implements Runnable, Serializable {
                 int red = (pixel >> 16) & 0xff;
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
-                if (red == 255&&green==0&&blue==0)
-                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.GrayGround));
+                if (red == 255&&green==0&&blue==0){
+                    //handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.GrayGround));
+                }
                 else if (green == 255&&red==0&&blue==0) {
                     handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.BlackGround));
                 }else if(blue==255&&red==0&&green==0){
-                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Pavement));
+                    //handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Pavement));
                 }else if(red==57&&green==255&&blue==50){
-                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Grass));
+                   // g.drawImage();
+                    //handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Grass));
                     // grass
                 }else if(red==191&&green==0&&blue==149){
                     //tree
@@ -471,8 +560,9 @@ public class Game extends Canvas implements Runnable, Serializable {
             handler.addObject(new NPC(1050,500,64,64,handler,this,ID.NPC,3,tbHandler,"You... are the last of us. I am unable to continue to fight him. My last gift to you... the prophecy.",player,ID.TheLastEntity));
             handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, Kanto, and the Land of Dead Memes in order to _____ HIM (a piece is scribbled out)",player, ID.Book));
             // transition object to room 2_2
-            handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",850,100,player));
+            handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",950,100,player,true));
             handler.addObject(Room1_1_Apple);
+            camera.updateRange("Room1_1");
 
 
 
@@ -480,9 +570,30 @@ public class Game extends Canvas implements Runnable, Serializable {
 
             setBackground(Color.black);
             loadLevel(tex.Room2_1O);
-            handler.addObject(new Transition(835,0,32,300,ID.Transition, "Room1_1",900,1800,player));
+            handler.addObject(new Transition(835,0,32,300,ID.Transition, "Room1_1",900,1800,player,false));
+            handler.addObject(new Transition(0,130,70,32,ID.Transition, "Room2_2",1100,130,player,false));
+            handler.addObject(new Transition(900,1925,32,200,ID.Transition,"Room2_3",3000,200,player,true));
+            camera.updateRange("Room2_1");
+        }else if(currentRoom.equals("Room2_2")){
+            setBackground(Color.black);
+            loadLevel(tex.Room2_2O);
+            // add transistion back lol
+            handler.addObject(new Transition(1175,105,70,32,ID.Transition, "Room2_1",60,155,player,true));
+
+            camera.updateRange("Room2_2");
+            handler.addObject(Room2_2_Basic_Heal);
+
+        }else if(currentRoom.equals("Room2_3")){
+            setBackground(Color.black);
+            loadLevel(tex.Room2_3O);
+            camera.updateRange("Room2_3");
+            handler.addObject(new Transition(2600,100,32,700,ID.Transition, "Room2_1",975,1800,player,true));
+            //handler.addObject(new Transition(2800,150,32,200,ID.Transition,"Room2_1",925,1880,player,true));
 
         }
+
+        camera.setX(((player.getX())  ));
+        camera.setY(((player.getY())  ));
     }
 
     public void loadLevel(BufferedImage image){
@@ -518,7 +629,7 @@ public class Game extends Canvas implements Runnable, Serializable {
             handler.addObject(new NPC(1050,500,64,64,handler,this,ID.NPC,3,tbHandler,"You... are the last of us. I am unable to continue to fight him. My last gift to you... the prophecy.",player,ID.TheLastEntity));
             handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, Kanto, and the Land of Dead Memes in order to _____ HIM (a piece is scribbled out)",player, ID.Book));
             // transition object to room 2_2
-            handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",850,100,player));
+            handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",850,100,player,true));
             handler.addObject(new Items("Apple","Good Snack boi",player.getInv(),900,1700,64,64,ID.Item));
 
 
@@ -590,7 +701,8 @@ public class Game extends Canvas implements Runnable, Serializable {
             window=new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
             handler = temp.handler;
             currentLevel = tex.Room1_1;
-            camera = new Camera(0,0);
+            camera = new Camera(0,0,this);
+            camera.updateRange(currentRoom);
             //loadLevel(currentLevel);
             tbHandler = temp.tbHandler;
             //currentState=null;
@@ -694,5 +806,33 @@ public class Game extends Canvas implements Runnable, Serializable {
 
     public void setEndangered(boolean endangered) {
         this.endangered = endangered;
+    }
+
+    public HashMap<String, BufferedImage> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(HashMap<String, BufferedImage> rooms) {
+        this.rooms = rooms;
+    }
+
+    public HashMap<String, ArrayList<Integer>> getRanges() {
+        return ranges;
+    }
+
+    public void setRanges(HashMap<String, ArrayList<Integer>> ranges) {
+        this.ranges = ranges;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
+    }
+
+    public String getCurrentRoom() {
+        return currentRoom;
     }
 }

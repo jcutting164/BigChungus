@@ -2,15 +2,16 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 public class Transition extends GameObject {
 
-    int newPlayerX;
-    int newPlayerY;
-
+    private int newPlayerX;
+    private int newPlayerY;
+    private boolean dangerZone;
     private String destination;
-    public Transition(float x, float y, float height, float width, ID id, String destination, int newPlayerX, int newPlayerY,Player player){
+    public Transition(float x, float y, float height, float width, ID id, String destination, int newPlayerX, int newPlayerY,Player player,boolean dangerZone){
         super(x, y, height, width, id);
         this.destination=destination;
         this.newPlayerX = newPlayerX;
         this.newPlayerY=newPlayerY;
+        this.dangerZone=dangerZone;
 
     }
 
@@ -45,5 +46,17 @@ public class Transition extends GameObject {
 
     public void setNewPlayerY(int newPlayerY) {
         this.newPlayerY = newPlayerY;
+    }
+
+    public boolean getDangerZone() {
+        return dangerZone;
+    }
+
+    public void setDangerZone(boolean dangerZone) {
+        this.dangerZone = dangerZone;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 }

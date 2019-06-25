@@ -94,6 +94,25 @@ public abstract class Character extends GameObject implements Serializable {
 
 
     }
+    public void drawHealthBar(int x,int y, Graphics g){
+        g.setColor(Color.red.darker());
+        g.fillRect(x, y, 200, 32);
+        if(health >= maxhealth*.5){
+            g.setColor(Color.green);
+        }else if(health <= maxhealth*.5){
+            g.setColor(Color.yellow);
+        }else{
+            g.setColor(Color.red);
+        }
+
+        g.fillRect(x, y, health*(200/maxhealth), 32);
+        g.setColor(Color.white);
+        g.drawRect(x, y, 200, 32);
+
+
+
+    }
+
     public int getMaxHealth(){
         return this.maxhealth;
     }

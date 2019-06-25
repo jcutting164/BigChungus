@@ -82,6 +82,7 @@ public class Battle implements Serializable {
 
                                                                   
     public void tick(){
+        player.setHealth((int)(Game.clamp(player.getHealth(),0,player.getMaxHealth())));
         if(player.getHealth() <= 0){
             		game.setCurrentState(Game.STATE.GameOver);
             		game.setSwitch(true);
@@ -90,6 +91,7 @@ public class Battle implements Serializable {
                     ap.getMusic("Pikachu").stop();
                     ap.getMusic("BigChungus").stop();
                     ap.getMusic("Malario").stop();
+                    ap.getMusic("TPoser").stop();
                     ap.getSound("GameOver").play();
 
 
@@ -805,7 +807,7 @@ public class Battle implements Serializable {
                         timeNow = System.currentTimeMillis();
                         time = timeNow - timeOfLastShot;
 
-                        if(time > 14000) {
+                        if(time > 10000) {
                             timeOfLastShot=0;
                             // will update damage calculation based on attack / defense, for now is one value
                             setPlayerTurn(true);
@@ -1069,6 +1071,7 @@ public class Battle implements Serializable {
         game.setCurrentState(Game.STATE.FirstArea);
         game.setSwitch(false);
         game.removeKeyListener(battleKeyInput);
+        game.setCurrentBattle(null);
 
 
 

@@ -1,5 +1,7 @@
 
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_REDPeer;
+
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -29,13 +31,17 @@ public class Textures implements Serializable {
     SpriteSheet SS_Pavement;
     SpriteSheet SS_Room1_1;
     SpriteSheet SS_Room2_1;
+    SpriteSheet SS_Room2_1O;
+    SpriteSheet SS_Room2_2;
+    SpriteSheet SS_Room2_3;
     SpriteSheet SS_People;
     SpriteSheet SS_Forest;
-    SpriteSheet SS_Room2_1O;
+
     SpriteSheet SS_ExtraItems;
     SpriteSheet SS_Malario;
     SpriteSheet SSA_Malario;
     SpriteSheet SS_Tposer;
+
 
 
 
@@ -61,10 +67,14 @@ public class Textures implements Serializable {
     private transient BufferedImage BI_Forest;
     private transient BufferedImage BI_Room2_1;
     private transient BufferedImage BI_Room2_1O;
+    private transient BufferedImage BI_Room2_2;
+    private transient BufferedImage BI_Room2_3;
     private transient BufferedImage BI_ExtraItems;
     private transient BufferedImage BI_Malario;
     private transient BufferedImage BI_A_Malario;
     private transient BufferedImage BI_Tposer;
+
+
 
     private transient InputStream IS_BI_Player;
     private transient InputStream IS_BI_FirstArea;
@@ -86,12 +96,18 @@ public class Textures implements Serializable {
     private transient InputStream IS_Room1_1;
     private transient InputStream IS_People;
     private transient InputStream IS_Forest;
+
+
     private transient InputStream IS_Room2_1;
     private transient InputStream IS_Room2_1O;
+    private transient InputStream IS_Room2_2;
+    private transient InputStream IS_Room2_3;
+
     private transient InputStream IS_ExtraItems;
     private transient InputStream IS_Malario;
     private transient InputStream IS_A_Malario;
     private transient InputStream IS_Tposer;
+
 
     public transient BufferedImage[] Player_WalkLeft = new BufferedImage[2];
     public transient BufferedImage[] Player_WalkRight = new BufferedImage[2];
@@ -136,6 +152,10 @@ public class Textures implements Serializable {
     public transient BufferedImage Room1_1;
     public transient BufferedImage Room2_1;
     public transient BufferedImage Room2_1O;
+    public transient BufferedImage Room2_2;
+    public transient BufferedImage Room2_2O;
+    public transient BufferedImage Room2_3;
+    public transient BufferedImage Room2_3O;
 
     public transient BufferedImage TheLastEntity;
     public transient BufferedImage TheLastEntityFace;
@@ -238,6 +258,12 @@ public class Textures implements Serializable {
             IS_Tposer=new FileInputStream("res/Tposer/TPoser.png");
             BI_Tposer=ImageIO.read(IS_Tposer);
 
+            IS_Room2_2=new FileInputStream("res/Rooms/Room2_2.png");
+            BI_Room2_2=ImageIO.read(IS_Room2_2);
+
+            IS_Room2_3=new FileInputStream("res/Rooms/Room2_3.png");
+            BI_Room2_3=ImageIO.read(IS_Room2_3);
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -268,7 +294,8 @@ public class Textures implements Serializable {
         SS_Malario=new SpriteSheet(BI_Malario);
         SSA_Malario=new SpriteSheet(BI_A_Malario);
         SS_Tposer=new SpriteSheet(BI_Tposer);
-
+        SS_Room2_2=new SpriteSheet(BI_Room2_2);
+        SS_Room2_3=new SpriteSheet(BI_Room2_3);
         getTextures();
 
     }
@@ -382,9 +409,18 @@ public class Textures implements Serializable {
             SaveIcon[i]=SS_Save_Icon.getSubImage(i*768, 0, 768, 768);
 
         Pavement[0]= SS_Pavement.getSubImage(0,0,1600,1600);
+
+
+
         Room1_1 = SS_Room1_1.getSubImage(0,0,32,32);
         Room2_1= SS_Room2_1.getSubImage(0,0,32,32);
         Room2_1O=SS_Room2_1O.getSubImage(0,0,32,32);
+        Room2_2=SS_Room2_2.getSubImage(0,0,20,15);
+        Room2_2O=SS_Room2_2.getSubImage(0,15,20,15);
+        Room2_3=SS_Room2_3.getSubImage(0,0,96,96);
+        Room2_3O=SS_Room2_3.getSubImage(0,96,96,96);
+
+
         TheLastEntity = SS_People.getSubImage(500,11,64,71);
         TheLastEntityFace=SS_People.getSubImage(510,11,50,40);
         Book=SS_People.getSubImage(243,10,18,25);

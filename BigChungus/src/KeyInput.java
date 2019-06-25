@@ -128,17 +128,23 @@ public class KeyInput extends KeyAdapter implements Serializable {
                         inv.setOpen(false);
                     }else if(key==KeyEvent.VK_X){
                         inv.inv.get(inv.getCurrentOption()).use();
+                    }else if(key==KeyEvent.VK_V){
+                        player.getMagic().setOpen(true);
+                        player.getInv().setOpen(false);
                     }
                 }else if(player.getMagic().getOpen()){
                     if(key==KeyEvent.VK_DOWN){
 
                         if(!player.getMagic().getOptions()[player.getMagic().magic.size()]){
-                            for(int j = 0; j<inv.inv.size()-1; j++){
+                            for(int j = 0; j<player.getMagic().magic.size()-1; j++){
                                 if(player.getMagic().getOptions()[j]){
+
                                     player.getMagic().setSpecOption(false, j);
-                                    player.getMagic().setSpecOption(true, inv.getCurrentOption()+1);
-                                    player.getMagic().setCurrentOption(inv.getCurrentOption()+1);
+                                    player.getMagic().setSpecOption(true, player.getMagic().getCurrentOption()+1);
+                                    player.getMagic().setCurrentOption(player.getMagic().getCurrentOption()+1);
                                     break;
+
+
                                 }
                             }
                         }
@@ -148,8 +154,8 @@ public class KeyInput extends KeyAdapter implements Serializable {
                             for(int j = 0; j<player.getMagic().magic.size(); j++){
                                 if(player.getMagic().getOptions()[j]){
                                     player.getMagic().setSpecOption(false, j);
-                                    player.getMagic().setSpecOption(true, inv.getCurrentOption()-1);
-                                    player.getMagic().setCurrentOption(inv.getCurrentOption()-1);
+                                    player.getMagic().setSpecOption(true, player.getMagic().getCurrentOption()-1);
+                                    player.getMagic().setCurrentOption(player.getMagic().getCurrentOption()-1);
                                     break;
                                 }
                             }
@@ -159,7 +165,13 @@ public class KeyInput extends KeyAdapter implements Serializable {
                         player.setLimited(false);
                         player.getMagic().setOpen(false);
                     }else if(key==KeyEvent.VK_X){
-                        player.getMagic().magic.get(player.getMagic().getCurrentOption()).use();
+                        if(player.getMagic().magic.get(player.getMagic().getCurrentOption()).getManaREQ()<=player.getMana()){
+                            player.getMagic().magic.get(player.getMagic().getCurrentOption()).use();
+                        }
+
+                    }else if(key==KeyEvent.VK_C){
+                        player.getMagic().setOpen(false);
+                        player.getInv().setOpen(true);
                     }
 
                 }

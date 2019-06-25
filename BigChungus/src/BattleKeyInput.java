@@ -185,7 +185,7 @@ public class BattleKeyInput extends KeyAdapter implements Serializable {
                     player.setLimited(false);
                     player.getMagic().setOpen(false);
                     battle.setSelection1(false);
-                }else if(key==KeyEvent.VK_X&&battle.getSelectedOption()[1]){
+                }else if(key==KeyEvent.VK_X&&battle.getSelectedOption()[1] && player.getMagic().magic.get(player.getMagic().getCurrentOption()).getManaREQ()<=player.getMana()){
                     player.getMagic().magic.get(player.getMagic().getCurrentOption()).use();
                     player.setLimited(false);
                     player.getMagic().setOpen(false);

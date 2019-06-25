@@ -56,6 +56,7 @@ public class Magic implements Serializable {
     }
     public void render(Graphics g){
 
+
         g.setColor(Color.white);
         g.drawRect(10, 650, 256, 256);
         g.drawRect(9, 649, 258, 258);

@@ -11,18 +11,23 @@ public class Spells extends GameObject implements Serializable {
     private BufferedImage img = Game.tex.Orb;
     private Magic magic;
     private Game game;
-    public Spells(String name, String desc, Magic magic,float x, float y, float height, float width, ID id, Game game){
+    private int manaREQ;
+    public Spells(String name, String desc, Magic magic,float x, float y, float height, float width, ID id, Game game,int manaREQ){
         super(x, y, height, width, id);
         this.name = name;
         this.desc = desc;
         this.magic = magic;
         this.game=game;
+        this.manaREQ=manaREQ;
     }
 
 
     public void use(){
         if(name.equals("Auto kill")){
             game.getCurrentBattle().getEnemy().setHealth(0);
+        }else if(name.equals("Basic Heal")&&game.getPlayer().getMana()>=5){
+            game.getPlayer().setHealth(game.getPlayer().getHealth()+5);
+            game.getPlayer().setMana(game.getPlayer().getMana()-5);
         }
     }
 
@@ -68,4 +73,11 @@ public class Spells extends GameObject implements Serializable {
         this.obtained = obtained;
     }
 
+    public int getManaREQ() {
+        return manaREQ;
+    }
+
+    public void setManaREQ(int manaREQ) {
+        this.manaREQ = manaREQ;
+    }
 }

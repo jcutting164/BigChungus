@@ -50,6 +50,10 @@ public class Player extends Character implements Serializable {
 
 
     public void tick(){
+
+        health=(int)(Game.clamp(health,0,maxhealth));
+        mana=(int)(Game.clamp(mana,0,maxMana));
+
         x+=velX;
         y+=velY;
         collision();
@@ -280,8 +284,18 @@ public class Player extends Character implements Serializable {
 
             }else if(tempObject.getId()==ID.Transition){
                 Transition tempTransition = (Transition) tempObject;
+                if(getBounds().intersects(tempTransition.getBounds())){
+                    handler.clear();
+                    game.setCurrentRoom(tempTransition.getDestination());
+                    game.setCurrentLevel(game.getRooms().get(tempTransition.getDestination()));
+                    game.loadLevel(tempTransition.getDestination());
+                    handler.addObject(game.getPlayer());
+                    game.getPlayer().setX(tempTransition.getNewPlayerX());
+                    game.getPlayer().setY(tempTransition.getNewPlayerY());
+                    game.setEndangered(tempTransition.getDangerZone());
+                }
 
-                if(tempTransition.getDestination().equals("Room2_1") && getBounds().intersects(tempTransition.getBounds())){
+                /*if(tempTransition.getDestination().equals("Room2_1") && getBounds().intersects(tempTransition.getBounds())){
                     handler.clear();
                     game.setCurrentRoom("Room2_1");
                     game.setCurrentLevel(tex.Room2_1);
@@ -306,7 +320,9 @@ public class Player extends Character implements Serializable {
                     game.getPlayer().setX(tempTransition.getNewPlayerX());
                     game.getPlayer().setY(tempTransition.getNewPlayerY());
                     game.setEndangered(false);
-                }
+                }*/
+
+
 
             }else if((tempObject.getId()==ID.Item || tempObject.getId()==ID.Spell) && getBounds().intersects(tempObject.getBounds())){
                 if(tempObject.getId()==ID.Item){
@@ -314,12 +330,20 @@ public class Player extends Character implements Serializable {
                     if(!temp.getObtained()){
                         temp.setObtained(true);
                         game.getPlayer().inv.addItem(temp);
+                        game.getPlayer().setVelX(0);
+                        game.getPlayer().setVelY(0);
+                        game.getPlayer().setLimited(true);
+                        game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got a "+temp.getName()+". Check your inventory with C to look at it!"));
                     }
                 }else if(tempObject.getId()==ID.Spell){
                     Spells temp = (Spells) (tempObject);
                     if(!temp.getObtained()){
                         temp.setObtained(true);
                         game.getPlayer().magic.addItem(temp);
+                        game.getPlayer().setVelX(0);
+                        game.getPlayer().setVelY(0);
+                        game.getPlayer().setLimited(true);
+                        game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got a "+temp.getName()+" spell. Check your spell books with V to look at it!"));
                     }
                 }
 
@@ -425,6 +449,21 @@ public class Player extends Character implements Serializable {
         g.setColor(Color.white);
         g.drawRect(540, y, 200, 32);
     }
+
+    public void drawManaBar(int x,int y, Graphics g){
+        g.setColor(Color.red.darker());
+        g.fillRect(x, y, 200, 32);
+        if(mana >= maxMana*.5){
+            g.setColor(Color.blue.brighter().brighter().brighter());
+        }else{
+            g.setColor(Color.black);
+        }
+
+        g.fillRect(x, y, mana*(200/maxMana), 32);
+        g.setColor(Color.white);
+        g.drawRect(x, y, 200, 32);
+    }
+
     public int getMaxMana(){
         return this.maxMana;
     }
