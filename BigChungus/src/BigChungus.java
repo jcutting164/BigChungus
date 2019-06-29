@@ -16,7 +16,7 @@ public class BigChungus extends Enemy implements Serializable {
 
 
     public BigChungus(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player, boolean battleReady){
-        super(x, y, height, width,handler,game, id, speed, tbHandler, "CHUNGA CHUNGA CHUNG", player,ID.BigChungus);
+        super(x, y, height, width,handler,game, id, speed, tbHandler, "CHUNGA CHUNGA CHUNG", player,ID.BigChungus,100,100);
         this.handler = handler;
         this.game = game;
         this.tbHandler = tbHandler;
@@ -126,7 +126,7 @@ public class BigChungus extends Enemy implements Serializable {
             game.getKeyInput().getKeyDown()[i] = false;
         }
         if(!text.equals("")){
-            TextBox tb = new TextBox(this, text);
+            TextBox tb = new TextBox(this, text,0,0,0,0,ID.TextBox,tbHandler);
             tbHandler.addObject(tb);
         }
 

@@ -1,4 +1,6 @@
 import java.awt.Graphics;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class S_BasicAttack extends Usables {
 
     public S_BasicAttack(float x, float y, float height, float width, ID id, Handler handler, Battle battle, Enemy enemy){
@@ -47,7 +49,8 @@ public class S_BasicAttack extends Usables {
 
         handler.removeObject(this);
         // will update damage calculation based on attack / defense, for now is one value
-        enemy.setHealth(enemy.getHealth() - 10);
+        int damage = ThreadLocalRandom.current().nextInt(battle.getPlayer().getAttack(),(int)(battle.getPlayer().getAttack()*1.5+1));
+        enemy.setHealth(enemy.getHealth() - damage);
         battle.setPlayerTurn(false);
         // will do same for player when enemy uses this function for end
         battle.setEnemyTurnStart(true);

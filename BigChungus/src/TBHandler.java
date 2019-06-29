@@ -55,5 +55,17 @@ public class TBHandler implements Serializable {
     }
 
 
+    public boolean contains(TextBox tb){
+        boolean check=false;
+        if(this.object.size()>0){
+            if(this.object.get(0)==tb){
+                check= true;
+            }
+        }
+
+        return check;
+    }
+
+
 
 }

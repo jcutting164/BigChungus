@@ -29,6 +29,7 @@ public class Handler implements Serializable {
     }
 
     public void render(Graphics g) {
+
         BufferedImage image = game.getRooms().get(game.getCurrentRoom());
         int w = image.getWidth();
         int h = image.getHeight();

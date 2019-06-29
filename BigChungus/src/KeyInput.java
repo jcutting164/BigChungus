@@ -41,21 +41,21 @@ public class KeyInput extends KeyAdapter implements Serializable {
                     // key events for NPC.Player 1
 
                     if(key == KeyEvent.VK_UP ) {
-                        {tempObject.setVelY(-5); keyDown[0]=true; }
+                        {tempObject.setVelY(-20); keyDown[0]=true; }
                         player.setLastKeyHit(0);
                     }else if((key == KeyEvent.VK_DOWN)) {
-                        {tempObject.setVelY(5); keyDown[1]=true; }
+                        {tempObject.setVelY(20); keyDown[1]=true; }
                         player.setLastKeyHit(1);
                     }else if(key == KeyEvent.VK_LEFT) {
-                        {tempObject.setVelX(-5); keyDown[2]=true; }
+                        {tempObject.setVelX(-20); keyDown[2]=true; }
                         player.setLastKeyHit(2);
                     }else if(key == KeyEvent.VK_RIGHT) {
-                        {tempObject.setVelX(5); keyDown[3]=true; }
+                        {tempObject.setVelX(20); keyDown[3]=true; }
                         player.setLastKeyHit(3);
                     }else if(key == KeyEvent.VK_X) {
                         player.setLastKeyHit(4);
                     }else if(key == KeyEvent.VK_F) {
-                        tbHandler.addObject(new TextBox(player, "THIS IS MY TEXT WOOOWOWOWOOOOOOO"));
+                        tbHandler.addObject(new TextBox(player, "THIS IS MY TEXT WOOOWOWOWOOOOOOO",0,0,0,0,ID.TextBox,tbHandler));
 
                         //hud.setScore(hud.getScore() + 100);
                     }else if(key == KeyEvent.VK_G) {
@@ -77,6 +77,9 @@ public class KeyInput extends KeyAdapter implements Serializable {
                         player.getMagic().setOptions(true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
                         player.getMagic().setPage(1);
                         player.getMagic().setCurrentOption(0);
+
+                    }else if(key==KeyEvent.VK_SHIFT){
+                            player.allowed=!player.allowed;
 
                     }
                 }
@@ -128,6 +131,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
                         inv.setOpen(false);
                     }else if(key==KeyEvent.VK_X){
                         inv.inv.get(inv.getCurrentOption()).use();
+
                     }else if(key==KeyEvent.VK_V){
                         player.getMagic().setOpen(true);
                         player.getInv().setOpen(false);

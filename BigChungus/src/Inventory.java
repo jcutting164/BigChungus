@@ -148,20 +148,30 @@ public class Inventory implements Serializable {
                 j++;
             }
         }
+        try{
+            fnt = new Font("Serif", 1, 12);
+            g.setFont(fnt);
+            g.drawString(page+" / 5", 230, 900);
 
-        fnt = new Font("Serif", 1, 12);
-        g.setFont(fnt);
-        g.drawString(page+" / 5", 230, 900);
+            g.drawRect(300, 650, 512, 128);
+            g.drawRect(299, 649, 514, 130);
+            g.setColor(Color.black);
+            g.fillRect(301, 651, 511, 127);
+            g.setColor(Color.white);
+            fnt = new Font("Serif", 1, 25);
+            g.setFont(fnt);
+            g.drawString("Desc:", 318, 680);
+            if(currentOption>=0 && currentOption<inv.size()){
+                g.drawString(inv.get(currentOption).getDesc(), 328, 720);
+            }else{
+                currentOption--;
+            }
 
-        g.drawRect(300, 650, 512, 128);
-        g.drawRect(299, 649, 514, 130);
-        g.setColor(Color.black);
-        g.fillRect(301, 651, 511, 127);
-        g.setColor(Color.white);
-        fnt = new Font("Serif", 1, 25);
-        g.setFont(fnt);
-        g.drawString("Desc:", 318, 680);
-        g.drawString(inv.get(currentOption).getDesc(), 328, 720);
+        }catch (Exception e){
+
+        }
+
+
 
 
     }

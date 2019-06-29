@@ -17,8 +17,8 @@ public class EnemyAttackItem extends GameObject implements Serializable {
     Textures tex = Game.getInstance();
     Rectangle playerBounds = new Rectangle(522, 538, 246, 246);
     private long time, timeNow, timeOfLastShot=0;
-
-    public EnemyAttackItem(float x, float y, float height, float width, ID id, BufferedImage[] images, int speed, float scaleX, float scaleY, BattlePlayer bPlayer, Player player, Handler handler){
+    private Battle battle;
+    public EnemyAttackItem(float x, float y, float height, float width, ID id, BufferedImage[] images, int speed, float scaleX, float scaleY, BattlePlayer bPlayer, Player player, Handler handler,Battle battle){
         super(x, y, height, width, id);
 
         this.scaleX=scaleX;
@@ -31,6 +31,7 @@ public class EnemyAttackItem extends GameObject implements Serializable {
         this.bPlayer = bPlayer;
         this.player = player;
         this.handler = handler;
+        this.battle=battle;
     }
 
 
@@ -47,7 +48,7 @@ public class EnemyAttackItem extends GameObject implements Serializable {
             if(y>500){
                 velY=0;
                 for(int i = 0; i<5; i++){
-                    EnemyAttackItem temp1 = new EnemyAttackItem(this.getX(), this.getY(), 97, 96, ID.EnemyAttackItem, tex.Pikachu_A3, 6, 96, 97, bPlayer, player, handler);
+                    EnemyAttackItem temp1 = new EnemyAttackItem(this.getX(), this.getY(), 97, 96, ID.EnemyAttackItem, tex.Pikachu_A3, 6, 96, 97, bPlayer, player, handler,battle);
                     temp1.setVelX(ThreadLocalRandom.current().nextInt(-7, 6 + 1));
                     temp1.setVelY(ThreadLocalRandom.current().nextInt(-7, 6 + 1));
                     temp1.movement="none";
@@ -62,7 +63,7 @@ public class EnemyAttackItem extends GameObject implements Serializable {
             timeNow = System.currentTimeMillis();
             time = timeNow - timeOfLastShot;
             if(time<2000){
-                EnemyAttackItem temp1 = new EnemyAttackItem(this.getX()+30, this.getY()+ThreadLocalRandom.current().nextInt(5, 20 + 1), 17, 16, ID.EnemyAttackItem, tex.Pikachu_A2, 6, 16, 17, bPlayer, player, handler);
+                EnemyAttackItem temp1 = new EnemyAttackItem(this.getX()+30, this.getY()+ThreadLocalRandom.current().nextInt(5, 20 + 1), 17, 16, ID.EnemyAttackItem, tex.Pikachu_A2, 6, 16, 17, bPlayer, player, handler,battle);
                 temp1.setVelX(-10);
                 temp1.setVelY(0);
                 temp1.movement="none";
@@ -82,7 +83,7 @@ public class EnemyAttackItem extends GameObject implements Serializable {
         }else if(movement.equals("Gottem")){
             if(this.getBounds().intersects(playerBounds)){
                 for(int i = 0; i<5; i++){
-                    EnemyAttackItem temp1 = new EnemyAttackItem(this.getX(), this.getY(), 97, 54, ID.EnemyAttackItem, tex.BigChungus_A4, 4, 54, 97, bPlayer, player, handler);
+                    EnemyAttackItem temp1 = new EnemyAttackItem(this.getX(), this.getY(), 97, 54, ID.EnemyAttackItem, tex.BigChungus_A4, 4, 54, 97, bPlayer, player, handler,battle);
                     if(this.velX==7 && this.velY==7){
                         temp1.setVelX(4-i);
                         temp1.setVelY(4+i);
@@ -447,7 +448,8 @@ public class EnemyAttackItem extends GameObject implements Serializable {
         }else{
             if(getBounds().intersects(bPlayer.getBounds()) && !bPlayer.getCooldown()){
                 // add real damage calculation later based on attack/defense
-                player.setHealth(player.getHealth()-10);
+                int damage=Math.max(5,battle.getEnemy().getAttack()-player.getDefense());
+                player.setHealth(player.getHealth()-damage);
                 bPlayer.setCooldown(true);
                 bPlayer.setTimeOfLastShot(System.currentTimeMillis());
                 bPlayer.setTrack(0);

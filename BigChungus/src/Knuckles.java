@@ -1,4 +1,3 @@
-import org.newdawn.slick.Music;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,7 +13,7 @@ public class Knuckles extends Enemy implements Serializable {
     private transient BufferedImage[] currentImages;
 
     public Knuckles(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player, boolean battleReady){
-        super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player, ID.Knuckles);
+        super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player, ID.Knuckles,20,20);
         this.handler = handler;
         this.game = game;
         this.tbHandler = tbHandler;
@@ -125,7 +124,7 @@ public class Knuckles extends Enemy implements Serializable {
             game.getKeyInput().getKeyDown()[i] = false;
         }
         if(!text.equals("")){
-            TextBox tb = new TextBox(this, text);
+            TextBox tb = new TextBox(this, text,0,0,0,0,ID.TextBox,tbHandler);
             tbHandler.addObject(tb);
         }
 

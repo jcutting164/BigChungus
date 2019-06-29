@@ -140,7 +140,7 @@ public class NPC extends Character implements Serializable {
             game.getKeyInput().getKeyDown()[i] = false;
         }
         if(!text.equals("")){
-            TextBox tb = new TextBox(this, text);
+            TextBox tb = new TextBox(this, text,0,0,0,0,ID.TextBox,tbHandler);
             tbHandler.addObject(tb);
         }
 

@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Player extends Character implements Serializable {
@@ -22,6 +21,13 @@ public class Player extends Character implements Serializable {
     private  Inventory inv;
     private  Magic magic;
     private  int mana, maxMana;
+    private int attack=5, defense=5;
+    private Items armor=null;
+    private Items weapon=null;
+    private int xp=0;
+    private int level=1;
+    public boolean allowed=true;
+
 
 
 
@@ -90,6 +96,7 @@ public class Player extends Character implements Serializable {
         }
     }
     public void render(Graphics g){
+
 
         //g.drawImage(tex.Player_WalkLeft[0], (int) this.x, (int)this.y, 38, 148, null);
         try{
@@ -171,129 +178,130 @@ public class Player extends Character implements Serializable {
 
 
     public void collision(){
-        // IDEA FOR RENDERING ONLY NEEDED THINGS
-        // WHILE COLLISION CHEKCING, CHECK EVERYTHING AGAINST SPECIAL BOUNDS AND ASSIGN VISIBILITY
+        if(allowed){
+            // IDEA FOR RENDERING ONLY NEEDED THINGS
+            // WHILE COLLISION CHEKCING, CHECK EVERYTHING AGAINST SPECIAL BOUNDS AND ASSIGN VISIBILITY
 
-        for(int i = 0; i < this.handler.object.size(); i++){
+            for(int i = 0; i < this.handler.object.size(); i++){
 
-            GameObject tempObject = this.handler.object.get(i);
+                GameObject tempObject = this.handler.object.get(i);
 
-            if(tempObject.getId() == ID.BlackGround || tempObject.getId()==ID.Tree){
-                Rectangle tempRect = getBounds();
-                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
-                if(tempRect.getBounds().intersects(tempObject.getBounds())){
+                if(tempObject.getId() == ID.BlackGround || tempObject.getId()==ID.Tree){
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(tempObject.getBounds())){
 
 
 
-                    x+= velX * -1;
-                    y+= velY*-1;
-                }
-            }else if(tempObject.getId() == ID.NPC){
-                NPC tempNPC = (NPC) tempObject;
-                Rectangle tempRect = getBounds();
-                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
-                if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
-                    x+= velX * -1;
-                    y+= velY*-1;
-                    if(tempNPC.getBattleReady()){
-                        game.setSwitch(false);
-                        game.setCurrentState(Game.STATE.Battle);
+                        x+= velX * -1;
+                        y+= velY*-1;
                     }
-                }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+                }else if(tempObject.getId() == ID.NPC){
+                    NPC tempNPC = (NPC) tempObject;
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        if(tempNPC.getBattleReady()){
+                            game.setSwitch(false);
+                            game.setCurrentState(Game.STATE.Battle);
+                        }
+                    }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                    tempNPC.interaction();
-                    //x+= velX * -1;
-                   // y+= velY*-1;
-                    lastKeyHit=100;
-                }
-            }else if(tempObject.getId() == ID.Knuckles){
-                Knuckles tempKnuckles = (Knuckles) tempObject;
-                Rectangle tempRect = getBounds();
-                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
-                if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
-                    x+= velX * -1;
-                    y+= velY*-1;
-                    if(tempKnuckles.getBattleReady()){
-                        game.setSwitch(false);
-                        game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, tempKnuckles, handler, game,  game.getAp()));
+                        tempNPC.interaction();
+                        //x+= velX * -1;
+                        // y+= velY*-1;
+                        lastKeyHit=100;
                     }
-                }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+                }else if(tempObject.getId() == ID.Knuckles){
+                    Knuckles tempKnuckles = (Knuckles) tempObject;
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        if(tempKnuckles.getBattleReady()){
+                            game.setSwitch(false);
+                            game.setCurrentState(Game.STATE.Battle);
+                            game.setCurrentBattle(new Battle(this, tempKnuckles, handler, game,  game.getAp()));
+                        }
+                    }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                    tempKnuckles.interaction();
-                    x+= velX * -1;
-                    y+= velY*-1;
-                    lastKeyHit=100;
-                }
-            }else if(tempObject.getId() == ID.Pikachu){
-                Pikachu tempPikachu = (Pikachu) tempObject;
-                Rectangle tempRect = getBounds();
-                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
-                if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
-                    x+= velX * -1;
-                    y+= velY*-1;
-                    if(tempPikachu.getBattleReady()){
-                        game.setSwitch(false);
-                        game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, tempPikachu, handler, game, game.getAp()));
+                        tempKnuckles.interaction();
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        lastKeyHit=100;
                     }
-                }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+                }else if(tempObject.getId() == ID.Pikachu){
+                    Pikachu tempPikachu = (Pikachu) tempObject;
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        if(tempPikachu.getBattleReady()){
+                            game.setSwitch(false);
+                            game.setCurrentState(Game.STATE.Battle);
+                            game.setCurrentBattle(new Battle(this, tempPikachu, handler, game, game.getAp()));
+                        }
+                    }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                    tempPikachu.interaction();
-                    x+= velX * -1;
-                    y+= velY*-1;
-                    lastKeyHit=100;
-                }
-            }else if(tempObject.getId() == ID.BigChungus){
-                BigChungus tempBigChungus = (BigChungus) tempObject;
-                Rectangle tempRect = getBounds();
-                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
-                if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
-                    x+= velX * -1;
-                    y+= velY*-1;
-                    if(tempBigChungus.getBattleReady()){
-                        game.setSwitch(false);
-                        game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, tempBigChungus, handler, game, game.getAp()));
+                        tempPikachu.interaction();
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        lastKeyHit=100;
                     }
-                }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+                }else if(tempObject.getId() == ID.BigChungus){
+                    BigChungus tempBigChungus = (BigChungus) tempObject;
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        if(tempBigChungus.getBattleReady()){
+                            game.setSwitch(false);
+                            game.setCurrentState(Game.STATE.Battle);
+                            game.setCurrentBattle(new Battle(this, tempBigChungus, handler, game, game.getAp()));
+                        }
+                    }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                    tempBigChungus.interaction();
-                    x+= velX * -1;
-                    y+= velY*-1;
-                    lastKeyHit=100;
-                }
-            }else if(tempObject.getId()==ID.SaveIcon){
-                SaveObject tempSaveIcon = (SaveObject) tempObject;
-                Rectangle tempRect = tempSaveIcon.getBounds();
-                Rectangle interactRect = new Rectangle((int)tempRect.getX(), (int)tempRect.getY(), (int)tempRect.getWidth(), (int)tempRect.getHeight()/2);
-                tempRect.setRect((int)tempRect.getX()-10, (int)tempRect.getY()-10, (int)tempRect.getWidth()+20, (int)tempRect.getHeight()+20);
+                        tempBigChungus.interaction();
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        lastKeyHit=100;
+                    }
+                }else if(tempObject.getId()==ID.SaveIcon){
+                    SaveObject tempSaveIcon = (SaveObject) tempObject;
+                    Rectangle tempRect = tempSaveIcon.getBounds();
+                    Rectangle interactRect = new Rectangle((int)tempRect.getX(), (int)tempRect.getY(), (int)tempRect.getWidth(), (int)tempRect.getHeight()/2);
+                    tempRect.setRect((int)tempRect.getX(), (int)tempRect.getY(), (int)tempRect.getWidth(), (int)tempRect.getHeight());
 
-                //tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()/2);
-                if(interactRect.intersects(getBounds())){
-                    x+= velX*-1;
-                    y+= velY*-1;
+                    //tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()/2);
+                    if(interactRect.intersects(getBounds())){
+                        x+= velX*-1;
+                        y+= velY*-1;
 
-                }
+                    }
 
-                if(getBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
-                    tempSaveIcon.interaction(game);
+                    if(getBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+                        tempSaveIcon.interaction(game);
 
-                    lastKeyHit=100;
-                }
+                        lastKeyHit=100;
+                    }
 
-            }else if(tempObject.getId()==ID.Transition){
-                Transition tempTransition = (Transition) tempObject;
-                if(getBounds().intersects(tempTransition.getBounds())){
-                    handler.clear();
-                    game.setCurrentRoom(tempTransition.getDestination());
-                    game.setCurrentLevel(game.getRooms().get(tempTransition.getDestination()));
-                    game.loadLevel(tempTransition.getDestination());
-                    handler.addObject(game.getPlayer());
-                    game.getPlayer().setX(tempTransition.getNewPlayerX());
-                    game.getPlayer().setY(tempTransition.getNewPlayerY());
-                    game.setEndangered(tempTransition.getDangerZone());
-                }
+                }else if(tempObject.getId()==ID.Transition){
+                    Transition tempTransition = (Transition) tempObject;
+                    if(getBounds().intersects(tempTransition.getBounds())){
+                        handler.clear();
+                        game.setCurrentRoom(tempTransition.getDestination());
+                        game.setCurrentLevel(game.getRooms().get(tempTransition.getDestination()));
+                        game.loadLevel(tempTransition.getDestination());
+                        handler.addObject(game.getPlayer());
+                        game.getPlayer().setX(tempTransition.getNewPlayerX());
+                        game.getPlayer().setY(tempTransition.getNewPlayerY());
+                        game.setEndangered(tempTransition.getDangerZone());
+                    }
 
                 /*if(tempTransition.getDestination().equals("Room2_1") && getBounds().intersects(tempTransition.getBounds())){
                     handler.clear();
@@ -324,70 +332,83 @@ public class Player extends Character implements Serializable {
 
 
 
-            }else if((tempObject.getId()==ID.Item || tempObject.getId()==ID.Spell) && getBounds().intersects(tempObject.getBounds())){
-                if(tempObject.getId()==ID.Item){
-                    Items temp = (Items) (tempObject);
-                    if(!temp.getObtained()){
-                        temp.setObtained(true);
-                        game.getPlayer().inv.addItem(temp);
-                        game.getPlayer().setVelX(0);
-                        game.getPlayer().setVelY(0);
+                }else if((tempObject.getId()==ID.Item || tempObject.getId()==ID.Spell) && getBounds().intersects(tempObject.getBounds())){
+                    if(tempObject.getId()==ID.Item){
+                        Items temp = (Items) (tempObject);
+                        if(!temp.getObtained()){
+                            temp.setObtained(true);
+                            game.getPlayer().inv.addItem(temp);
+                            game.getPlayer().setVelX(0);
+                            game.getPlayer().setVelY(0);
+                            game.getPlayer().setLimited(true);
+                            game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got a "+temp.getName()+". Check your inventory with C to look at it!",0,0,0,0,ID.TextBox,game.getTbHandler()));
+                        }
+                    }else if(tempObject.getId()==ID.Spell){
+                        Spells temp = (Spells) (tempObject);
+                        if(!temp.getObtained()){
+                            temp.setObtained(true);
+                            game.getPlayer().magic.addItem(temp);
+                            game.getPlayer().setVelX(0);
+                            game.getPlayer().setVelY(0);
+                            game.getPlayer().setLimited(true);
+                            game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got a "+temp.getName()+" spell. Check your spell books with V to look at it!",0,0,0,0,ID.TextBox,game.getTbHandler()));
+                        }
+                    }
+
+
+                }else if(tempObject.getId() == ID.Malario){
+                    Malario tempMalario = (Malario) tempObject;
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        if(tempMalario.getBattleReady()){
+                            game.setSwitch(false);
+                            game.setCurrentState(Game.STATE.Battle);
+                            game.setCurrentBattle(new Battle(this, tempMalario, handler, game, game.getAp()));
+                        }
+                    }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                        tempMalario.interaction();
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        lastKeyHit=100;
+                    }
+                }else if(tempObject.getId()==ID.TPoser){
+                    TPoser tempTposer = (TPoser) tempObject;
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        if(tempTposer.getBattleReady()){
+                            game.setSwitch(false);
+                            game.setCurrentState(Game.STATE.Battle);
+                            game.setCurrentBattle(new Battle(this, tempTposer, handler, game, game.getAp()));
+                        }
+                    }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                        tempTposer.interaction();
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        lastKeyHit=100;
+                    }
+                }else if(tempObject.getId()==ID.TextBox){
+                    TextBox tempTB = (TextBox) tempObject;
+                    if(getBounds().intersects(tempTB.getBounds())){
+                        tempTB.setInteracted(true);
+                        handler.removeObject(tempTB);
+                        game.getTbHandler().addObject(tempTB);
                         game.getPlayer().setLimited(true);
-                        game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got a "+temp.getName()+". Check your inventory with C to look at it!"));
-                    }
-                }else if(tempObject.getId()==ID.Spell){
-                    Spells temp = (Spells) (tempObject);
-                    if(!temp.getObtained()){
-                        temp.setObtained(true);
-                        game.getPlayer().magic.addItem(temp);
-                        game.getPlayer().setVelX(0);
                         game.getPlayer().setVelY(0);
-                        game.getPlayer().setLimited(true);
-                        game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got a "+temp.getName()+" spell. Check your spell books with V to look at it!"));
+                        game.getPlayer().setVelX(0);
                     }
-                }
 
-
-            }else if(tempObject.getId() == ID.Malario){
-                Malario tempMalario = (Malario) tempObject;
-                Rectangle tempRect = getBounds();
-                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
-                if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
-                    x+= velX * -1;
-                    y+= velY*-1;
-                    if(tempMalario.getBattleReady()){
-                        game.setSwitch(false);
-                        game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, tempMalario, handler, game, game.getAp()));
-                    }
-                }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
-
-                    tempMalario.interaction();
-                    x+= velX * -1;
-                    y+= velY*-1;
-                    lastKeyHit=100;
-                }
-            }else if(tempObject.getId()==ID.TPoser){
-                TPoser tempTposer = (TPoser) tempObject;
-                Rectangle tempRect = getBounds();
-                tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
-                if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
-                    x+= velX * -1;
-                    y+= velY*-1;
-                    if(tempTposer.getBattleReady()){
-                        game.setSwitch(false);
-                        game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, tempTposer, handler, game, game.getAp()));
-                    }
-                }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
-
-                    tempTposer.interaction();
-                    x+= velX * -1;
-                    y+= velY*-1;
-                    lastKeyHit=100;
                 }
             }
         }
+
     }
 
 
@@ -484,4 +505,61 @@ public class Player extends Character implements Serializable {
     public void setMagic(Magic magic) {
         this.magic = magic;
     }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    public Items getArmor() {
+        return armor;
+    }
+
+    public void setArmor(Items armor) {
+        this.armor = armor;
+    }
+
+    public Items getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Items weapon) {
+        this.weapon = weapon;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void LevelUp(){
+        xp=xp-level*100;
+        level++;
+        attack+=3;
+        defense+=3;
+
+    }
+
 }

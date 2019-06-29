@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Spells extends GameObject implements Serializable {
 
@@ -25,9 +26,31 @@ public class Spells extends GameObject implements Serializable {
     public void use(){
         if(name.equals("Auto kill")){
             game.getCurrentBattle().getEnemy().setHealth(0);
-        }else if(name.equals("Basic Heal")&&game.getPlayer().getMana()>=5){
-            game.getPlayer().setHealth(game.getPlayer().getHealth()+5);
-            game.getPlayer().setMana(game.getPlayer().getMana()-5);
+        }else if(name.equals("Basic Heal")&&game.getPlayer().getMana()>=manaREQ){
+            game.getPlayer().setHealth(game.getPlayer().getHealth()+manaREQ);
+            game.getPlayer().setMana(game.getPlayer().getMana()-manaREQ);
+        }else if(name.equals("Boogie Woogie")&&game.getPlayer().getMana()>=manaREQ){
+            if(!(game.getCurrentBattle()==null)){
+                game.getPlayer().setAttack(game.getPlayer().getAttack()+5);
+                game.getPlayer().setMana(game.getPlayer().getMana()-manaREQ);
+            }
+
+        }else if(name.equals("Enie Meni Minie Mo")&&game.getPlayer().getMana()>=manaREQ){
+            int temp= ThreadLocalRandom.current().nextInt(4);
+            if(temp==0){
+                game.getPlayer().setHealth(game.getPlayer().getHealth()-20);
+            }else if(temp==1){
+                game.getPlayer().setHealth(game.getPlayer().getHealth()-5);
+            }else if(temp==2){
+                game.getCurrentBattle().getEnemy().setHealth(game.getCurrentBattle().getEnemy().getHealth()-20);
+            }else if(temp==3){
+                game.getCurrentBattle().getEnemy().setHealth(game.getCurrentBattle().getEnemy().getHealth()-5);
+            }
+            game.getPlayer().setMana(game.getPlayer().getMana()-manaREQ);
+        }else if(name.equals("Yeetus Deletus")&&game.getPlayer().getMana()>=manaREQ){
+            game.getCurrentBattle().getEnemy().setHealth(game.getCurrentBattle().getEnemy().getHealth()-15);
+            game.getPlayer().setMana(game.getPlayer().getMana()-manaREQ);
+
         }
     }
 

@@ -35,6 +35,8 @@ public class Battle implements Serializable {
     private boolean firstLoop;
     private int choice=0;
     private AudioPlayer ap;
+    private int baseAttack, baseDefense;
+    private int baseLevel;
 
 
 
@@ -60,6 +62,9 @@ public class Battle implements Serializable {
         this.bPlayer = new BattlePlayer(640, 650, 16, 16, ID.BattlePlayer, player, game, ap);
         this.battleKeyInput = new BattleKeyInput(handler, player, this, bPlayer);
         game.addKeyListener(this.battleKeyInput);
+        this.baseAttack=game.getPlayer().getAttack();
+        this.baseDefense=game.getPlayer().getDefense();
+        this.baseLevel=game.getPlayer().getLevel();
 
         ap.load();
         if(enemy.getId()==ID.Knuckles){
@@ -93,6 +98,8 @@ public class Battle implements Serializable {
                     ap.getMusic("Malario").stop();
                     ap.getMusic("TPoser").stop();
                     ap.getSound("GameOver").play();
+                    game.getPlayer().setAttack(this.baseAttack);
+                    game.getPlayer().setDefense(this.baseDefense);
 
 
             	}
@@ -391,7 +398,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(time2>2000 && track < 4){
-                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player, handler,this);
                                 temp.boxBounce();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -412,7 +419,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(time2>500 && track < 20){
-                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 31, 30, ID.EnemyAttackItem, tex.Knuckles_A1, 3, 18, 18, bPlayer, player, handler,this);
                                 temp.randomProtShot();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -432,7 +439,7 @@ public class Battle implements Serializable {
                         }else{
 
                             if(track < 1){
-                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 34, 105, ID.EnemyAttackItem, tex.Knuckles_A2, 3, 105, 34, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 34, 105, ID.EnemyAttackItem, tex.Knuckles_A2, 3, 105, 34, bPlayer, player, handler,this);
                                 temp.DYKDW();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -453,7 +460,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(track < 5 && time2>3000){
-                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 290, 270, ID.EnemyAttackItem, tex.Knuckles_A1, 6, 300, 310, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 290, 270, ID.EnemyAttackItem, tex.Knuckles_A1, 6, 300, 310, bPlayer, player, handler,this);
                                 temp.LS();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -481,10 +488,10 @@ public class Battle implements Serializable {
 
 
                                 if (firstLoop) {
-                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
-                                    EnemyAttackItem temp2 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
-                                    EnemyAttackItem temp3 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
-                                    EnemyAttackItem temp4 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
+                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler,this);
+                                    EnemyAttackItem temp2 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler,this);
+                                    EnemyAttackItem temp3 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler,this);
+                                    EnemyAttackItem temp4 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler,this);
                                     temp1.LightningShot(0);
                                     temp2.LightningShot(1);
                                     temp3.LightningShot(2);
@@ -514,10 +521,10 @@ public class Battle implements Serializable {
                                     templist.get(1 + ((track - 1)) * 3).setImages(tex.Pikachu_A1S);
                                     templist.get(2 + ((track - 1)) * 3).setImages(tex.Pikachu_A1S);
                                     templist.get(3 + ((track - 1)) * 3).setImages(tex.Pikachu_A1S);
-                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
-                                    EnemyAttackItem temp2 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
-                                    EnemyAttackItem temp3 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
-                                    EnemyAttackItem temp4 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler);
+                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler,this);
+                                    EnemyAttackItem temp2 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler,this);
+                                    EnemyAttackItem temp3 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler,this);
+                                    EnemyAttackItem temp4 = new EnemyAttackItem(600, 600, 31, 30, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 18, 18, bPlayer, player, handler,this);
                                     temp1.LightningShot(0);
                                     temp2.LightningShot(1);
                                     temp3.LightningShot(2);
@@ -551,7 +558,7 @@ public class Battle implements Serializable {
                             if (time2 > 500 && track < 20) {
                                 if(firstLoop){
 
-                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 90, 55, ID.EnemyAttackItem, tex.Pikachu_A1, 2, 55, 90, bPlayer, player, handler);
+                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 90, 55, ID.EnemyAttackItem, tex.Pikachu_A1, 2, 55, 90, bPlayer, player, handler,this);
                                     temp1.LargeLightningShot();
                                     handler.addObject(temp1);
                                     track++;
@@ -562,7 +569,7 @@ public class Battle implements Serializable {
                                     templist.get(templist.size()-1).setVelY(20);
 
 
-                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 90, 55, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 55, 90, bPlayer, player, handler);
+                                    EnemyAttackItem temp1 = new EnemyAttackItem(600, 600, 90, 55, ID.EnemyAttackItem, tex.Pikachu_A1, 3, 55, 90, bPlayer, player, handler,this);
                                     temp1.LargeLightningShot();
                                     handler.addObject(temp1);
                                     timeOfLastShot2 = timeNow2;
@@ -590,7 +597,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(track < 10 && time2>1000){
-                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 97, 96, ID.EnemyAttackItem, tex.Pikachu_A2, 6, 96, 97, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 97, 96, ID.EnemyAttackItem, tex.Pikachu_A2, 6, 96, 97, bPlayer, player, handler,this);
                                 temp.Pokeball();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -615,7 +622,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(track < 1 && time2>1000){
-                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 97, 96, ID.EnemyAttackItem, tex.Pikachu_A3, 6, 96, 97, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 97, 96, ID.EnemyAttackItem, tex.Pikachu_A3, 6, 96, 97, bPlayer, player, handler,this);
                                 temp.PikachuShot();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -643,7 +650,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if (time2 > 100 && track < 45) {
-                                EnemyAttackItem temp = new EnemyAttackItem(0,0,36,117,ID.EnemyAttackItem,tex.BigChungus_A1,1,117,36,bPlayer,player,handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(0,0,36,117,ID.EnemyAttackItem,tex.BigChungus_A1,1,117,36,bPlayer,player,handler,this);
                                 temp.CarrotShot();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -673,7 +680,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if (time2 > 250 && track < 1) {
-                                EnemyAttackItem temp = new EnemyAttackItem(0,0,128,128,ID.EnemyAttackItem,tex.BigChungus_A3,4,128,128,bPlayer,player,handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(0,0,128,128,ID.EnemyAttackItem,tex.BigChungus_A3,4,128,128,bPlayer,player,handler,this);
                                 choice = temp.CoinFlip();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -699,7 +706,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(track < 10 && time2>1000){
-                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 97, 96, ID.EnemyAttackItem, tex.BigChungus_A2, 4, 96, 97, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 97, 96, ID.EnemyAttackItem, tex.BigChungus_A2, 4, 96, 97, bPlayer, player, handler,this);
                                 temp.CardAttack();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -724,7 +731,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(track < 5 && time2>1000){
-                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 488, 272, ID.EnemyAttackItem, tex.BigChungus_A4, 6, 272, 488, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 488, 272, ID.EnemyAttackItem, tex.BigChungus_A4, 6, 272, 488, bPlayer, player, handler,this);
                                 temp.Gottem();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -751,7 +758,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(time2>2000 && track < 4){
-                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 66, 104, ID.EnemyAttackItem, tex.Malario_A1, 3, 104, 66, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 66, 104, ID.EnemyAttackItem, tex.Malario_A1, 3, 104, 66, bPlayer, player, handler,this);
                                 temp.Mosquito();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -772,7 +779,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(time2>500 && track < 20){
-                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 18, 18, ID.EnemyAttackItem, tex.Malario_A2, 3, 18, 18, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 18, 18, ID.EnemyAttackItem, tex.Malario_A2, 3, 18, 18, bPlayer, player, handler,this);
                                 temp.Fireball();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -796,7 +803,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(time2>50 && track < 200){
-                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 48, 48, ID.EnemyAttackItem, tex.Tposer_A1, 3, 48, 48, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 48, 48, ID.EnemyAttackItem, tex.Tposer_A1, 3, 48, 48, bPlayer, player, handler,this);
                                 temp.letterT();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -817,7 +824,7 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(time2>25 && track < 200){
-                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 50, 66, ID.EnemyAttackItem, tex.Tposer_A2, 3, 66, 50, bPlayer, player, handler);
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 50, 66, ID.EnemyAttackItem, tex.Tposer_A2, 3, 66, 50, bPlayer, player, handler,this);
                                 temp.teaCup();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
@@ -1062,6 +1069,9 @@ public class Battle implements Serializable {
     }
 
     public void endBattle(){
+        game.getCurrentBattle().getEnemy().defeated=true;
+
+
         ap.getMusic("Pikachu").stop();
         ap.getMusic("Knuckles").stop();
         ap.getMusic("BigChungus").stop();
@@ -1073,8 +1083,42 @@ public class Battle implements Serializable {
         game.removeKeyListener(battleKeyInput);
         game.setCurrentBattle(null);
 
+        int amount=0;
+
+        if(enemy.getName().equals("Pikachu")){
+            amount =ThreadLocalRandom.current().nextInt(1000,2000);
+        }else if(enemy.getName().equals("Knuckles")){
+            amount =ThreadLocalRandom.current().nextInt(500,1000);
+        }else if(enemy.getName().equals("Big Chungus")){
+            amount =ThreadLocalRandom.current().nextInt(10000,20000);
+        }else if(enemy.getName().equals("Malario")){
+            amount =ThreadLocalRandom.current().nextInt(10,20);
+        }else if(enemy.getName().equals("TPoser")){
+            amount = ThreadLocalRandom.current().nextInt(15,25);
+        }else if(enemy.getName().equals("Pikachu")){
 
 
+        }else if(enemy.getName().equals("Pikachu")){
+
+        }
+        game.getPlayer().setXp(game.getPlayer().getXp()+amount);
+
+
+
+        while(player.getXp()>=player.getLevel()*100){
+            player.LevelUp();
+
+        }
+        if(player.getLevel()>this.baseLevel){
+            game.getPlayer().setLimited(true);
+            game.getTbHandler().addObject(new TextBox(player,"You leveled up to Level "+game.getPlayer().getLevel()+" and gained "+amount+" xp.",0,0,0,0,ID.TextBox,game.getTbHandler()));
+        }else{
+            game.getPlayer().setLimited(true);
+            game.getTbHandler().addObject(new TextBox(player, "You got "+amount+" xp.",0,0,0,0,ID.TextBox,game.getTbHandler()));
+        }
+
+        game.getPlayer().setVelX(0);
+        game.getPlayer().setVelY(0);
 
 
 
@@ -1088,5 +1132,231 @@ public class Battle implements Serializable {
         return this.enemy;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setEnemy(Enemy enemy) {
+        this.enemy = enemy;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public String getCurrentOption() {
+        return currentOption;
+    }
+
+    public void setCurrentOption(String currentOption) {
+        this.currentOption = currentOption;
+    }
+
+    public Enemy getRealEnemy() {
+        return realEnemy;
+    }
+
+    public void setRealEnemy(Enemy realEnemy) {
+        this.realEnemy = realEnemy;
+    }
+
+    public boolean isPlayerTurn() {
+        return playerTurn;
+    }
+
+    public BattleKeyInput getBattleKeyInput() {
+        return battleKeyInput;
+    }
+
+    public void setBattleKeyInput(BattleKeyInput battleKeyInput) {
+        this.battleKeyInput = battleKeyInput;
+    }
+
+    public Textures getTex() {
+        return tex;
+    }
+
+    public void setTex(Textures tex) {
+        this.tex = tex;
+    }
+
+    public void setSelectedOption(boolean[] selectedOption) {
+        this.selectedOption = selectedOption;
+    }
+
+    public int getText_x() {
+        return text_x;
+    }
+
+    public void setText_x(int text_x) {
+        this.text_x = text_x;
+    }
+
+    public boolean isSelection1() {
+        return selection1;
+    }
+
+    public Font getFnt() {
+        return fnt;
+    }
+
+    public void setFnt(Font fnt) {
+        this.fnt = fnt;
+    }
+
+    public boolean isSelection2() {
+        return selection2;
+    }
+
+    public boolean isEnemyVisable() {
+        return enemyVisable;
+    }
+
+    public boolean isEffectTime() {
+        return effectTime;
+    }
+
+    public boolean isFirstTimeInTurn() {
+        return firstTimeInTurn;
+    }
+
+    public boolean isPauseEnd() {
+        return pauseEnd;
+    }
+
+    public S_BasicAttack getAttack() {
+        return attack;
+    }
+
+    public void setAttack(S_BasicAttack attack) {
+        this.attack = attack;
+    }
+
+    public boolean isPlayerTurnStart() {
+        return playerTurnStart;
+    }
+
+    public boolean isEnemyTurnStart() {
+        return enemyTurnStart;
+    }
+
+    public BattlePlayer getbPlayer() {
+        return bPlayer;
+    }
+
+    public void setbPlayer(BattlePlayer bPlayer) {
+        this.bPlayer = bPlayer;
+    }
+
+    public int getTrack() {
+        return track;
+    }
+
+    public void setTrack(int track) {
+        this.track = track;
+    }
+
+    public long getTimeOfLastShot() {
+        return timeOfLastShot;
+    }
+
+    public void setTimeOfLastShot(long timeOfLastShot) {
+        this.timeOfLastShot = timeOfLastShot;
+    }
+
+    public long getTimeOfLastShot2() {
+        return timeOfLastShot2;
+    }
+
+    public void setTimeOfLastShot2(long timeOfLastShot2) {
+        this.timeOfLastShot2 = timeOfLastShot2;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public long getTimeNow() {
+        return timeNow;
+    }
+
+    public void setTimeNow(long timeNow) {
+        this.timeNow = timeNow;
+    }
+
+    public long getTime2() {
+        return time2;
+    }
+
+    public void setTime2(long time2) {
+        this.time2 = time2;
+    }
+
+    public long getTimeNow2() {
+        return timeNow2;
+    }
+
+    public void setTimeNow2(long timeNow2) {
+        this.timeNow2 = timeNow2;
+    }
+
+    public boolean isFirstLoop() {
+        return firstLoop;
+    }
+
+    public void setFirstLoop(boolean firstLoop) {
+        this.firstLoop = firstLoop;
+    }
+
+    public int getChoice() {
+        return choice;
+    }
+
+    public void setChoice(int choice) {
+        this.choice = choice;
+    }
+
+    public AudioPlayer getAp() {
+        return ap;
+    }
+
+    public void setAp(AudioPlayer ap) {
+        this.ap = ap;
+    }
+
+    public int getBaseAttack() {
+        return baseAttack;
+    }
+
+    public void setBaseAttack(int baseAttack) {
+        this.baseAttack = baseAttack;
+    }
+
+    public int getBaseDefense() {
+        return baseDefense;
+    }
+
+    public void setBaseDefense(int baseDefense) {
+        this.baseDefense = baseDefense;
+    }
 }

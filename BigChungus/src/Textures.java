@@ -34,6 +34,7 @@ public class Textures implements Serializable {
     SpriteSheet SS_Room2_1O;
     SpriteSheet SS_Room2_2;
     SpriteSheet SS_Room2_3;
+    SpriteSheet SS_Room2_4;
     SpriteSheet SS_People;
     SpriteSheet SS_Forest;
 
@@ -69,6 +70,7 @@ public class Textures implements Serializable {
     private transient BufferedImage BI_Room2_1O;
     private transient BufferedImage BI_Room2_2;
     private transient BufferedImage BI_Room2_3;
+    private transient BufferedImage BI_Room2_4;
     private transient BufferedImage BI_ExtraItems;
     private transient BufferedImage BI_Malario;
     private transient BufferedImage BI_A_Malario;
@@ -102,6 +104,7 @@ public class Textures implements Serializable {
     private transient InputStream IS_Room2_1O;
     private transient InputStream IS_Room2_2;
     private transient InputStream IS_Room2_3;
+    private transient InputStream IS_Room2_4;
 
     private transient InputStream IS_ExtraItems;
     private transient InputStream IS_Malario;
@@ -156,6 +159,8 @@ public class Textures implements Serializable {
     public transient BufferedImage Room2_2O;
     public transient BufferedImage Room2_3;
     public transient BufferedImage Room2_3O;
+    public transient BufferedImage Room2_4;
+    public transient BufferedImage Room2_4O;
 
     public transient BufferedImage TheLastEntity;
     public transient BufferedImage TheLastEntityFace;
@@ -264,6 +269,9 @@ public class Textures implements Serializable {
             IS_Room2_3=new FileInputStream("res/Rooms/Room2_3.png");
             BI_Room2_3=ImageIO.read(IS_Room2_3);
 
+            IS_Room2_4=new FileInputStream("res/Rooms/Room2_4.png");
+            BI_Room2_4=ImageIO.read(IS_Room2_4);
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -296,6 +304,7 @@ public class Textures implements Serializable {
         SS_Tposer=new SpriteSheet(BI_Tposer);
         SS_Room2_2=new SpriteSheet(BI_Room2_2);
         SS_Room2_3=new SpriteSheet(BI_Room2_3);
+        SS_Room2_4=new SpriteSheet(BI_Room2_4);
         getTextures();
 
     }
@@ -419,6 +428,8 @@ public class Textures implements Serializable {
         Room2_2O=SS_Room2_2.getSubImage(0,15,20,15);
         Room2_3=SS_Room2_3.getSubImage(0,0,96,96);
         Room2_3O=SS_Room2_3.getSubImage(0,96,96,96);
+        Room2_4O=SS_Room2_4.getSubImage(0,0,96,16);
+        Room2_4=SS_Room2_4.getSubImage(0,16,96,16);
 
 
         TheLastEntity = SS_People.getSubImage(500,11,64,71);
@@ -435,6 +446,8 @@ public class Textures implements Serializable {
         TposerBF=SS_Tposer.getSubImage(0,0,239,305);
         Tposer_A1[0] = SS_Tposer.getSubImage(320,0,273,302);
         Tposer_A2[0] = SS_Tposer.getSubImage(390,438,198,161);
+
+
 
 
     }

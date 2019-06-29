@@ -16,14 +16,14 @@ public class Malario extends Enemy implements Serializable {
 
 
     public Malario(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player, boolean battleReady){
-        super(x, y, height, width,handler,game, id, speed, tbHandler, "It's a me, MALARIO", player,ID.Malario);
+        super(x, y, height, width,handler,game, id, speed, tbHandler, "It's a me, MALARIO", player,ID.Malario,5,5);
         this.handler = handler;
         this.game = game;
         this.tbHandler = tbHandler;
         this.text = text;
         this.player = player;
         this.battleReady=battleReady;
-        this.health = 100;
+        this.health = 20;
         setName("Malario");
         this.nameColor = Color.red;
         this.maxhealth=this.health;
@@ -126,7 +126,7 @@ public class Malario extends Enemy implements Serializable {
             game.getKeyInput().getKeyDown()[i] = false;
         }
         if(!text.equals("")){
-            TextBox tb = new TextBox(this, text);
+            TextBox tb = new TextBox(this, text,0,0,0,0,ID.TextBox,tbHandler);
             tbHandler.addObject(tb);
         }
 

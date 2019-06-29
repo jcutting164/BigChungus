@@ -53,11 +53,21 @@ public class Game extends Canvas implements Runnable, Serializable {
     private HashMap<String, ArrayList<Integer>> ranges=new HashMap<>();
     private String currentRoom="Room1_1";
 
+
     private boolean endangered=false;
 
     // obtainable items and spells creation
     Items Room1_1_Apple;
     Spells Room2_2_Basic_Heal;
+    Items Room2_3_Tidepod;
+    Items Room2_3_EmptyWaterBottle;
+    Items Room2_3_LiptonIcedTea;
+    Items Room2_3_WizardWand;
+    Items Room2_3_WizardCloak;
+    Spells Room2_3_YeetusDeletus;
+    Spells Room2_3_EnnieMeenieMinieMo;
+    Spells Room2_3_BoogieWoogie;
+
 
 
     public enum STATE {
@@ -84,6 +94,7 @@ public class Game extends Canvas implements Runnable, Serializable {
         rooms.put("Room2_1",tex.Room2_1);
         rooms.put("Room2_2",tex.Room2_2);
         rooms.put("Room2_3",tex.Room2_3);
+        rooms.put("Room2_4",tex.Room2_4);
 
         ranges.put("Room1_1",new ArrayList<>());
         ranges.get("Room1_1").add(4000);
@@ -101,6 +112,11 @@ public class Game extends Canvas implements Runnable, Serializable {
         ranges.get("Room2_3").add((4810));
         ranges.get("Room2_3").add(5140);
 
+        ranges.put("Room2_4",new ArrayList<>());
+        ranges.get("Room2_4").add((4790));
+        ranges.get("Room2_4").add(10);
+
+
         window = new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
         handler = new Handler(this);
         //loadSave();
@@ -109,13 +125,13 @@ public class Game extends Canvas implements Runnable, Serializable {
 
 
         inv = new Inventory();
-        inv.addItem(new Items("Apple2","Not good",inv,-200,-200,0,0,ID.Item));
 
         magic = new Magic();
         magic.addItem(new Spells("Auto kill", "Yeet and Delete", magic,0,0,0,0,ID.Spell,this,0));
 
         //loadSave();
-
+        knuckles1 = new Knuckles(5760, 385, 100, 52, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
+        bigChungus = new BigChungus(5760, 375, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "CHUNGA", player, true);
 
 
 
@@ -177,11 +193,14 @@ public class Game extends Canvas implements Runnable, Serializable {
                 camera.updateRange("Room1_1");
                 player = new Player(900, 100, 92, 25, handler, this, ID.Player, 2,inv, magic);
                 // items and spells addition
-                Room1_1_Apple = new Items("Apple","Good Snack boi",player.getInv(),900,1700,16,16,ID.Item);
+                Room1_1_Apple = new Items("Apple","Good Snack boi",player.getInv(),900,1700,32,32,ID.Item,this,0,0);
                 Room2_2_Basic_Heal = new Spells("Basic Heal", "Heals 5 HP uses 5 Mana", player.getMagic(),800,150,32,32,ID.Spell,this,5);
-
-
-
+                Room2_3_BoogieWoogie=new Spells("Boogie Woogie", "Increase attack by 5. Uses 10 mana", player.getMagic(),660,2780,32,32,ID.Spell,this,10);
+                Room2_3_YeetusDeletus=new Spells("Yeetus Deletus", "Will do 15 damage. 15 Mana", player.getMagic(),5760,5860,32,32,ID.Spell,this,15);
+                Room2_3_EnnieMeenieMinieMo=new Spells("Enie Meni Minie Mo", "May hurt you, may hurt the enemy. 20 Mana", player.getMagic(),5915,115,32,32,ID.Spell,this,20);
+                Room2_3_EmptyWaterBottle=new Items("Empty Water Bottle","Yeet it for 5-10 damage",player.getInv(),900,1700,32,32,ID.Item,this,0,0);
+                Room2_3_LiptonIcedTea = new Items("Lipton Iced Tea","Heals 14",player.getInv(),5900,2020,32,32,ID.Item,this,0,0);
+                Room2_3_Tidepod=new Items("Tide Pod","Heals 5",player.getInv(),80,5920,32,32,ID.Item,this,0,0);
 
 
             }if(currentState==STATE.FirstArea && Switch == false){
@@ -202,10 +221,11 @@ public class Game extends Canvas implements Runnable, Serializable {
                     //handler.addObject(tposer);
 
                     //npc = new NPC(400, 200, 19, 74, handler, this, ID.NPC, 2, tbHandler, "asdfasdfasdfasdfja;sldkjfaslkdjfasldf;a", player, ID.TheLastEntity);
-                    //Knuckles knuckles1 = new Knuckles(600, 200, 96, 48, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
+                    System.out.println("here");
+
                     //handler.addObject(knuckles1);
                     //Pikachu pikachu = new Pikachu(800, 500, 96, 48, handler, this, ID.Pikachu, 2, tbHandler, "Pikaaachuuu", player, true);
-                    //BigChungus bigChungus = new BigChungus(500, 500, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "CHUNGA", player, true);
+                    bigChungus = new BigChungus(500, 500, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "CHUNGA", player, true);
                     // handler.addObject(pikachu);
                     //handler.addObject(npc);
                     //handler.addObject(bigChungus);
@@ -225,7 +245,14 @@ public class Game extends Canvas implements Runnable, Serializable {
                     handler.clear();
                     loadLevel(currentRoom);
                     handler.addObject(player);
+                }else if(currentRoom.equals("Room2_4")){
+                    System.out.println("here");
+                    handler.clear();
+                    loadLevel(currentRoom);
+                    handler.addObject(player);
                 }
+
+
 
 
                 this.keyInput = new KeyInput(handler, player, tbHandler, player.getInv());
@@ -588,8 +615,40 @@ public class Game extends Canvas implements Runnable, Serializable {
             loadLevel(tex.Room2_3O);
             camera.updateRange("Room2_3");
             handler.addObject(new Transition(2600,100,32,700,ID.Transition, "Room2_1",975,1800,player,true));
-            //handler.addObject(new Transition(2800,150,32,200,ID.Transition,"Room2_1",925,1880,player,true));
+            handler.addObject(new Transition(2050,6025,32,400,ID.Transition,"Room2_4",480,60,player,false));
+            // coords for room2_4 transistion
+            // 2050,6025
 
+            // item and spell additions
+
+            handler.addObject(Room2_3_BoogieWoogie);
+            handler.addObject(Room2_3_EmptyWaterBottle);
+            handler.addObject(Room2_3_EnnieMeenieMinieMo);
+            handler.addObject(Room2_3_LiptonIcedTea);
+            handler.addObject(Room2_3_Tidepod);
+            handler.addObject(Room2_3_YeetusDeletus);
+
+
+        }else if(currentRoom.equals("Room2_4")){
+            handler.addObject(new Transition(0,30,32,1000,ID.Transition,"Room2_3",2250,5900,player,true));
+
+            if(!knuckles1.defeated){
+                handler.addObject(knuckles1);
+                handler.addObject(new TextBox(null,"CLICK CLICK CLICK (I know who you are.)",1120,0,1000,16,ID.TextBox,tbHandler));
+                handler.addObject(new TextBox(null,"CLICK CLICK CLICK (I know what you are going to try to do.)",1740,0,1000,16,ID.TextBox,tbHandler));
+                handler.addObject(new TextBox(null,"CLICK CLICK CLICK (I will give you a choice to turn back now before it is too late.)",2360,0,1000,16,ID.TextBox,tbHandler));
+                handler.addObject(new TextBox(knuckles1,"CLICK CLICK CLICK (I'm sorry, but I must protect him with my life)",5180,0,1000,16,ID.TextBox,tbHandler));
+                handler.addObject(new TextBox(knuckles1,"CLICK CLICK (I, Ugandan Knuckles will stop you. Approach me and seek destruction.)",5560,0,1000,16,ID.TextBox,tbHandler));
+                handler.addObject(new SaveObject(5280,200,64,64));
+            }
+
+
+
+
+            setBackground(Color.black);
+            loadLevel(tex.Room2_4O);
+            camera.updateRange("Room2_4");
+            //handler.addObject(knuckles1);
         }
 
         camera.setX(((player.getX())  ));
@@ -630,7 +689,7 @@ public class Game extends Canvas implements Runnable, Serializable {
             handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, Kanto, and the Land of Dead Memes in order to _____ HIM (a piece is scribbled out)",player, ID.Book));
             // transition object to room 2_2
             handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",850,100,player,true));
-            handler.addObject(new Items("Apple","Good Snack boi",player.getInv(),900,1700,64,64,ID.Item));
+            handler.addObject(new Items("Apple","Good Snack boi",player.getInv(),900,1700,64,64,ID.Item,this,0,0));
 
 
 
@@ -698,6 +757,8 @@ public class Game extends Canvas implements Runnable, Serializable {
             rooms.put("Testing Room", tex.SS_FirstArea.grabImage(1, 1, 64, 64));
             rooms.put("Room1_1", tex.Room1_1);
             rooms.put("Room2_1",tex.Room2_1);
+            rooms.put("Room2_4",tex.Room2_4);
+            rooms.put("Room2_3",tex.Room2_3);
             window=new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
             handler = temp.handler;
             currentLevel = tex.Room1_1;
@@ -835,4 +896,7 @@ public class Game extends Canvas implements Runnable, Serializable {
     public String getCurrentRoom() {
         return currentRoom;
     }
+
+
+
 }

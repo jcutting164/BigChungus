@@ -20,8 +20,10 @@ public abstract class Enemy extends NPC implements Serializable {
     protected int currentMove;
     protected int moves;
     protected boolean runnable;
+    protected int attack, defense;
+    protected boolean defeated = false;
 
-    public Enemy(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player,ID sId){
+    public Enemy(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player,ID sId,int attack, int defense){
         super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player, sId);
         this.handler = handler;
         this.game = game;
@@ -29,6 +31,8 @@ public abstract class Enemy extends NPC implements Serializable {
         this.text = text;
         this.player = player;
         this.runnable=true;
+        this.attack=attack;
+        this.defense=defense;
 
 
 
@@ -113,7 +117,7 @@ public abstract class Enemy extends NPC implements Serializable {
             game.getKeyInput().getKeyDown()[i] = false;
         }
         if(!text.equals("")){
-            TextBox tb = new TextBox(this, text);
+            TextBox tb = new TextBox(this, text,0,0,0,0,ID.TextBox,tbHandler);
             tbHandler.addObject(tb);
         }
 
@@ -159,6 +163,22 @@ public abstract class Enemy extends NPC implements Serializable {
     public void chooseMove(){
         int randomNum = ThreadLocalRandom.current().nextInt(0, moves);
         this.currentMove=randomNum;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 
 
