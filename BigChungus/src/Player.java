@@ -37,8 +37,8 @@ public class Player extends Character implements Serializable {
         this.game = game;
         this.inv = inv;
         this.magic = magic;
-        this.mana=100;
-        this.maxMana=100;
+        this.mana=20;
+        this.maxMana=20;
 
 
         this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
@@ -47,7 +47,7 @@ public class Player extends Character implements Serializable {
         this.walkDown = new Animation(speed, tex.Player_WalkDown[1], tex.Player_WalkDown[2]);
         this.isVisible = true;
         this.Face = tex.Player_Face[0];
-        this.health = 100;
+        this.health = 20;
         this.maxhealth=this.health;
         this.name="Filler";
     }
@@ -559,6 +559,10 @@ public class Player extends Character implements Serializable {
         level++;
         attack+=3;
         defense+=3;
+        maxhealth+=5;
+        maxMana+=5;
+        health=maxhealth;
+        mana=maxMana;
 
     }
 

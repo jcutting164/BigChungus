@@ -634,11 +634,11 @@ public class Game extends Canvas implements Runnable, Serializable {
 
             if(!knuckles1.defeated){
                 handler.addObject(knuckles1);
-                handler.addObject(new TextBox(null,"CLICK CLICK CLICK (I know who you are.)",1120,0,1000,16,ID.TextBox,tbHandler));
-                handler.addObject(new TextBox(null,"CLICK CLICK CLICK (I know what you are going to try to do.)",1740,0,1000,16,ID.TextBox,tbHandler));
-                handler.addObject(new TextBox(null,"CLICK CLICK CLICK (I will give you a choice to turn back now before it is too late.)",2360,0,1000,16,ID.TextBox,tbHandler));
-                handler.addObject(new TextBox(knuckles1,"CLICK CLICK CLICK (I'm sorry, but I must protect him with my life)",5180,0,1000,16,ID.TextBox,tbHandler));
-                handler.addObject(new TextBox(knuckles1,"CLICK CLICK (I, Ugandan Knuckles will stop you. Approach me and seek destruction.)",5560,0,1000,16,ID.TextBox,tbHandler));
+                handler.addObject(new TextBox(null,"CLUCK CLUCK CLUCK (I know who you are.)",1120,0,1000,16,ID.TextBox,tbHandler));
+                handler.addObject(new TextBox(null,"CLUCK CLUCK CLUCK (I know what you are going to try to do.)",1740,0,1000,16,ID.TextBox,tbHandler));
+                handler.addObject(new TextBox(null,"CLUCK CLUCK CLUCK (I will give you a choice to turn back now before it is too late.)",2360,0,1000,16,ID.TextBox,tbHandler));
+                handler.addObject(new TextBox(knuckles1,"CLUCK CLUCK CLUCK (I'm sorry, but I must protect him with my life)",5180,0,1000,16,ID.TextBox,tbHandler));
+                handler.addObject(new TextBox(knuckles1,"CLUCK CLUCK (I, Ugandan Knuckles will stop you. Approach me and seek destruction.)",5560,0,1000,16,ID.TextBox,tbHandler));
                 handler.addObject(new SaveObject(5280,200,64,64));
             }
 
