@@ -95,6 +95,7 @@ public class Game extends Canvas implements Runnable, Serializable {
         rooms.put("Room2_2",tex.Room2_2);
         rooms.put("Room2_3",tex.Room2_3);
         rooms.put("Room2_4",tex.Room2_4);
+        rooms.put("Room3_1",tex.Room3_1);
 
         ranges.put("Room1_1",new ArrayList<>());
         ranges.get("Room1_1").add(4000);
@@ -117,6 +118,10 @@ public class Game extends Canvas implements Runnable, Serializable {
         ranges.get("Room2_4").add(10);
 
 
+        ranges.put("Room3_1",new ArrayList<>());
+        ranges.get("Room3_1").add((3380));
+        ranges.get("Room3_1").add(3100);
+
         window = new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
         handler = new Handler(this);
         //loadSave();
@@ -127,7 +132,7 @@ public class Game extends Canvas implements Runnable, Serializable {
         inv = new Inventory();
 
         magic = new Magic();
-        magic.addItem(new Spells("Auto kill", "Yeet and Delete", magic,0,0,0,0,ID.Spell,this,0));
+      //  magic.addItem(new Spells("Auto kill", "Yeet and Delete", magic,0,0,0,0,ID.Spell,this,0));
 
         //loadSave();
         knuckles1 = new Knuckles(5760, 385, 100, 52, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
@@ -193,15 +198,20 @@ public class Game extends Canvas implements Runnable, Serializable {
                 camera.updateRange("Room1_1");
                 player = new Player(900, 100, 92, 25, handler, this, ID.Player, 2,inv, magic);
                 // items and spells addition
-                Room1_1_Apple = new Items("Apple","Good Snack boi",player.getInv(),900,1700,32,32,ID.Item,this,0,0);
-                Room2_2_Basic_Heal = new Spells("Basic Heal", "Heals 5 HP uses 5 Mana", player.getMagic(),800,150,32,32,ID.Spell,this,5);
-                Room2_3_BoogieWoogie=new Spells("Boogie Woogie", "Increase attack by 5. Uses 10 mana", player.getMagic(),660,2780,32,32,ID.Spell,this,10);
-                Room2_3_YeetusDeletus=new Spells("Yeetus Deletus", "Will do 15 damage. 15 Mana", player.getMagic(),5760,5860,32,32,ID.Spell,this,15);
-                Room2_3_EnnieMeenieMinieMo=new Spells("Enie Meni Minie Mo", "May hurt you, may hurt the enemy. 20 Mana", player.getMagic(),5915,115,32,32,ID.Spell,this,20);
-                Room2_3_EmptyWaterBottle=new Items("Empty Water Bottle","Yeet it for 5-10 damage",player.getInv(),900,1700,32,32,ID.Item,this,0,0);
-                Room2_3_LiptonIcedTea = new Items("Lipton Iced Tea","Heals 14",player.getInv(),5900,2020,32,32,ID.Item,this,0,0);
-                Room2_3_Tidepod=new Items("Tide Pod","Heals 5",player.getInv(),80,5920,32,32,ID.Item,this,0,0);
+                Room1_1_Apple = new Items("Apple","Good Snack boi",900,1700,32,32,ID.Item,this,0,0,false,false,0,0);
+                Room2_2_Basic_Heal = new Spells("Basic Heal", "Heals 5 HP uses 5 Mana", player.getMagic(),800,150,32,32,ID.Spell,this,5,true,false,5,0);
+                Room2_3_BoogieWoogie=new Spells("Boogie Woogie", "Increase attack by 5. Uses 10 mana", player.getMagic(),660,2780,32,32,ID.Spell,this,10,false,false,0,0);
+                Room2_3_YeetusDeletus=new Spells("Yeetus Deletus", "Will do 15 damage. 15 Mana", player.getMagic(),5760,5860,32,32,ID.Spell,this,15,false,true,0,15);
+                Room2_3_EnnieMeenieMinieMo=new Spells("Enie Meni Minie Mo", "May hurt you, may hurt the enemy. 20 Mana", player.getMagic(),5915,115,32,32,ID.Spell,this,20,false,false,0,0);
+                Room2_3_EmptyWaterBottle=new Items("Empty Water Bottle","Yeet it for 5-10 damage",900,1700,32,32,ID.Item,this,0,0,false,false,0,0);
+                Room2_3_LiptonIcedTea = new Items("Lipton Iced Tea","Heals 14",5900,2020,32,32,ID.Item,this,0,0,true,false,14,0);
+                Room2_3_Tidepod=new Items("Tide Pod","Heals 5",80,5920,32,32,ID.Item,this,0,0,true,false,5,0);
 
+
+                inv.addItem(Room2_3_LiptonIcedTea);
+                inv.addItem(Room2_3_Tidepod);
+                magic.addItem(Room2_2_Basic_Heal);
+                magic.addItem(Room2_3_YeetusDeletus);
 
             }if(currentState==STATE.FirstArea && Switch == false){
                // handler.clear();
@@ -250,6 +260,10 @@ public class Game extends Canvas implements Runnable, Serializable {
                     handler.clear();
                     loadLevel(currentRoom);
                     handler.addObject(player);
+                }else if(currentRoom.equals("Room3_1")){
+                    handler.clear();
+                    loadLevel(currentRoom);
+                    handler.addObject(player);
                 }
 
 
@@ -261,6 +275,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 
                 Switch=true;
             }else if(currentState==STATE.FirstArea && Switch==true){
+                player.setHealth((int)clamp(player.getHealth(),0,player.getMaxHealth()));
+                player.setMana((int)clamp(player.getMana(),0,player.getMaxMana()));
                 System.out.println("X: "+player.getX()+" Y: "+player.getY());
 
                 for(int i = 0; i < handler.object.size(); i++){
@@ -285,6 +301,8 @@ public class Game extends Canvas implements Runnable, Serializable {
                 //create new battle object or get the battle object from player (defined by collision)
 
             }else if(currentState==STATE.Battle && Switch ){
+                player.setHealth((int)clamp(player.getHealth(),0,player.getMaxHealth()));
+                player.setMana((int)clamp(player.getMana(),0,player.getMaxMana()));
                 handler.tick();
                 currentBattle.tick();
             }else if(currentState==STATE.GameOver && !Switch){
@@ -428,8 +446,12 @@ public class Game extends Canvas implements Runnable, Serializable {
                 return;
             }
             Graphics g = bs.getDrawGraphics();
+            if(player.getBackwards()){
+                g.setColor(Color.white);
+            }else{
+                g.setColor(Color.black);
+            }
 
-            g.setColor(Color.black);
             g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
             handler.render(g);
             currentBattle.render(g);
@@ -580,17 +602,27 @@ public class Game extends Canvas implements Runnable, Serializable {
                     //tree
                     handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Tree));
                 }else if(red==0&&green==0&&blue==0){
+
+                }else if(red==255&&green==230&&blue==0){
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Mushroom));
+
+                }else if(red==255&&green==111&&blue==0){
+                    //handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.RedGround));
+
                 }
             }
         }
         if(currentRoom.equals("Room1_1")){
             handler.addObject(new NPC(1050,500,64,64,handler,this,ID.NPC,3,tbHandler,"You... are the last of us. I am unable to continue to fight him. My last gift to you... the prophecy.",player,ID.TheLastEntity));
-            handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, Kanto, and the Land of Dead Memes in order to _____ HIM (a piece is scribbled out)",player, ID.Book));
+            handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, The Labyrinth, sdrawkcaB ehT, and the Land of Dead Memes in order to..... (The rest is cut out) What will you choose?",player, ID.Book));
             // transition object to room 2_2
             handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",950,100,player,true));
             handler.addObject(Room1_1_Apple);
             camera.updateRange("Room1_1");
 
+
+            handler.addObject(new AntiHero(700, 500, 92, 25, handler, this, ID.AntiHero, 2, tbHandler, "...", player, true));
+            handler.addObject(new BongoCat(800, 500, 96, 48, handler, this, ID.BongoCat, 2, tbHandler, "YOSHI", player, true));
 
 
         }else if(currentRoom.equals("Room2_1")){
@@ -639,8 +671,14 @@ public class Game extends Canvas implements Runnable, Serializable {
                 handler.addObject(new TextBox(null,"CLUCK CLUCK CLUCK (I will give you a choice to turn back now before it is too late.)",2360,0,1000,16,ID.TextBox,tbHandler));
                 handler.addObject(new TextBox(knuckles1,"CLUCK CLUCK CLUCK (I'm sorry, but I must protect him with my life)",5180,0,1000,16,ID.TextBox,tbHandler));
                 handler.addObject(new TextBox(knuckles1,"CLUCK CLUCK (I, Ugandan Knuckles will stop you. Approach me and seek destruction.)",5560,0,1000,16,ID.TextBox,tbHandler));
+
                 handler.addObject(new SaveObject(5280,200,64,64));
             }
+
+            handler.addObject(new TextBox(player, "The Wae Forest has been cleared! Knuckles has been set free of the hex. Let's keep moving into The Labyrinth.",5850,0,1000,16,ID.TextBox,tbHandler));
+
+
+            handler.addObject(new Transition(5900,0,1000,16,ID.Transition,"Room3_1",400,400,player,true));
 
 
 
@@ -649,6 +687,11 @@ public class Game extends Canvas implements Runnable, Serializable {
             loadLevel(tex.Room2_4O);
             camera.updateRange("Room2_4");
             //handler.addObject(knuckles1);
+        }else if(currentRoom.equals("Room3_1")){
+            //endangered=true;
+            setBackground(Color.black);
+            loadLevel(tex.Room3_1O);
+            camera.updateRange("Room3_1");
         }
 
         camera.setX(((player.getX())  ));
@@ -681,15 +724,21 @@ public class Game extends Canvas implements Runnable, Serializable {
                     //tree
                     handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Tree));
                 }else if(red==0&&green==0&&blue==0){
+                }else if(red==255&&green==230&&blue==0){
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.Mushroom));
+
+                }else if(red==255&&green==111&&blue==0){
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.RedGround));
+
                 }
             }
         }
         if(currentRoom.equals("Room1_1")){
             handler.addObject(new NPC(1050,500,64,64,handler,this,ID.NPC,3,tbHandler,"You... are the last of us. I am unable to continue to fight him. My last gift to you... the prophecy.",player,ID.TheLastEntity));
-            handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, Kanto, and the Land of Dead Memes in order to _____ HIM (a piece is scribbled out)",player, ID.Book));
+            handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, The Labyrinth, Eht Sdrawkcab and the Land of Dead Memes and make the ultimate decision. The choice is up to fate. The decision that he will hate.",player, ID.Book));
             // transition object to room 2_2
             handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",850,100,player,true));
-            handler.addObject(new Items("Apple","Good Snack boi",player.getInv(),900,1700,64,64,ID.Item,this,0,0));
+            handler.addObject(new Items("Apple","Good Snack boi",900,1700,64,64,ID.Item,this,0,0,false,false,0,0));
 
 
 

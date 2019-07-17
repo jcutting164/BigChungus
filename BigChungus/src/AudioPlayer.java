@@ -28,8 +28,19 @@ public class AudioPlayer implements Serializable {
             musicMap.put("BigChungus", new Music("res/BattleMusic/BigChungus.wav"));
             musicMap.put("Malario", new Music("res/BattleMusic/Malario.wav"));
             musicMap.put("TPoser",new Music("res/BattleMusic/Tposer.wav"));
+            musicMap.put("JoshuaGiraffe",new Music("res/BattleMusic/JoshuaGiraffe.wav"));
+            musicMap.put("FatYoshi",new Music("res/BattleMusic/FatYoshi.wav"));
+            musicMap.put("DatBoi",new Music("res/BattleMusic/DatBoi.wav"));
+            musicMap.put("Kermit",new Music("res/BattleMusic/Kermit.wav"));
+            musicMap.put("BongoCat",new Music("res/BattleMusic/BongoCat.wav"));
+            musicMap.put("Crab",new Music("res/BattleMusic/Crab.wav"));
+            musicMap.put("AntiHero",new Music("res/BattleMusic/AntiHero.wav"));
+            musicMap.put("AntiHeroB",new Music("res/BattleMusic/AntiHeroBack.wav"));
+
+
 
             soundMap.put("GameOver", new Sound("res/MiscMusic/GameOver.wav"));
+
 
 
         } catch (SlickException e) {

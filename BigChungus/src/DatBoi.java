@@ -3,10 +3,8 @@ import org.newdawn.slick.Music;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
-import java.util.concurrent.ThreadLocalRandom;
 
-
-public abstract class Enemy extends NPC implements Serializable {
+public class DatBoi extends Enemy implements Serializable {
     private int lastKeyReleased;
     Handler handler;
     private boolean battleReady;
@@ -14,55 +12,36 @@ public abstract class Enemy extends NPC implements Serializable {
     String text;
     private Player player;
     private transient BufferedImage[] currentImages;
-    protected transient BufferedImage BattleForm;
 
-    private String name;
-    protected Color nameColor;
-    protected int currentMove;
-    protected int moves;
-    protected boolean runnable;
-    protected boolean defeated = false;
-    protected transient Animation walkLeftB;
-    protected transient Animation walkRightB;
-    protected transient Animation walkDownB;
-    protected transient Animation walkUpB;
-    protected transient BufferedImage FaceB;
-    protected transient BufferedImage BattleFormB;
-
-    public Enemy(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player,ID sId,int attack, int defense){
-        super(x, y, height, width,handler,game, id, speed, tbHandler, "CLICK CLICK", player, sId);
+    public DatBoi(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed, TBHandler tbHandler, String text, Player player, boolean battleReady){
+        super(x, y, height, width,handler,game, id, speed, tbHandler, "Here I come!", player,ID.DatBoi,20,20);
         this.handler = handler;
         this.game = game;
         this.tbHandler = tbHandler;
         this.text = text;
         this.player = player;
-        this.runnable=true;
-        this.attack=attack;
-        this.defense=defense;
+        this.battleReady=battleReady;
+        this.health = 20;
+        setName("Dat Boi");
+        this.nameColor = Color.green;
+        this.maxhealth=this.health;
+        this.moves = 2;
 
+// to be replaced
+       /* this.walkLeft = new Animation(speed, tex.Pikachu_WalkLeft[0], tex.Pikachu_WalkLeft[1], tex.Pikachu_WalkLeft[2]);
+        this.walkRight = new Animation(speed, tex.Pikachu_WalkRight[0], tex.Pikachu_WalkRight[1], tex.Pikachu_WalkRight[2]);
+        this.walkUp = new Animation(speed, tex.Pikachu_WalkUp[0], tex.Pikachu_WalkUp[1], tex.Pikachu_WalkUp[2]);
+        this.walkDown = new Animation(speed, tex.Pikachu_WalkDown[0], tex.Pikachu_WalkDown[1], tex.Pikachu_WalkDown[2]); */
 
-
-// to be replaced in actual class
-        this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
-        this.walkRight = new Animation(speed, tex.Player_WalkRight[0], tex.Player_WalkRight[1]);
-        this.walkUp = new Animation(speed, tex.Player_WalkUp[1], tex.Player_WalkUp[2]);
-        this.walkDown = new Animation(speed, tex.Player_WalkDown[0], tex.Player_WalkDown[1]);
-        this.currentImages= tex.Player_WalkDown;
+        //this.currentImages= tex.FatYoshiBF;
         this.isVisible = true;
-        this.Face = tex.Player_Face[0];
-        this.battleReady=true;
-
-
-        this.walkLeftB = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
-        this.walkRightB = new Animation(speed, tex.Player_WalkRight[0], tex.Player_WalkRight[1]);
-        this.walkUpB = new Animation(speed, tex.Player_WalkUp[1], tex.Player_WalkUp[2]);
-        this.walkDownB = new Animation(speed, tex.Player_WalkDown[0], tex.Player_WalkDown[1]);
-        this.FaceB = tex.Player_Face[0];
-
-
+        //this.Face = tex.PikachuFace[0];
+        this.BattleForm = tex.DatBoiBF;
     }
 
-    public abstract void Turn();
+    public void Turn(){
+
+    }
 
 
 
@@ -86,7 +65,20 @@ public abstract class Enemy extends NPC implements Serializable {
     }
     public void render(Graphics g){
 
-        g.drawImage(currentImages[0], (int) this.x, (int)this.y, 38, 148, null);
+        try{
+            g.drawImage(currentImages[0], (int) this.x, (int)this.y, 48, 96, null);
+        }catch(Exception e){
+            tex=Game.getInstance();
+
+            this.walkLeft = new Animation(speed, tex.Pikachu_WalkLeft[0], tex.Pikachu_WalkLeft[1], tex.Pikachu_WalkLeft[2]);
+            this.walkRight = new Animation(speed, tex.Pikachu_WalkRight[0], tex.Pikachu_WalkRight[1], tex.Pikachu_WalkRight[2]);
+            this.walkUp = new Animation(speed, tex.Pikachu_WalkUp[0], tex.Pikachu_WalkUp[1], tex.Pikachu_WalkUp[2]);
+            this.walkDown = new Animation(speed, tex.Pikachu_WalkDown[0], tex.Pikachu_WalkDown[1], tex.Pikachu_WalkDown[2]);
+
+            this.currentImages= tex.Pikachu_WalkLeft;
+            this.Face = tex.PikachuFace[0];
+            this.BattleForm = tex.DatBoiBF;
+        }
 
 
     }
@@ -115,15 +107,16 @@ public abstract class Enemy extends NPC implements Serializable {
     }
 
     public void interaction(){
+        /*
         if(player.getCurrentImages()==tex.Player_WalkLeft){
-            currentImages=tex.Player_WalkRight;
+            currentImages=tex.Pikachu_WalkRight;
 
         }else if(player.getCurrentImages()==tex.Player_WalkRight){
-            currentImages=tex.Player_WalkLeft;
+            currentImages=tex.Pikachu_WalkLeft;
         }else if(player.getCurrentImages()==tex.Player_WalkUp){
-            currentImages=tex.Player_WalkDown;
+            currentImages=tex.Pikachu_WalkDown;
         }else if(player.getCurrentImages()==tex.Player_WalkDown){
-            currentImages=tex.Player_WalkUp;
+            currentImages=tex.Pikachu_WalkUp;
         }
         player.setLimited(true);
         player.setVelX(0);
@@ -139,13 +132,14 @@ public abstract class Enemy extends NPC implements Serializable {
         if(battleReady==true){
             //battle function
         }
+        */
 
 
     }
 
 
     public Rectangle getBounds(){
-        return new Rectangle((int)x, (int)y, 38, 148);
+        return new Rectangle((int)x, (int)y, (int)width, (int)height);
     }
 
     public void setCurrentImages(BufferedImage[] currentImages){
@@ -160,28 +154,5 @@ public abstract class Enemy extends NPC implements Serializable {
     public void setBattleReady(boolean battleReady){
         this.battleReady = battleReady;
     }
-    public String getName(){
-        return this.name;
-    }
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public Color getNameColor(){
-        return nameColor;
-    }
-    public void setNameColor(Color nameColor){
-        this.nameColor = nameColor;
-    }
-
-
-    public void chooseMove(){
-        int randomNum = ThreadLocalRandom.current().nextInt(0, moves);
-        this.currentMove=randomNum;
-    }
-
-
-
-
 
 }

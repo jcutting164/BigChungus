@@ -1,4 +1,3 @@
-import org.newdawn.slick.openal.Audio;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -37,12 +36,16 @@ public class Battle implements Serializable {
     private AudioPlayer ap;
     private int baseAttack, baseDefense;
     private int baseLevel;
-
-
+    private boolean firstTurn=true;
+    private boolean lowHealth=false;
+    private boolean enemyItemUse=false;
+    private String currentEnemyItem="";
 
 
 
     public Battle(Player player, Enemy enemy, Handler handler, Game game, AudioPlayer ap){
+
+
         this.player = player;
         this.enemy = enemy;
         this.handler = handler;
@@ -73,10 +76,29 @@ public class Battle implements Serializable {
             ap.getMusic("Pikachu").loop();
         }else if(enemy.getId()==ID.BigChungus){
             ap.getMusic("BigChungus").loop();
-        }else if(enemy.getsID()==ID.Malario){
+        }else if(enemy.getId()==ID.Malario){
             ap.getMusic("Malario").loop();
-        }else if(enemy.getsID()==ID.TPoser){
+        }else if(enemy.getId()==ID.TPoser){
             ap.getMusic("TPoser").loop();
+        }else if(enemy.getId()==ID.FatYoshi){
+            ap.getMusic("FatYoshi").loop();
+        }else if(enemy.getId()==ID.JoshuaGiraffe){
+            ap.getMusic("JoshuaGiraffe").loop();
+        }else if(enemy.getId()==ID.Kermit){
+            ap.getMusic("Kermit").loop();
+        }else if(enemy.getId()==ID.DatBoi){
+            ap.getMusic("DatBoi").loop();
+        }else if(enemy.getId()==ID.Crab)
+            ap.getMusic("Crab").loop();
+        else if(enemy.getId()==ID.BongoCat)
+            ap.getMusic("BongoCat").loop();
+        else if(enemy.getId()==ID.AntiHero)
+            ap.getMusic("AntiHero").loop();
+
+        try{
+            Thread.sleep(750);
+        }catch(Exception e){
+
         }
 
 
@@ -87,16 +109,44 @@ public class Battle implements Serializable {
 
                                                                   
     public void tick(){
+
+        if(player.getBackwards()&&enemy.getId()==ID.AntiHero&&enemy.getNameColor()==Color.white){
+            enemy.setNameColor(Color.black);
+            //ap.getMusic("AntiHero").stop();
+            ap.getMusic("AntiHeroB").loop();
+        }else if(!player.getBackwards()&&enemy.getId()==ID.AntiHero&&enemy.getNameColor()==Color.black){
+            enemy.setNameColor(Color.white);
+
+            //ap.getMusic("AntiHeroB").stop();
+            ap.getMusic("AntiHero").loop();
+        }
+
+
         player.setHealth((int)(Game.clamp(player.getHealth(),0,player.getMaxHealth())));
+        enemy.setHealth((int)(Game.clamp(enemy.getHealth(),0,enemy.getMaxHealth())));
+
+        player.setMana((int)(Game.clamp(player.getMana(),0,player.getMaxMana())));
+        enemy.setMana((int)(Game.clamp(enemy.getMana(),0,enemy.getMaxMana())));
+
+
         if(player.getHealth() <= 0){
             		game.setCurrentState(Game.STATE.GameOver);
             		game.setSwitch(true);
             		//ap.load();
-            		ap.getMusic("Knuckles").stop();
                     ap.getMusic("Pikachu").stop();
+                    ap.getMusic("Knuckles").stop();
                     ap.getMusic("BigChungus").stop();
                     ap.getMusic("Malario").stop();
                     ap.getMusic("TPoser").stop();
+                    ap.getMusic("JoshuaGiraffe").stop();
+                    ap.getMusic("FatYoshi").stop();
+                    ap.getMusic("DatBoi").stop();
+                    ap.getMusic("Kermit").stop();
+                    ap.getMusic("BongoCat").stop();
+                    ap.getMusic("Crab").stop();
+                    ap.getMusic("AntiHero").stop();
+                    ap.getMusic("AntiHeroB").stop();
+
                     ap.getSound("GameOver").play();
                     game.getPlayer().setAttack(this.baseAttack);
                     game.getPlayer().setDefense(this.baseDefense);
@@ -133,10 +183,18 @@ public class Battle implements Serializable {
 
             fnt = new Font("Serif", 0, 20);
             g.setFont(fnt);
-            g.setColor(Color.white);
+            if(player.getBackwards())
+                g.setColor(Color.black);
+            else
+                g.setColor(Color.white);
+
+
             g.drawString("HP", 500,825);
             player.drawHealthBar(800, g);
-            g.setColor(Color.white);
+            if(player.getBackwards())
+                g.setColor(Color.black);
+            else
+                g.setColor(Color.white);
 
             fnt = new Font("Serif", 1, 16);
             g.setFont(fnt);
@@ -145,26 +203,41 @@ public class Battle implements Serializable {
         }else if(player.getMagic().getOpen()){
             fnt = new Font("Serif", 0, 20);
             g.setFont(fnt);
-            g.setColor(Color.white);
+            if(player.getBackwards())
+                g.setColor(Color.black);
+            else
+                g.setColor(Color.white);
             g.drawString("Mana", 480,825);
             player.getMagic().render(g);
             player.drawManaBar(800, g);
-            g.setColor(Color.white);
+            if(player.getBackwards())
+                g.setColor(Color.black);
+            else
+                g.setColor(Color.white);
 
             fnt = new Font("Serif", 1, 16);
             g.setFont(fnt);
             g.drawString(player.getMana() + " / " + player.getMaxMana(), 750, 824);
         }else{
-            g.setColor(Color.white);
+            if(player.getBackwards())
+                g.setColor(Color.black);
+            else
+                g.setColor(Color.white);
             g.drawRect(512, 528, 256, 256);
             g.drawRect(511, 527, 258, 258);
 
             fnt = new Font("Serif", 0, 20);
             g.setFont(fnt);
-            g.setColor(Color.white);
+            if(player.getBackwards())
+                g.setColor(Color.black);
+            else
+                g.setColor(Color.white);
             g.drawString("HP", 500,825);
             player.drawHealthBar(800, g);
-            g.setColor(Color.white);
+            if(player.getBackwards())
+                g.setColor(Color.black);
+            else
+                g.setColor(Color.white);
 
             fnt = new Font("Serif", 1, 16);
             g.setFont(fnt);
@@ -191,29 +264,62 @@ public class Battle implements Serializable {
             if(playerTurnStart){
                 startPlayerTurn();
             }else{
-                g.setColor(Color.white);
+                if(player.getBackwards())
+                    g.setColor(Color.black);
+                else
+                    g.setColor(Color.white);
                 fnt = new Font("Serif", 1, 16);
                 g.setFont(fnt);
 
 
-                g.setColor(Color.white);
+                if(player.getBackwards())
+                    g.setColor(Color.black);
+                else
+                    g.setColor(Color.white);
 
                 g.drawRect(160, 100, 960, 320);
                 if(enemyVisable){
                     if(enemy.getId()==ID.BigChungus){
                         g.drawImage(enemy.BattleForm, 445, 105,290, 305, null);
+                    }else if(enemy.getId()==ID.AntiHero&&!player.getBackwards()){
+                        g.drawImage(enemy.BattleFormB,615, 125,68, 266, null);
+
+                    }else if(enemy.getId()==ID.AntiHero&&player.getBackwards()){
+                        g.drawImage(enemy.BattleForm,615, 125,68, 266, null);
+
                     }else{
                         g.drawImage(enemy.BattleForm, 445, 105,390, 305, null);
                     }
 
                 }else{
-                    g.setColor(Color.black);
+                    if(player.getBackwards())
+                        g.setColor(Color.white);
+                    else
+                        g.setColor(Color.black);
                     g.fillRect(445, 105, 390, 305);
                 }
 
                 if(!player.getInv().getOpen()&&!player.getMagic().getOpen()){
                     g.drawImage(tex.Player_WalkUp[0], 612, 600, 38, 148, null);
                 }
+
+                if(enemyItemUse){
+                    if(enemy.getId()==ID.AntiHero){
+                        if(player.getBackwards()){
+                            g.setColor(Color.black);
+                        }else
+                            g.setColor(Color.white);
+
+                        g.drawRect(200,200,128,128);
+                        g.drawRect(199,199,130,130);
+                        g.drawString("Just used: ",210,220);
+                        g.drawString(currentEnemyItem,210,240);
+
+
+
+                    }
+                }
+
 
                 if(!selection1){
                     for(int i = 0; i<4; i++){
@@ -242,15 +348,24 @@ public class Battle implements Serializable {
                             //update and do math for this
                             g.setColor(Color.orange.darker());
                             g.fillRect((i*267)+144, 860, 192, 64);
-                            g.setColor(Color.white);
+                            if(player.getBackwards())
+                                g.setColor(Color.black);
+                            else
+                                g.setColor(Color.white);
                             g.drawRect((i*267)+144, 860, 192, 64);
                             g.drawRect((i*267)+143, 859, 194, 66);
                             fnt = new Font("Serif", 0, 29);
                             g.setFont(fnt);
-                            g.setColor(Color.black);
+                            if(player.getBackwards())
+                                g.setColor(Color.white);
+                            else
+                                g.setColor(Color.black);
                             g.drawString(currentOption, (i*267)+text_x, 900);
                         }else{
-                            g.setColor(Color.black);
+                            if(player.getBackwards())
+                                g.setColor(Color.white);
+                            else
+                                g.setColor(Color.black);
                             g.fillRect((i*267)+144, 860, 192, 64);
                             g.setColor(Color.orange);
                             g.drawRect((i*267)+144, 860, 192, 64);
@@ -284,14 +399,27 @@ public class Battle implements Serializable {
 
 
                         }else{
-                            g.setColor(Color.white);
+                            if(player.getBackwards())
+                                g.setColor(Color.black);
+                            else
+                                g.setColor(Color.white);
                             g.drawRect(154, 800, 313, 96);
                             g.drawRect(153, 799, 315, 98);
-                            g.setColor(enemy.getNameColor());
+                            if(enemy.getId()==ID.AntiHero&&!player.getBackwards()){
+                                g.setColor(Color.white);
+                            }else if(enemy.getId()==ID.AntiHero&&player.getBackwards()){
+                                g.setColor(Color.black);
+                            }else{
+                                g.setColor(enemy.getNameColor());
+
+                            }
                             fnt = new Font("Serif", 0, 29);
                             g.setFont(fnt);
                             g.drawString(enemy.getName(), 179, 830);
-                            g.setColor(Color.white);
+                            if(player.getBackwards())
+                                g.setColor(Color.black);
+                            else
+                                g.setColor(Color.white);
                             g.fillRect(163, 817, 8, 8);
                         }
 
@@ -338,14 +466,20 @@ public class Battle implements Serializable {
                     }
                 }else if(selection2){
                     if(selectedOption[0]){
-                        g.setColor(Color.white);
+                        if(player.getBackwards())
+                            g.setColor(Color.black);
+                        else
+                            g.setColor(Color.white);
                         g.drawRect(154, 800, 512, 96);
                         g.drawRect(153, 799, 514, 98);
                         g.setColor(enemy.getNameColor());
                         fnt = new Font("Serif", 0, 29);
                         g.setFont(fnt);
                         g.drawString(enemy.getName(), 179, 830);
-                        g.setColor(Color.white);
+                        if(player.getBackwards())
+                            g.setColor(Color.black);
+                        else
+                            g.setColor(Color.white);
                         g.fillRect(163, 817, 8, 8);
 
                     }else if(selectedOption[1]){
@@ -373,15 +507,27 @@ public class Battle implements Serializable {
             if(enemyTurnStart){
                 startEnemyTurn();
             }else{
-                g.setColor(Color.white);
+                if(player.getBackwards())
+                    g.setColor(Color.black);
+                else
+                    g.setColor(Color.white);
 
                 g.drawRect(160, 100, 960, 320);
                 if(enemy.getId()==ID.BigChungus){
                     g.drawImage(enemy.BattleForm, 445, 105,290, 305, null);
+                }else if(enemy.getId()==ID.AntiHero&&!player.getBackwards()){
+                    g.drawImage(enemy.BattleFormB,615, 125,68, 266, null);
+
+                }else if(enemy.getId()==ID.AntiHero&&player.getBackwards()){
+                    g.drawImage(enemy.BattleForm,615, 125,68, 266, null);
+
                 }else{
                     g.drawImage(enemy.BattleForm, 445, 105,390, 305, null);
                 }
                 // effect part of template
+
+
+
                 if(enemy.getId()==ID.Knuckles){
                     if(enemy.currentMove==0){
                         timeNow = System.currentTimeMillis();
@@ -832,6 +978,518 @@ public class Battle implements Serializable {
                             }
                         }
                     }
+                }else if(enemy.getId()==ID.FatYoshi){
+                    if(enemy.currentMove==0){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 8050) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>800 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 52, 46, ID.EnemyAttackItem, tex.FatYoshi_A1, 3, 46, 52, bPlayer, player, handler,this);
+                                temp.eggAttack();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==1){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 4050) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>400 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 105, 92, ID.EnemyAttackItem, tex.FatYoshi_A1, 3, 92, 105, bPlayer, player, handler,this);
+                                temp.eggAttack2();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }
+                }else if(enemy.getId()==ID.JoshuaGiraffe){
+                    if(enemy.currentMove==0){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 10500) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>1500 && track < 8){
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 117, 71, ID.EnemyAttackItem, tex.JoshuaGiraffe_A1, 3, 71, 117, bPlayer, player, handler,this);
+                                temp.giraffe();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==1){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 6050) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>600 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 43, 124, ID.EnemyAttackItem, tex.JoshuaGiraffe_A2, 3, 124, 43, bPlayer, player, handler,this);
+                                temp.guitar();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }
+                }else if(enemy.getId()==ID.DatBoi){
+                    if(enemy.currentMove==0){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 10500) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>1500 && track < 8){
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 107, 57, ID.EnemyAttackItem, tex.DatBoi_A1, 3, 57, 107, bPlayer, player, handler,this);
+                                temp.unicycle();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==1){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 6050) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>600 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 39, 48, ID.EnemyAttackItem, tex.DatBoi_A2, 3, 48, 39, bPlayer, player, handler,this);
+                                temp.frog();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }
+                }else if(enemy.getId()==ID.Kermit){
+                    if(enemy.currentMove==0){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 7000) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>650 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 58, 52, ID.EnemyAttackItem, tex.Kermit_A1, 3, 52, 58, bPlayer, player, handler,this);
+                                temp.lipton();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==1){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 6050) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>600 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 58, 52, ID.EnemyAttackItem, tex.Kermit_A1, 3, 52, 58, bPlayer, player, handler,this);
+                                temp.lipton2();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }
+                }else if(enemy.getId()==ID.BongoCat){
+                    if(enemy.currentMove==0){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 7000) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>650 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 40, 51, ID.EnemyAttackItem, tex.BongoCat_A1, 3, 51, 40, bPlayer, player, handler,this);
+                                temp.bongo();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==1){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 6050) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>600 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 152, 106, ID.EnemyAttackItem, tex.BongoCat_A2, 3, 106, 152, bPlayer, player, handler,this);
+                                temp.note();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }
+                }else if(enemy.getId()==ID.Crab){
+                    if(enemy.currentMove==0){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 7000) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>1250 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 34, 37, ID.EnemyAttackItem, tex.Crab_A1, 3, 37, 34, bPlayer, player, handler,this);
+                                temp.crab();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==1){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 15000) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>2000 && track < 5){
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 51, 100, ID.EnemyAttackItem, tex.Crab_A2, 3, 100, 51, bPlayer, player, handler,this);
+                                temp.crabArm();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }
+                }else if(enemy.getId()==ID.AntiHero){
+
+                    // ////////// HEALING OPTIONS /////////////
+
+
+
+                    if(enemy.getHealth()<=enemy.getMaxHealth()/2){
+                        // look for healing options
+
+                        // check inventory
+                        int bestHealI=0;
+                        int locationI=-1;
+                        for(int i = 0; i<enemy.getInv().inv.size(); i++){
+                            int tempHealth=enemy.getHealth();
+                            AntiHero tempEnemy=new AntiHero(0,0,0,0,handler,game,ID.AntiHero,3,game.getTbHandler(),"...",player,false);
+                            tempEnemy.health=enemy.getHealth();
+                            tempEnemy.inv=new Inventory();
+                            for(int j = 0; j<enemy.getInv().inv.size(); j++){
+                                Items temp = enemy.getInv().inv.get(i);
+                                tempEnemy.inv.addItem(new Items(temp.getName(),temp.getDesc(),temp.getX(),temp.getY(),temp.getHeight(),temp.getWidth(),temp.getId(),game,temp.getAttack(),temp.getDefense(),temp.isHealing(),temp.isDamaging(),temp.getHealFactor(),temp.getDamageFactor()));
+                            }
+                            tempEnemy.magic=new Magic();
+                            for(int j = 0; j<enemy.getMagic().magic.size(); j++){
+                                Spells temp = enemy.getMagic().magic.get(i);
+                                tempEnemy.magic.addItem(new Spells(temp.getName(),temp.getDesc(),tempEnemy.magic,temp.getX(),temp.getY(),temp.getHeight(),temp.getWidth(),temp.getId(),game,temp.getManaREQ(),temp.getHealing(),temp.getDamaging(),temp.getHealFactor(),temp.getDamageFactor()));
+                            }
+
+
+                            Player tempPlayer=new Player(0,0,0,0,handler,game,ID.Player,3,player.getInv(),player.getMagic());
+                            tempPlayer.health=player.getHealth();
+                            System.out.println(tempEnemy.getHealth());
+                            tempEnemy.getInv().inv.get(i).use(tempEnemy, tempPlayer);
+                            System.out.println(tempEnemy.getHealth());
+                            if(tempEnemy.getHealth()>enemy.getHealth()&&tempEnemy.getHealth()-enemy.getHealth()>bestHealI){
+                                System.out.println(true);
+                                bestHealI=tempEnemy.getHealth()-enemy.getHealth();
+                                locationI=i;
+                            }
+                        }
+
+
+                        int bestHealM=0;
+                        int locationM=-1;
+
+                        for(int i = 0; i<enemy.getMagic().magic.size(); i++){
+                            int tempHealth=enemy.getHealth();
+                            AntiHero tempEnemy=new AntiHero(0,0,0,0,handler,game,ID.AntiHero,3,game.getTbHandler(),"...",player,false);
+                            tempEnemy.health=enemy.getHealth();
+
+                            tempEnemy.magic=new Magic();
+                            for(int j = 0; j<enemy.getMagic().magic.size(); j++){
+                                Spells temp = enemy.getMagic().magic.get(i);
+                                tempEnemy.magic.addItem(new Spells(temp.getName(),temp.getDesc(),tempEnemy.magic,temp.getX(),temp.getY(),temp.getHeight(),temp.getWidth(),temp.getId(),game,temp.getManaREQ(),temp.getHealing(),temp.getDamaging(),temp.getHealFactor(),temp.getDamageFactor()));
+                            }
+
+
+                            Player tempPlayer=new Player(0,0,0,0,handler,game,ID.Player,3,player.getInv(),player.getMagic());
+                            tempPlayer.health=player.getHealth();
+                            try{
+                                tempEnemy.getInv().inv.get(i).use(tempEnemy, tempPlayer);
+
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
+
+                            tempEnemy.getMagic().magic.get(i).use(tempEnemy, tempPlayer);
+                            if(tempEnemy.getHealth()>enemy.getHealth()&&tempEnemy.getHealth()-enemy.getHealth()>bestHealM&&enemy.getMana()>=tempEnemy.getMagic().magic.get(i).getManaREQ()){
+                                bestHealM=tempEnemy.getHealth()-enemy.getHealth();
+                                locationM=i;
+                            }
+                        }
+
+
+                        if(bestHealI>0 || bestHealM>0){
+                            if(bestHealI>=bestHealM){
+                                currentEnemyItem=enemy.getInv().inv.get(locationI).getName();
+
+                                enemy.getInv().inv.get(locationI).use(enemy,player);
+                            }else{
+                                System.out.println(enemy.getMagic().magic.get(locationM).getName());
+                                currentEnemyItem=enemy.getMagic().magic.get(locationM).getName();
+
+                                enemy.getMagic().magic.get(locationM).use(enemy,player);
+
+
+                            }
+                            enemyItemUse=true;
+
+                            setPlayerTurn(true);
+                            setPlayerTurnStart(true);
+                        }
+
+
+                    }
+
+                    if(!player.getBackwards()){
+                        // random spell usage instead of a move
+                        if(ThreadLocalRandom.current().nextInt(0,20)==0){
+                            // use a damaging random non healing spell or item
+
+                            int mostDamage=0;
+                            int location=-1;
+
+                            for(int i=0; i<enemy.getInv().inv.size(); i++){
+                                if(enemy.getInv().inv.get(i).isDamaging()){
+                                    if(mostDamage<enemy.getInv().inv.get(i).getDamageFactor()){
+                                        mostDamage=enemy.getInv().inv.get(i).getDamageFactor();
+                                        location=i;
+
+                                    }
+                                }
+                            }
+
+                            int mostDamageM=0;
+                            int locationM=-1;
+
+                            for(int i = 0; i<enemy.getMagic().magic.size(); i++){
+                                if(enemy.getMagic().magic.get(i).getDamaging()){
+                                    if(mostDamageM<enemy.getMagic().magic.get(i).getDamageFactor() && enemy.getMana()>=enemy.getMagic().magic.get(i).getManaREQ()){
+                                        System.out.println("here 2");
+                                        mostDamageM=enemy.getMagic().magic.get(i).getDamageFactor();
+                                        locationM=i;
+                                    }
+                                }
+                            }
+                            System.out.println("most: "+mostDamageM);
+                            if(mostDamage>=mostDamageM && mostDamage!=0){
+                                currentEnemyItem=enemy.getInv().inv.get(location).getName();
+
+                                enemy.getInv().inv.get(location).use(enemy,player);
+                                enemyItemUse=true;
+                                setPlayerTurn(true);
+                                setPlayerTurnStart(true);
+
+                            }else if(mostDamage<=mostDamageM && mostDamageM!=0){
+                                currentEnemyItem=enemy.getMagic().magic.get(locationM).getName();
+
+                                enemy.getMagic().magic.get(locationM).use(enemy,player);
+                                enemyItemUse=true;
+                                setPlayerTurn(true);
+                                setPlayerTurnStart(true);
+                            }
+
+
+                        }
+
+
+                    }
+
+
+
+
+
+
+
+                    if(enemy.currentMove==0){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 7000) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>1250 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 34, 37, ID.EnemyAttackItem, tex.Crab_A1, 3, 37, 34, bPlayer, player, handler,this);
+                                temp.crab();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==1){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 15000) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>2000 && track < 5){
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 51, 100, ID.EnemyAttackItem, tex.Crab_A2, 3, 100, 51, bPlayer, player, handler,this);
+                                temp.crabArm();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }if(enemy.currentMove==2){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 7000) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>1250 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 34, 37, ID.EnemyAttackItem, tex.Crab_A1, 3, 37, 34, bPlayer, player, handler,this);
+                                temp.crab();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }else if(enemy.currentMove==3){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 15000) {
+                            timeOfLastShot=0;
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>2000 && track < 5){
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 51, 100, ID.EnemyAttackItem, tex.Crab_A2, 3, 100, 51, bPlayer, player, handler,this);
+                                temp.crabArm();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }
                 }
 
 
@@ -860,6 +1518,7 @@ public class Battle implements Serializable {
     }
 
     public void startPlayerTurn(){
+
         handler.clear();
         this.selectedOption = new boolean[4];
         this.selectedOption[0] = true;
@@ -873,6 +1532,15 @@ public class Battle implements Serializable {
         this.effectTime=false;
         this.firstTimeInTurn=false;
         this.playerTurnStart=false;
+        this.player.setMana(this.player.getMana()+ThreadLocalRandom.current().nextInt(5,10));
+        if(!firstTurn){
+            if(enemy.getId()==ID.AntiHero){
+                if(ThreadLocalRandom.current().nextInt(0,4)==0){
+                    player.setBackwards(!player.getBackwards());
+
+                }
+            }
+        }
 
 
 
@@ -884,12 +1552,24 @@ public class Battle implements Serializable {
     }
 
     public void startEnemyTurn(){
+        if(enemyItemUse)
+            enemyItemUse=false;
+        if(enemy.getId()==ID.AntiHero)
+            enemy.setMana(enemy.getMana()+ThreadLocalRandom.current().nextInt(5,11));
+        if(firstTurn){
+            firstTurn=false;
+        }
 
         // redefine all enemy attack objects previously made in init
 
 
 
         handler.clear();
+
+        if(enemy.getHealth()<=enemy.getMaxHealth()/2){
+            lowHealth=true;
+        }
+
         bPlayer.setX(630);
         bPlayer.setY(650);
         bPlayer.setVelX(0);
@@ -972,7 +1652,7 @@ public class Battle implements Serializable {
                 timeOfLastShot=System.currentTimeMillis();
                 timeOfLastShot2=System.currentTimeMillis();
             }
-        }else if(enemy.getsID()==ID.TPoser){
+        }else if(enemy.getsID()==ID.TPoser || enemy.getId()==ID.JoshuaGiraffe || enemy.getId()==ID.FatYoshi || enemy.getId()==ID.DatBoi || enemy.getId()==ID.Kermit || enemy.getId()==ID.BongoCat || enemy.getId()==ID.Crab || enemy.getId()==ID.AntiHero){
             if(enemy.currentMove==0){
                 track = 0;
                 timeOfLastShot=System.currentTimeMillis();
@@ -1069,6 +1749,7 @@ public class Battle implements Serializable {
     }
 
     public void endBattle(){
+        player.setBackwards(false);
         game.getCurrentBattle().getEnemy().defeated=true;
 
 
@@ -1077,6 +1758,15 @@ public class Battle implements Serializable {
         ap.getMusic("BigChungus").stop();
         ap.getMusic("Malario").stop();
         ap.getMusic("TPoser").stop();
+        ap.getMusic("JoshuaGiraffe").stop();
+        ap.getMusic("FatYoshi").stop();
+        ap.getMusic("DatBoi").stop();
+        ap.getMusic("Kermit").stop();
+        ap.getMusic("BongoCat").stop();
+        ap.getMusic("Crab").stop();
+        ap.getMusic("AntiHero").stop();
+        ap.getMusic("AntiHeroB").stop();
+
 
         game.setCurrentState(Game.STATE.FirstArea);
         game.setSwitch(false);
@@ -1089,16 +1779,24 @@ public class Battle implements Serializable {
             amount =ThreadLocalRandom.current().nextInt(1000,2000);
         }else if(enemy.getName().equals("Knuckles")){
             amount =ThreadLocalRandom.current().nextInt(500,1000);
+            //player.setLimited(true);
+            //game.getTbHandler().addObject(new TextBox(enemy,"Thank you, you have freed me from his curse. Continue with your journey. Good luck!",0,0,0,0,ID.TextBox,game.getTbHandler()));
         }else if(enemy.getName().equals("Big Chungus")){
             amount =ThreadLocalRandom.current().nextInt(10000,20000);
         }else if(enemy.getName().equals("Malario")){
-            amount =ThreadLocalRandom.current().nextInt(10,20);
+            amount =ThreadLocalRandom.current().nextInt(20,30);
         }else if(enemy.getName().equals("TPoser")){
-            amount = ThreadLocalRandom.current().nextInt(15,25);
+            amount = ThreadLocalRandom.current().nextInt(18,25);
         }else if(enemy.getName().equals("Pikachu")){
 
 
         }else if(enemy.getName().equals("Pikachu")){
+
+        }else if(enemy.getId()==ID.FatYoshi){
+            amount =ThreadLocalRandom.current().nextInt(25,32);
+
+        }else if(enemy.getId()==ID.JoshuaGiraffe){
+            amount =ThreadLocalRandom.current().nextInt(22,45);
 
         }
         game.getPlayer().setXp(game.getPlayer().getXp()+amount);
@@ -1358,5 +2056,13 @@ public class Battle implements Serializable {
 
     public void setBaseDefense(int baseDefense) {
         this.baseDefense = baseDefense;
+    }
+
+    public boolean getLowHealth() {
+        return lowHealth;
+    }
+
+    public void setLowHealth(boolean lowHealth) {
+        this.lowHealth = lowHealth;
     }
 }

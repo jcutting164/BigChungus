@@ -50,7 +50,12 @@ public class S_BasicAttack extends Usables {
         handler.removeObject(this);
         // will update damage calculation based on attack / defense, for now is one value
         int damage = ThreadLocalRandom.current().nextInt(battle.getPlayer().getAttack(),(int)(battle.getPlayer().getAttack()*1.5+1));
-        enemy.setHealth(enemy.getHealth() - damage);
+        if(!(battle.getPlayer().getBackwards())){
+            enemy.setHealth(enemy.getHealth() - damage);
+        }else{
+            battle.getPlayer().setHealth(battle.getPlayer().getHealth()-damage);
+        }
+
         battle.setPlayerTurn(false);
         // will do same for player when enemy uses this function for end
         battle.setEnemyTurnStart(true);

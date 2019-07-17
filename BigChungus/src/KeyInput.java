@@ -130,7 +130,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
                         player.setLimited(false);
                         inv.setOpen(false);
                     }else if(key==KeyEvent.VK_X){
-                        inv.inv.get(inv.getCurrentOption()).use();
+                        inv.inv.get(inv.getCurrentOption()).use(player,null);
 
                     }else if(key==KeyEvent.VK_V){
                         player.getMagic().setOpen(true);
@@ -170,7 +170,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
                         player.getMagic().setOpen(false);
                     }else if(key==KeyEvent.VK_X){
                         if(player.getMagic().magic.get(player.getMagic().getCurrentOption()).getManaREQ()<=player.getMana()){
-                            player.getMagic().magic.get(player.getMagic().getCurrentOption()).use();
+                            player.getMagic().magic.get(player.getMagic().getCurrentOption()).use(player, null);
                         }
 
                     }else if(key==KeyEvent.VK_C){

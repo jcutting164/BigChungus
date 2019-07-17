@@ -29,6 +29,10 @@ public class Block extends GameObject implements Serializable {
             img=tex.Grass;
         else if(id==ID.Tree)
             img=tex.Tree;
+        else if(id==ID.Mushroom)
+            img=tex.Mushroom;
+        else if(id==ID.RedGround)
+            img=tex.RedGround;
         //walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
 
     }

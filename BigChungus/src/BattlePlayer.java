@@ -74,7 +74,11 @@ public class BattlePlayer extends GameObject implements Serializable {
 
     }
     public void render(Graphics g){
-        g.setColor(Color.white);
+        if(player.getBackwards()){
+            g.setColor(Color.black);
+        }else
+            g.setColor(Color.white);
+
         g.fillRect((int)x, (int)y, (int)width, (int)height);
     }
 

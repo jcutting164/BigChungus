@@ -29,19 +29,32 @@ public class Textures implements Serializable {
     SpriteSheet SSA_BigChungus_2;
     SpriteSheet SS_Save_Icon;
     SpriteSheet SS_Pavement;
+
+
     SpriteSheet SS_Room1_1;
     SpriteSheet SS_Room2_1;
     SpriteSheet SS_Room2_1O;
     SpriteSheet SS_Room2_2;
     SpriteSheet SS_Room2_3;
     SpriteSheet SS_Room2_4;
+    SpriteSheet SS_Room3_1;
+
+
     SpriteSheet SS_People;
     SpriteSheet SS_Forest;
+    SpriteSheet SS_Tiles;
 
     SpriteSheet SS_ExtraItems;
     SpriteSheet SS_Malario;
     SpriteSheet SSA_Malario;
     SpriteSheet SS_Tposer;
+    SpriteSheet SS_FatYoshi;
+    SpriteSheet SS_JoshuaGiraffe;
+    SpriteSheet SS_MiscJFAttacks;
+    SpriteSheet SS_DatBoiKermit;
+    SpriteSheet SS_BongoCatCrab;
+    SpriteSheet SS_AntiHero;
+    SpriteSheet SS_AntiHeroBackwards;
 
 
 
@@ -63,18 +76,35 @@ public class Textures implements Serializable {
     private transient BufferedImage BI_A_BigChungus_2;
     private transient BufferedImage BI_Save_Icon;
     private transient BufferedImage BI_Pavement;
-    private transient BufferedImage BI_Room1_1;
+
     private transient BufferedImage BI_People;
     private transient BufferedImage BI_Forest;
+    private transient BufferedImage BI_Tiles;
+
+
+    private transient BufferedImage BI_Room1_1;
     private transient BufferedImage BI_Room2_1;
     private transient BufferedImage BI_Room2_1O;
     private transient BufferedImage BI_Room2_2;
     private transient BufferedImage BI_Room2_3;
     private transient BufferedImage BI_Room2_4;
+    private transient BufferedImage BI_Room3_1;
+
+
+
     private transient BufferedImage BI_ExtraItems;
     private transient BufferedImage BI_Malario;
     private transient BufferedImage BI_A_Malario;
     private transient BufferedImage BI_Tposer;
+    private transient BufferedImage BI_FatYoshi;
+    private transient BufferedImage BI_JoshuaGiraffe;
+
+    private transient BufferedImage BI_MiscJFAttacks;
+    private transient BufferedImage BI_DatBoiKermit;
+    private transient BufferedImage BI_BongoCatCrab;
+    private transient BufferedImage BI_AntiHero;
+    private transient BufferedImage BI_AntiHeroBackwards;
+
 
 
 
@@ -100,17 +130,28 @@ public class Textures implements Serializable {
     private transient InputStream IS_Forest;
 
 
+
     private transient InputStream IS_Room2_1;
     private transient InputStream IS_Room2_1O;
     private transient InputStream IS_Room2_2;
     private transient InputStream IS_Room2_3;
     private transient InputStream IS_Room2_4;
+    private transient InputStream IS_Room3_1;
 
     private transient InputStream IS_ExtraItems;
     private transient InputStream IS_Malario;
     private transient InputStream IS_A_Malario;
     private transient InputStream IS_Tposer;
 
+    private transient InputStream IS_Tiles;
+
+    private transient InputStream IS_JoshuaGiraffe;
+    private transient InputStream IS_FatYoshi;
+    private transient InputStream IS_MiscJFAttacks;
+    private transient InputStream IS_DatBoiKermit;
+    private transient InputStream IS_BongoCatCrab;
+    private transient InputStream IS_AntiHero;
+    private transient InputStream IS_AntiHeroBackwards;
 
     public transient BufferedImage[] Player_WalkLeft = new BufferedImage[2];
     public transient BufferedImage[] Player_WalkRight = new BufferedImage[2];
@@ -152,6 +193,22 @@ public class Textures implements Serializable {
 
     public transient BufferedImage[] Pavement = new BufferedImage[1];
 
+
+    public transient BufferedImage[] AntiHero_WalkLeft = new BufferedImage[2];
+    public transient BufferedImage[] AntiHero_WalkRight = new BufferedImage[2];
+    public transient BufferedImage[] AntiHero_WalkUp = new BufferedImage[3];
+    public transient BufferedImage[] AntiHero_WalkDown = new BufferedImage[3];
+    public transient BufferedImage[] AntiHero_Face = new BufferedImage[1];
+    public transient BufferedImage AntiHeroBF;
+
+    public transient BufferedImage[] AntiHero_WalkLeftB = new BufferedImage[2];
+    public transient BufferedImage[] AntiHero_WalkRightB = new BufferedImage[2];
+    public transient BufferedImage[] AntiHero_WalkUpB = new BufferedImage[3];
+    public transient BufferedImage[] AntiHero_WalkDownB = new BufferedImage[3];
+    public transient BufferedImage[] AntiHero_FaceB = new BufferedImage[1];
+    public transient BufferedImage AntiHeroBFB;
+
+
     public transient BufferedImage Room1_1;
     public transient BufferedImage Room2_1;
     public transient BufferedImage Room2_1O;
@@ -161,6 +218,8 @@ public class Textures implements Serializable {
     public transient BufferedImage Room2_3O;
     public transient BufferedImage Room2_4;
     public transient BufferedImage Room2_4O;
+    public transient BufferedImage Room3_1;
+    public transient BufferedImage Room3_1O;
 
     public transient BufferedImage TheLastEntity;
     public transient BufferedImage TheLastEntityFace;
@@ -177,6 +236,32 @@ public class Textures implements Serializable {
     public transient BufferedImage TposerBF;
     public transient BufferedImage[] Tposer_A1=new BufferedImage[1];
     public transient BufferedImage[] Tposer_A2=new BufferedImage[1];
+
+    public transient BufferedImage RedGround;
+    public transient BufferedImage Mushroom;
+    public transient BufferedImage Ice;
+
+    public transient BufferedImage FatYoshiBF;
+    public transient BufferedImage JoshuaGiraffeBF;
+
+    public transient BufferedImage[] FatYoshi_A1=new BufferedImage[1];
+    public transient BufferedImage[] JoshuaGiraffe_A1=new BufferedImage[1];
+    public transient BufferedImage[] JoshuaGiraffe_A2=new BufferedImage[1];
+
+    public transient BufferedImage KermitBF;
+    public transient BufferedImage DatBoiBF;
+    public transient BufferedImage[] Kermit_A1=new BufferedImage[1];
+    public transient BufferedImage[] DatBoi_A1=new BufferedImage[1];
+    public transient BufferedImage[] DatBoi_A2=new BufferedImage[1];
+
+    public transient BufferedImage BongoCatBF;
+    public transient BufferedImage CrabBF;
+    public transient BufferedImage[] BongoCat_A1=new BufferedImage[1];
+    public transient BufferedImage[] BongoCat_A2=new BufferedImage[1];
+    public transient BufferedImage[] Crab_A1=new BufferedImage[1];
+    public transient BufferedImage[] Crab_A2=new BufferedImage[1];
+
+
 
     public Textures(){
         BufferedImageLoader loader = new BufferedImageLoader();
@@ -272,6 +357,37 @@ public class Textures implements Serializable {
             IS_Room2_4=new FileInputStream("res/Rooms/Room2_4.png");
             BI_Room2_4=ImageIO.read(IS_Room2_4);
 
+
+
+            IS_Room3_1=new FileInputStream("res/Rooms/Room3_1.png");
+            BI_Room3_1=ImageIO.read(IS_Room3_1);
+
+
+            IS_Tiles=new FileInputStream("res/Tiles.png");
+            BI_Tiles = ImageIO.read(IS_Tiles);
+
+            IS_FatYoshi=new FileInputStream("res/FatYoshi/FatYoshiBF.png");
+            BI_FatYoshi=ImageIO.read(IS_FatYoshi);
+
+            IS_JoshuaGiraffe=new FileInputStream("res/JoshuaGiraffe/JoshuaGiraffeBF.png");
+            BI_JoshuaGiraffe=ImageIO.read(IS_JoshuaGiraffe);
+
+            IS_MiscJFAttacks=new FileInputStream("res/Attacks/EnemyAttacks/YoshiGiraffeAttacks.png");
+            BI_MiscJFAttacks = ImageIO.read(IS_MiscJFAttacks);
+
+            IS_DatBoiKermit=new FileInputStream("res/DatBoiKermit/KermitDatBoi.png");
+            BI_DatBoiKermit=ImageIO.read(IS_DatBoiKermit);
+
+            IS_BongoCatCrab=new FileInputStream("res/BongoCatCrab/BongoCatCrab.png");
+            BI_BongoCatCrab=ImageIO.read(IS_BongoCatCrab);
+
+            IS_AntiHero=new FileInputStream("res/Player/SS_AntiPlayer.png");
+            BI_AntiHero=ImageIO.read(IS_AntiHero);
+
+            IS_AntiHeroBackwards=new FileInputStream("res/Player/SS_AntiPlayerBackwards.png");
+            BI_AntiHeroBackwards=ImageIO.read(IS_AntiHeroBackwards);
+
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -305,6 +421,21 @@ public class Textures implements Serializable {
         SS_Room2_2=new SpriteSheet(BI_Room2_2);
         SS_Room2_3=new SpriteSheet(BI_Room2_3);
         SS_Room2_4=new SpriteSheet(BI_Room2_4);
+        SS_Room3_1=new SpriteSheet(BI_Room3_1);
+
+        SS_Tiles=new SpriteSheet(BI_Tiles);
+
+        SS_JoshuaGiraffe=new SpriteSheet(BI_JoshuaGiraffe);
+        SS_FatYoshi=new SpriteSheet(BI_FatYoshi);
+        SS_MiscJFAttacks=new SpriteSheet(BI_MiscJFAttacks);
+
+        SS_DatBoiKermit=new SpriteSheet(BI_DatBoiKermit);
+        SS_BongoCatCrab=new SpriteSheet(BI_BongoCatCrab);
+
+        SS_AntiHero=new SpriteSheet(BI_AntiHero);
+        SS_AntiHeroBackwards=new SpriteSheet(BI_AntiHeroBackwards);
+
+
         getTextures();
 
     }
@@ -430,6 +561,8 @@ public class Textures implements Serializable {
         Room2_3O=SS_Room2_3.getSubImage(0,96,96,96);
         Room2_4O=SS_Room2_4.getSubImage(0,0,96,16);
         Room2_4=SS_Room2_4.getSubImage(0,16,96,16);
+        Room3_1=SS_Room3_1.getSubImage(0,0,64,64);
+        Room3_1O=SS_Room3_1.getSubImage(0,64,64,64);
 
 
         TheLastEntity = SS_People.getSubImage(500,11,64,71);
@@ -446,6 +579,75 @@ public class Textures implements Serializable {
         TposerBF=SS_Tposer.getSubImage(0,0,239,305);
         Tposer_A1[0] = SS_Tposer.getSubImage(320,0,273,302);
         Tposer_A2[0] = SS_Tposer.getSubImage(390,438,198,161);
+
+        Mushroom = SS_Tiles.getSubImage(323,0,96,113);
+        RedGround = SS_Tiles.getSubImage(0,107,96,96);
+        Ice=SS_Tiles.getSubImage(647,110,96,96);
+
+
+        FatYoshiBF=SS_FatYoshi.getSubImage(0,0,1080,1062);
+        JoshuaGiraffeBF=SS_JoshuaGiraffe.getSubImage(0,0,280,409);
+
+        FatYoshi_A1[0]=SS_MiscJFAttacks.getSubImage(0,0,92,105);
+        JoshuaGiraffe_A1[0]=SS_MiscJFAttacks.getSubImage(0,113,142,235);
+        JoshuaGiraffe_A2[0]=SS_MiscJFAttacks.getSubImage(115,348,124,43);
+
+
+        DatBoiBF=SS_DatBoiKermit.getSubImage(16,359,48,108);
+        KermitBF=SS_DatBoiKermit.getSubImage(148,15,181,163);
+        Kermit_A1[0]=SS_DatBoiKermit.getSubImage(0,238,52,58);
+        DatBoi_A1[0]=SS_DatBoiKermit.getSubImage(0,0,115,213);
+        DatBoi_A2[0]=SS_DatBoiKermit.getSubImage(0,313,48,39);
+
+        BongoCatBF=SS_BongoCatCrab.getSubImage(10,18,154,144);
+        CrabBF=SS_BongoCatCrab.getSubImage(0,180,619,384);
+        Crab_A1[0]=SS_BongoCatCrab.getSubImage(15,589,297,273);
+        Crab_A2[0]=SS_BongoCatCrab.getSubImage(638,387,400,207);
+        BongoCat_A1[0]=SS_BongoCatCrab.getSubImage(204,20,207,159);
+        BongoCat_A2[0]=SS_BongoCatCrab.getSubImage(658,0,212,304);
+
+
+
+        AntiHero_WalkLeft[0] = SS_AntiHero.grabImage(3, 1, 19, 74);
+        AntiHero_WalkLeft[1] = SS_AntiHero.grabImage(5, 1, 19, 74);
+
+        AntiHero_WalkRight[0] = SS_AntiHero.grabImage(4, 1, 19, 74);
+        AntiHero_WalkRight[1] = SS_AntiHero.grabImage(2, 1, 19, 74);
+
+        AntiHero_WalkUp[0] = SS_AntiHero.grabImage(1, 2, 19, 74);
+        AntiHero_WalkUp[1] = SS_AntiHero.grabImage(2, 2, 19, 74);
+        AntiHero_WalkUp[2] = SS_AntiHero.grabImage(3, 2, 19, 74);
+
+
+        AntiHero_WalkDown[0] = SS_AntiHero.grabImage(4, 2, 19, 74);
+        AntiHero_WalkDown[1] = SS_AntiHero.grabImage(1, 1, 19, 74);
+        AntiHero_WalkDown[2] = SS_AntiHero.grabImage(6, 1, 19, 74);
+        AntiHero_Face[0] = SS_AntiHero.getSubImage(0, 148, 128, 128);
+        AntiHeroBF=SS_AntiHero.getSubImage(0, 0, 19, 74);
+
+
+
+
+        AntiHero_WalkLeftB[0] = SS_AntiHeroBackwards.grabImage(3, 1, 19, 74);
+        AntiHero_WalkLeftB[1] = SS_AntiHeroBackwards.grabImage(5, 1, 19, 74);
+
+        AntiHero_WalkRightB[0] = SS_AntiHeroBackwards.grabImage(4, 1, 19, 74);
+        AntiHero_WalkRightB[1] = SS_AntiHeroBackwards.grabImage(2, 1, 19, 74);
+
+        AntiHero_WalkUpB[0] = SS_AntiHeroBackwards.grabImage(1, 2, 19, 74);
+        AntiHero_WalkUpB[1] = SS_AntiHeroBackwards.grabImage(2, 2, 19, 74);
+        AntiHero_WalkUpB[2] = SS_AntiHeroBackwards.grabImage(3, 2, 19, 74);
+
+
+        AntiHero_WalkDownB[0] = SS_AntiHeroBackwards.grabImage(4, 2, 19, 74);
+        AntiHero_WalkDownB[1] = SS_AntiHeroBackwards.grabImage(1, 1, 19, 74);
+        AntiHero_WalkDownB[2] = SS_AntiHeroBackwards.grabImage(6, 1, 19, 74);
+        AntiHero_FaceB[0] = SS_AntiHeroBackwards.getSubImage(0, 148, 128, 128);
+        AntiHeroBFB=SS_AntiHeroBackwards.getSubImage(65, 85, 19, 74);
+
+
+
+
 
 
 

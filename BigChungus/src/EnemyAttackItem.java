@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.time.chrono.ThaiBuddhistEra;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class EnemyAttackItem extends GameObject implements Serializable {
@@ -16,8 +17,20 @@ public class EnemyAttackItem extends GameObject implements Serializable {
     private Handler handler;
     Textures tex = Game.getInstance();
     Rectangle playerBounds = new Rectangle(522, 538, 246, 246);
+    Rectangle expandedPlayerBounds= new Rectangle(482, 492, 286,286);
+    Rectangle topPlayerBounds= new Rectangle(482, 492, 286,1);
+    Rectangle rightPlayerBounds= new Rectangle(768, 492, 1,286);
+    Rectangle leftPlayerBounds= new Rectangle(482, 492, 1,286);
+    Rectangle bottomPlayerBounds= new Rectangle(482, 778, 286,1);
+
+    Rectangle EtopPlayerBounds= new Rectangle(522, 538, 246,1);
+    Rectangle ErightPlayerBounds= new Rectangle(768, 538, 1,246);
+    Rectangle EleftPlayerBounds= new Rectangle(522, 538, 1,246);
+    Rectangle EbottomPlayerBounds= new Rectangle(522, 784, 286,1);
+
     private long time, timeNow, timeOfLastShot=0;
     private Battle battle;
+    private float extra=1;
     public EnemyAttackItem(float x, float y, float height, float width, ID id, BufferedImage[] images, int speed, float scaleX, float scaleY, BattlePlayer bPlayer, Player player, Handler handler,Battle battle){
         super(x, y, height, width, id);
 
@@ -37,6 +50,10 @@ public class EnemyAttackItem extends GameObject implements Serializable {
 
     public void tick(){
 
+        if(battle.getLowHealth()){
+            extra=(float)1.75;
+        }
+
         if(movement.equals("DYKDW")){
             float diffX = x - bPlayer.getX() - 8;
             float diffY = y - bPlayer.getY() - 8;
@@ -49,8 +66,8 @@ public class EnemyAttackItem extends GameObject implements Serializable {
                 velY=0;
                 for(int i = 0; i<5; i++){
                     EnemyAttackItem temp1 = new EnemyAttackItem(this.getX(), this.getY(), 97, 96, ID.EnemyAttackItem, tex.Pikachu_A3, 6, 96, 97, bPlayer, player, handler,battle);
-                    temp1.setVelX(ThreadLocalRandom.current().nextInt(-7, 6 + 1));
-                    temp1.setVelY(ThreadLocalRandom.current().nextInt(-7, 6 + 1));
+                    temp1.setVelX(ThreadLocalRandom.current().nextInt(-7, 6 + 1)*extra);
+                    temp1.setVelY(ThreadLocalRandom.current().nextInt(-7, 6 + 1)*extra);
                     temp1.movement="none";
                     handler.addObject(temp1);
                     handler.removeObject(this);
@@ -64,7 +81,7 @@ public class EnemyAttackItem extends GameObject implements Serializable {
             time = timeNow - timeOfLastShot;
             if(time<2000){
                 EnemyAttackItem temp1 = new EnemyAttackItem(this.getX()+30, this.getY()+ThreadLocalRandom.current().nextInt(5, 20 + 1), 17, 16, ID.EnemyAttackItem, tex.Pikachu_A2, 6, 16, 17, bPlayer, player, handler,battle);
-                temp1.setVelX(-10);
+                temp1.setVelX(-10*extra);
                 temp1.setVelY(0);
                 temp1.movement="none";
                 handler.addObject(temp1);
@@ -105,6 +122,78 @@ public class EnemyAttackItem extends GameObject implements Serializable {
                     handler.removeObject(this);
                 }
             }
+        }else if(movement.equals("eggAttack")){
+            if(this.getBounds().intersects(expandedPlayerBounds)){
+                EnemyAttackItem temp1=new EnemyAttackItem(this.getX(), this.getY(), 105, 92, ID.EnemyAttackItem, tex.FatYoshi_A1, 4, 92, 105, bPlayer, player, handler,battle);
+                temp1.setVelX(this.velX*2);
+                temp1.setVelY(this.velY*2);
+                temp1.movement="none";
+                handler.addObject(temp1);
+                handler.removeObject(this);
+
+
+            }
+        }else if(movement.equals("giraffe")){
+            if(velX==4){
+                if(this.getBounds().intersects(rightPlayerBounds)){
+                    velX=-8;
+                }
+            }else if(velY==4){
+                if(this.getBounds().intersects(bottomPlayerBounds)){
+                    velY=-8;
+                }
+            }else if(velX==-4){
+                if(this.getBounds().intersects(leftPlayerBounds)){
+                    velX=8;
+                }
+            }else if(velY==-4){
+                if(this.getBounds().intersects(topPlayerBounds)){
+                    velY=8;
+                }
+            }
+
+        }else if(movement.equals("frog")){
+            if(x>=768 || x<=522){
+                velX*=-1;
+            }
+        }else if(movement.equals("lipton")){
+            if(y>=300){
+                velY=20;
+            }
+        }else if(movement.equals("lipton2")){
+            if(y>=300 && !(y>325))
+                velX*=-1;
+            else if(y>=500 && !(y>525))
+                velX*=-1;
+            else if(y>=700 && !(y>725))
+                velX*=-1;
+        }else if(movement.equals("bongo")){
+            if(getBounds().intersects(bottomPlayerBounds)){
+
+                velY*=-1;
+            }
+            if(getBounds().intersects(rightPlayerBounds) || getBounds().intersects(leftPlayerBounds))
+                velX*=-1;
+        }else if(movement.equals("crab")){
+            if(getBounds().intersects(EleftPlayerBounds)){
+                velX=2;
+                velY=5;
+            }
+            if(getBounds().intersects(EtopPlayerBounds)|| getBounds().intersects(EbottomPlayerBounds)){
+                velY*=-1;
+            }
+        }else if(movement.equals("crabArm")){
+            if(velY>0){
+                velY+=.1;
+            }else
+                velY-=.1;
+
+            if(y<538){
+                velY=3;
+            }else if(y>784){
+                velY=-3;
+            }
+
         }
 
         collision();
@@ -130,13 +219,13 @@ public class EnemyAttackItem extends GameObject implements Serializable {
         if(ThreadLocalRandom.current().nextInt(0, 2)==0){
             randomNum*=-1;
         }
-        velX=randomNum;
+        velX=randomNum*extra;
 
         randomNum = ThreadLocalRandom.current().nextInt(4, 6 + 1);
         if(ThreadLocalRandom.current().nextInt(0, 2)==0){
             randomNum*=-1;
         }
-        velY=randomNum;
+        velY=randomNum*extra;
 
         movement="boxBounce";
 
@@ -149,44 +238,44 @@ public class EnemyAttackItem extends GameObject implements Serializable {
             if(randomNum2==1){
                 x=700;
                 y=500;
-                velY=6;
+                velY=6*extra;
             }else if(randomNum2==2){
                 x=600;
                 y=500;
-                velY=6;
+                velY=6*extra;
             }
 
         }else if(randomNum==1){
             if(randomNum2==0){
                 x=700;
                 y=1200;
-                velY=-6;
+                velY=-6*extra;
             }else if(randomNum2==2){
                 x=600;
                 y=1200;
-                velY=-6;
+                velY=-6*extra;
             }
 
         }else if(randomNum==2){
             if(randomNum2==1){
                 x=900;
                 y=600;
-                velX=-6;
+                velX=-6*extra;
             }else if(randomNum2==2){
                 x=900;
                 y=700;
-                velX=-6;
+                velX=-6*extra;
             }
 
         }else if(randomNum==3){
             if(randomNum2==1){
                 x=100;
                 y=700;
-                velX=6;
+                velX=6*extra;
             }else if(randomNum2==2){
                 x=100;
                 y=600;
-                velX=6;
+                velX=6*extra;
             }
 
 
@@ -194,11 +283,11 @@ public class EnemyAttackItem extends GameObject implements Serializable {
             if(randomNum2==1){
                 x=100;
                 y=700;
-                velX=6;
+                velX=6*extra;
             }else if(randomNum2==2){
                 x=100;
                 y=600;
-                velX=6;
+                velX=6*extra;
             }
         }
 
@@ -215,11 +304,11 @@ public class EnemyAttackItem extends GameObject implements Serializable {
         if(randomNum==0){
             y=550;
             x=1200;
-            velX=-5;
+            velX=-5*extra;
         }else if(randomNum==1){
             y=450;
             x=-150;
-            velX=5;
+            velX=5*extra;
         }
 
         movement="LS";
@@ -258,7 +347,7 @@ public class EnemyAttackItem extends GameObject implements Serializable {
     public void Pokeball(){
         x=600;
         y=200;
-        velY=5;
+        velY=5*extra;
         movement="Pokeball";
     }
 
@@ -273,14 +362,14 @@ public class EnemyAttackItem extends GameObject implements Serializable {
         x=800;
         y=ThreadLocalRandom.current().nextInt(500, 700);
         movement="PikachuShot";
-        this.velY=2;
+        this.velY=2*extra;
     }
 
     public void CarrotShot(){
         x=0;
         y=ThreadLocalRandom.current().nextInt(0, 500);
-        velX=9;
-        velY=6;
+        velX=9*extra;
+        velY=6*extra;
 
         movement="CarrotShot";
     }
@@ -297,23 +386,23 @@ public class EnemyAttackItem extends GameObject implements Serializable {
         if(temp==0){
             x=200;
             y=300;
-            velX=12;
-            velY=12;
+            velX=12*extra;
+            velY=12*extra;
         }else if(temp==1){
             x=800;
             y=300;
-            velX=-12;
-            velY=12;
+            velX=-12*extra;
+            velY=12*extra;
         }else if(temp==2){
             x=200;
             y=1200;
-            velX=12;
-            velY=-12;
+            velX=12*extra;
+            velY=-12*extra;
         }else if(temp==3){
             x=800;
             y=1200;
-            velX=-10;
-            velY=-14;
+            velX=-10*extra;
+            velY=-14*extra;
         }
         movement="CardAttack";
     }
@@ -323,23 +412,23 @@ public class EnemyAttackItem extends GameObject implements Serializable {
         if(temp==0){
             x=200;
             y=300;
-            velX=7;
-            velY=7;
+            velX=7*extra;
+            velY=7*extra;
         }else if(temp==1){
             x=800;
             y=300;
-            velX=-7;
-            velY=7;
+            velX=-7*extra;
+            velY=7*extra;
         }else if(temp==2){
             x=0;
             y=1200;
-            velX=7;
-            velY=-7;
+            velX=7*extra;
+            velY=-7*extra;
         }else if(temp==3){
             x=1000;
             y=1200;
-            velX=-5;
-            velY=-9;
+            velX=-5*extra;
+            velY=-9*extra;
         }
 
         movement="Gottem";
@@ -416,7 +505,201 @@ public class EnemyAttackItem extends GameObject implements Serializable {
 
         movement="teaCup";
     }
+    public void eggAttack(){
+        int temp = ThreadLocalRandom.current().nextInt(4);
+        if(temp==0){
+            x=ThreadLocalRandom.current().nextInt(450,600);
+            y=300;
+            velX=0;
+            velY=3;
 
+        }else if(temp==1){
+            x=100;
+            y=ThreadLocalRandom.current().nextInt(400,800);
+            velX=3;
+            velY=0;
+
+        }else if(temp==2){
+            x=1200;
+            y=ThreadLocalRandom.current().nextInt(400,800);;
+            velX=-3;
+            velY=0;
+        }else if(temp==3){
+            x=ThreadLocalRandom.current().nextInt(450,600);
+            y=1000;
+            velX=0;
+            velY=-3;
+        }
+
+        movement="eggAttack";
+    }
+    public void eggAttack2(){
+        int temp = ThreadLocalRandom.current().nextInt(3);
+        if(temp==0){
+            x=500;
+            y=200;
+            velX=0;
+            velY=5;
+        }else if(temp==1){
+            x=600;
+            y=200;
+            velX=0;
+            velY=5;
+
+        }else if(temp==2){
+            x=750;
+            y=200;
+            velX=0;
+            velY=5;
+
+        }
+
+
+        movement="eggAttack2";
+    }
+
+    public void giraffe(){
+        int temp = ThreadLocalRandom.current().nextInt(4);
+        if(temp==0){
+            x=300;
+            y=ThreadLocalRandom.current().nextInt(538,750);
+            velX=4;
+            velY=0;
+        }else if(temp==1){
+            x=ThreadLocalRandom.current().nextInt(522,750);
+            y=200;
+            velY=4;
+            velX=0;
+
+
+        }else if(temp==2){
+            x=900;
+            y=ThreadLocalRandom.current().nextInt(538,750);
+            velX=-4;
+            velY=0;
+
+        }else if(temp==3){
+            x=ThreadLocalRandom.current().nextInt(522,750);
+            y=1000;
+            velY=-4;
+            velX=0;
+
+        }
+        movement="giraffe";
+
+    }
+
+    public void guitar(){
+        x=ThreadLocalRandom.current().nextInt(1000,1200);
+        y=ThreadLocalRandom.current().nextInt(150,300);
+        velX=ThreadLocalRandom.current().nextInt(2,6);
+        velX*=-1;
+        velY=ThreadLocalRandom.current().nextInt(3,5);
+
+
+        movement="guitar";
+    }
+
+    public void frog(){
+        x=ThreadLocalRandom.current().nextInt(522,800);
+        y=300;
+        velY=3;
+        velX=3;
+        if(ThreadLocalRandom.current().nextInt(2)==0)
+            velX*=-1;
+        movement="frog";
+    }
+    public void unicycle(){
+        Textures tex = Game.getInstance();
+        EnemyAttackItem temp = new EnemyAttackItem(600, 600, 107, 57, ID.EnemyAttackItem, tex.DatBoi_A1, 3, 57, 107, bPlayer, player, handler,battle);
+        temp.movement="unicycle";
+        if(ThreadLocalRandom.current().nextInt(2)==0){
+            x=ThreadLocalRandom.current().nextInt(200,500);
+
+            temp.setX(x+200);
+            velY=5;
+            temp.setVelY(5);
+            y=300;
+            temp.setY(300);
+            handler.addObject(temp);
+
+        }else{
+            x=100;
+            temp.setX(100);
+            velX=5;
+            temp.setVelX(5);
+            y=ThreadLocalRandom.current().nextInt(250,800);
+            temp.setY(y+200);
+            handler.addObject(temp);
+        }
+        movement="unicycle";
+
+
+    }
+    public void lipton(){
+        x=ThreadLocalRandom.current().nextInt(500,800);
+        y=200;
+        velY=1;
+        movement="lipton";
+
+    }
+    public void lipton2(){
+        y=ThreadLocalRandom.current().nextInt(100,300);
+        x=ThreadLocalRandom.current().nextInt(400,600);
+        velY=4;
+        velX=4;
+        if(ThreadLocalRandom.current().nextInt(2)==0){
+            velX*=-1;
+        }
+        movement="lipton2";
+    }
+    public void bongo(){
+        x=ThreadLocalRandom.current().nextInt(600,800);
+        velX=ThreadLocalRandom.current().nextInt(1,2);
+        if(ThreadLocalRandom.current().nextInt(2)==0)
+            velX*=-1;
+        velY=ThreadLocalRandom.current().nextInt(4,5);
+        y=300;
+
+        movement="bongo";
+
+    }
+    public void note(){
+        int temp = ThreadLocalRandom.current().nextInt(2);
+        if(temp==0){
+            EnemyAttackItem newattack = new EnemyAttackItem(-100, 0, 152, 106, ID.EnemyAttackItem, tex.BongoCat_A2, 3, 106, 152, bPlayer, player, handler,battle);
+            newattack.movement="note";
+            x=1000;
+            y=400;
+            newattack.setX(1000);
+            newattack.setY(800);
+            velX=-7;
+            newattack.setVelX(-7);
+            handler.addObject(newattack);
+        }else{
+            x=1000;
+            y=600;
+            velX=-7;
+
+        }
+        movement="note";
+    }
+    public void crab(){
+          x=900;
+          velX=-4;
+          y=ThreadLocalRandom.current().nextInt(550,700);
+          movement="crab";
+
+    }
+    public void crabArm(){
+        x=0;
+        y=ThreadLocalRandom.current().nextInt(300,800);
+        velX=2;
+        velY=3;
+        if(ThreadLocalRandom.current().nextInt(2)==0)
+            velY*=-1;
+        movement="crabArm";
+    }
 
     public void collision(){
         if(movement.equals("boxBounce")){
@@ -447,13 +730,21 @@ public class EnemyAttackItem extends GameObject implements Serializable {
             }
         }else{
             if(getBounds().intersects(bPlayer.getBounds()) && !bPlayer.getCooldown()){
-                // add real damage calculation later based on attack/defense
                 int damage=Math.max(5,battle.getEnemy().getAttack()-player.getDefense());
-                player.setHealth(player.getHealth()-damage);
+                // add real damage calculation later based on attack/defense
+                if(!player.getBackwards()){
+
+                    player.setHealth(player.getHealth()-damage);
+
+                }else{
+                    battle.getEnemy().setHealth(battle.getEnemy().getHealth()-damage);
+                }
+
                 bPlayer.setCooldown(true);
                 bPlayer.setTimeOfLastShot(System.currentTimeMillis());
                 bPlayer.setTrack(0);
                 handler.removeObject(this);
+
 
             }
         }

@@ -13,43 +13,67 @@ public class Spells extends GameObject implements Serializable {
     private Magic magic;
     private Game game;
     private int manaREQ;
-    public Spells(String name, String desc, Magic magic,float x, float y, float height, float width, ID id, Game game,int manaREQ){
+    private boolean damaging;
+    private boolean healing;
+    private int healFactor;
+    private int damageFactor;
+    public Spells(String name, String desc, Magic magic,float x, float y, float height, float width, ID id, Game game,int manaREQ, boolean healing, boolean damaging, int healFactor, int damageFactor){
         super(x, y, height, width, id);
         this.name = name;
         this.desc = desc;
         this.magic = magic;
         this.game=game;
         this.manaREQ=manaREQ;
+        this.damaging=damaging;
+        this.healing=healing;
+        this.healFactor=healFactor;
+        this.damageFactor=damageFactor;
     }
 
 
-    public void use(){
+    public void use(Character user, Character enemy){
         if(name.equals("Auto kill")){
             game.getCurrentBattle().getEnemy().setHealth(0);
-        }else if(name.equals("Basic Heal")&&game.getPlayer().getMana()>=manaREQ){
-            game.getPlayer().setHealth(game.getPlayer().getHealth()+manaREQ);
-            game.getPlayer().setMana(game.getPlayer().getMana()-manaREQ);
-        }else if(name.equals("Boogie Woogie")&&game.getPlayer().getMana()>=manaREQ){
+        }else if(name.equals("Basic Heal")&&user.getMana()>=manaREQ){
+            if(!game.getPlayer().getBackwards())
+                user.setHealth(user.getHealth()+healFactor);
+            else
+                enemy.setHealth(enemy.getHealth()+healFactor);
+
+            user.setMana(user.getMana()-manaREQ);////// NOTE: CURRENTLY ADAPTING SPELLS TO ACCOUNT FOR AN ENEMY USER
+        }else if(name.equals("Boogie Woogie")&&user.getMana()>=manaREQ){
             if(!(game.getCurrentBattle()==null)){
-                game.getPlayer().setAttack(game.getPlayer().getAttack()+5);
-                game.getPlayer().setMana(game.getPlayer().getMana()-manaREQ);
+                user.setAttack(user.getAttack()+5);
+                user.setMana(user.getMana()-manaREQ);
             }
 
-        }else if(name.equals("Enie Meni Minie Mo")&&game.getPlayer().getMana()>=manaREQ){
-            int temp= ThreadLocalRandom.current().nextInt(4);
-            if(temp==0){
-                game.getPlayer().setHealth(game.getPlayer().getHealth()-20);
-            }else if(temp==1){
-                game.getPlayer().setHealth(game.getPlayer().getHealth()-5);
-            }else if(temp==2){
-                game.getCurrentBattle().getEnemy().setHealth(game.getCurrentBattle().getEnemy().getHealth()-20);
-            }else if(temp==3){
-                game.getCurrentBattle().getEnemy().setHealth(game.getCurrentBattle().getEnemy().getHealth()-5);
+        }else if(name.equals("Enie Meni Minie Mo")&&user.getMana()>=manaREQ){
+            if(!(game.getCurrentBattle()==null)){
+                int temp= ThreadLocalRandom.current().nextInt(4);
+                if(temp==0){
+                    user.setHealth(user.getHealth()-25);
+                }else if(temp==1){
+                    user.setHealth(user.getHealth()-5);
+                }else if(temp==2){
+                    enemy.setHealth(enemy.getHealth()-25);
+                }else if(temp==3){
+                    enemy.setHealth(enemy.getHealth()-5);
+                }
+                user.setMana(user.getMana()-manaREQ);
             }
-            game.getPlayer().setMana(game.getPlayer().getMana()-manaREQ);
-        }else if(name.equals("Yeetus Deletus")&&game.getPlayer().getMana()>=manaREQ){
-            game.getCurrentBattle().getEnemy().setHealth(game.getCurrentBattle().getEnemy().getHealth()-15);
-            game.getPlayer().setMana(game.getPlayer().getMana()-manaREQ);
+
+        }else if(name.equals("Yeetus Deletus")&&user.getMana()>=manaREQ){
+            if(!(game.getCurrentBattle()==null)){
+
+                if(!game.getPlayer().getBackwards()){
+                    enemy.setHealth(enemy.getHealth()-damageFactor);
+
+                }else
+                    user.setHealth(user.getHealth()-damageFactor);
+
+                user.setMana(user.getMana()-manaREQ);
+            }
+
 
         }
     }
@@ -102,5 +126,37 @@ public class Spells extends GameObject implements Serializable {
 
     public void setManaREQ(int manaREQ) {
         this.manaREQ = manaREQ;
+    }
+
+    public boolean getDamaging() {
+        return damaging;
+    }
+
+    public void setDamaging(boolean damaging) {
+        this.damaging = damaging;
+    }
+
+    public boolean getHealing() {
+        return healing;
+    }
+
+    public void setHealing(boolean healing) {
+        this.healing = healing;
+    }
+
+    public int getHealFactor() {
+        return healFactor;
+    }
+
+    public void setHealFactor(int healFactor) {
+        this.healFactor = healFactor;
+    }
+
+    public int getDamageFactor() {
+        return damageFactor;
+    }
+
+    public void setDamageFactor(int damageFactor) {
+        this.damageFactor = damageFactor;
     }
 }

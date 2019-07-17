@@ -9,35 +9,54 @@ public class Items extends GameObject implements Serializable {
     private String name;
     private String desc;
     private boolean usable;
-    private Inventory inv;
     private boolean obtained=false;
     private BufferedImage img= Game.tex.Orb;
     private Game game;
     private int attack;
     private int defense;
-    public Items(String name, String desc, Inventory inv,float x, float y, float height, float width, ID id,Game game, int attack, int defense){
+    private boolean healing;
+    private boolean damaging;
+    private int healFactor;
+    private int damageFactor;
+    public Items(String name, String desc,float x, float y, float height, float width, ID id,Game game, int attack, int defense, boolean healing, boolean damaging,int healFactor, int damageFactor){
         super(x, y, height, width, id);
         this.name = name;
         this.desc = desc;
-        this.inv = inv;
         this.game=game;
+        this.healing=healing;
+        this.damaging=damaging;
+        this.healFactor=healFactor;
+        this.damageFactor=damageFactor;
     }
 
 
-    public void use(){
+    public void use(Character user, Character enemy){
+
+
+
         if(name.equals("Basic HP")){
             System.out.println("YAY");
-            inv.removeItem(this);
+            user.getInv().removeItem(this);
         }else if(name.equals("Empty Water Bottle")){
             int damage= ThreadLocalRandom.current().nextInt(5,11);
-            game.getCurrentBattle().getEnemy().setHealth(game.getCurrentBattle().getEnemy().getHealth()-damage);
-            inv.removeItem(this);
+            if(!game.getPlayer().getBackwards())
+                enemy.setHealth(enemy.getHealth()-damage);
+            else
+                user.setHealth(user.getHealth()-damage);
+            user.getInv().removeItem(this);
         }else if(name.equals("Lipton Iced Tea")){
-            game.getPlayer().setHealth(game.getPlayer().getHealth()+14);
-            inv.removeItem(this);
+            if(!game.getPlayer().getBackwards())
+                user.setHealth(user.getHealth()+healFactor);
+            else
+                enemy.setHealth(enemy.getHealth()+healFactor);
+            user.getInv().removeItem(this);
         }else if(name.equals("Tide Pod")){
-            game.getPlayer().setHealth(game.getPlayer().getHealth()+5);
-            inv.removeItem(this);
+            if(!game.getPlayer().getBackwards())
+                user.setHealth(user.getHealth()+healFactor);
+            else
+                enemy.setHealth(enemy.getHealth()+healFactor);
+
+            user.getInv().removeItem(this);
         }
     }
 
@@ -98,5 +117,37 @@ public class Items extends GameObject implements Serializable {
 
     public void setDefense(int defense) {
         this.defense = defense;
+    }
+
+    public boolean isHealing() {
+        return healing;
+    }
+
+    public void setHealing(boolean healing) {
+        this.healing = healing;
+    }
+
+    public boolean isDamaging() {
+        return damaging;
+    }
+
+    public void setDamaging(boolean damaging) {
+        this.damaging = damaging;
+    }
+
+    public int getHealFactor() {
+        return healFactor;
+    }
+
+    public void setHealFactor(int healFactor) {
+        this.healFactor = healFactor;
+    }
+
+    public int getDamageFactor() {
+        return damageFactor;
+    }
+
+    public void setDamageFactor(int damageFactor) {
+        this.damageFactor = damageFactor;
     }
 }

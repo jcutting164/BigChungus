@@ -65,6 +65,11 @@ public class Handler implements Serializable {
                         g.drawImage(tex.Grass,(xx * 64)-64, (yy * 64)-64, 64, 64,null);
                         // addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, this, game, ID.Grass));
                         // grass
+                    }else if(red==255&&green==230&&blue==0){
+
+                    }else if(red==255&&green==111&&blue==0){
+                        //handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.RedGround));
+                        g.drawImage(tex.RedGround, (xx * 64)-64, (yy * 64)-64, 64, 64,null);
                     }
                 }
             }

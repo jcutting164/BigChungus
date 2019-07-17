@@ -12,6 +12,10 @@ public abstract class Character extends GameObject implements Serializable {
     int tempImage;
     protected int health;
     protected int maxhealth;
+    protected int mana;
+    protected int maxMana;
+    protected int attack;
+    protected int defense;
 
     protected transient Animation walkLeft;
     protected transient Animation walkRight;
@@ -20,7 +24,8 @@ public abstract class Character extends GameObject implements Serializable {
     protected transient BufferedImage Face;
     protected int speed;
     protected ID sID;
-
+    protected  Inventory inv;
+    protected  Magic magic;
     Textures tex = Game.getInstance();
 
     public Character(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed){
@@ -87,9 +92,23 @@ public abstract class Character extends GameObject implements Serializable {
             g.setColor(Color.red);
         }
 
-        g.fillRect(540, y, health*(200/maxhealth), 32);
-        g.setColor(Color.white);
-        g.drawRect(540, y, 200, 32);
+        if(health==maxhealth){
+            g.fillRect(540, y, 200, 32);
+            if(!(game.getPlayer().getBackwards()))
+                g.setColor(Color.white);
+            else
+                g.setColor(Color.black);
+            g.drawRect(540, y, 200, 32);
+        }else{
+            g.fillRect(540, y, health*(200/maxhealth), 32);
+            if(!(game.getPlayer().getBackwards()))
+                g.setColor(Color.white);
+            else
+                g.setColor(Color.black);
+            g.drawRect(540, y, 200, 32);
+        }
+
+
 
 
 
@@ -105,9 +124,23 @@ public abstract class Character extends GameObject implements Serializable {
             g.setColor(Color.red);
         }
 
-        g.fillRect(x, y, health*(200/maxhealth), 32);
-        g.setColor(Color.white);
-        g.drawRect(x, y, 200, 32);
+        if(health==maxhealth){
+            g.fillRect(x, y, 200, 32);
+            if(game.getPlayer().getBackwards()){
+                g.setColor(Color.black);
+            }else
+                g.setColor(Color.white);
+            g.drawRect(x, y, 200, 32);
+        }else{
+            g.fillRect(x, y, health*(200/maxhealth), 32);
+            if(game.getPlayer().getBackwards()){
+                g.setColor(Color.black);
+            }else
+                g.setColor(Color.white);
+            g.drawRect(x, y, 200, 32);
+        }
+
+
 
 
 
@@ -133,5 +166,61 @@ public abstract class Character extends GameObject implements Serializable {
 
     public void setsID(ID sID) {
         this.sID = sID;
+    }
+
+    public Inventory getInv() {
+        return inv;
+    }
+
+    public void setInv(Inventory inv) {
+        this.inv = inv;
+    }
+
+    public Magic getMagic() {
+        return magic;
+    }
+
+    public void setMagic(Magic magic) {
+        this.magic = magic;
+    }
+
+    public int getMaxhealth() {
+        return maxhealth;
+    }
+
+    public void setMaxhealth(int maxhealth) {
+        this.maxhealth = maxhealth;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
+    public int getMaxMana() {
+        return maxMana;
+    }
+
+    public void setMaxMana(int maxMana) {
+        this.maxMana = maxMana;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 }

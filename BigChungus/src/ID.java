@@ -26,7 +26,16 @@ public enum ID implements Serializable {
     Tree,
     ObtainableItems,
     Malario,
-    TPoser;
+    TPoser,
+    Mushroom,
+    RedGround,
+    JoshuaGiraffe,
+    FatYoshi,
+    DatBoi,
+    Kermit,
+    Crab,
+    BongoCat,
+    AntiHero;
 
 
 }
