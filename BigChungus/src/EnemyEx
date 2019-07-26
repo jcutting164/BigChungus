@@ -72,7 +72,7 @@ public class DatBoi extends Enemy implements Serializable {
     public void render(Graphics g){
 
         try{
-            g.drawImage(currentImages[0], (int) this.x, (int)this.y, 48, 96, null);
+            g.drawImage(currentImages[0], (int) this.x, (int)this.y, (int)width, (int)height, null);
         }catch(Exception e){
             tex=Game.getInstance();
 

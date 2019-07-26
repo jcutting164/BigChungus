@@ -36,6 +36,15 @@ public class AudioPlayer implements Serializable {
             musicMap.put("Crab",new Music("res/BattleMusic/Crab.wav"));
             musicMap.put("AntiHero",new Music("res/BattleMusic/AntiHero.wav"));
             musicMap.put("AntiHeroB",new Music("res/BattleMusic/AntiHeroBack.wav"));
+            musicMap.put("Zuck",new Music("res/BattleMusic/Zuck.wav"));
+            musicMap.put("Harambe",new Music("res/BattleMusic/Harambe.wav"));
+            musicMap.put("YodelBoy",new Music("res/BattleMusic/YodelBoy.wav"));
+            musicMap.put("KazooKid",new Music("res/BattleMusic/KazooKid.wav"));
+            musicMap.put("Waluigi",new Music("res/BattleMusic/Waluigi.wav"));
+            musicMap.put("Spongebob",new Music("res/BattleMusic/Spongebob.wav"));
+            musicMap.put("Spaget",new Music("res/BattleMusic/Spaget.wav"));
+            musicMap.put("Arthur",new Music("res/BattleMusic/Arthur.wav"));
+
 
 
 

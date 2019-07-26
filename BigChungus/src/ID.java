@@ -12,9 +12,7 @@ public enum ID implements Serializable {
     Spell(),
     Item(),
     BattlePlayer,
-    M_Knuckles1,
     EnemyAttackItem,
-    M_Knuckles2,
     Pikachu,
     BigChungus,
     SaveIcon,
@@ -24,7 +22,6 @@ public enum ID implements Serializable {
     Book,
     Grass,
     Tree,
-    ObtainableItems,
     Malario,
     TPoser,
     Mushroom,
@@ -35,7 +32,15 @@ public enum ID implements Serializable {
     Kermit,
     Crab,
     BongoCat,
-    AntiHero;
+    AntiHero,
+    Zuck,
+    Harambe,
+    YodelBoy,
+    KazooKid,
+    Spongebob,
+    Waluigi,
+    Spaget,
+    Arthur;
 
 
 }

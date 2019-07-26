@@ -46,9 +46,9 @@ public class Game extends Canvas implements Runnable, Serializable {
     private AudioPlayer ap;
     private Inventory inv;
     private SaveObject so;
-    private Knuckles knuckles1;
-    private Pikachu pikachu;
-    private BigChungus bigChungus;
+    private Enemy knuckles1;
+    private Enemy pikachu;
+    private Enemy bigChungus;
     transient private HashMap<String, BufferedImage> rooms = new HashMap<>();
     private HashMap<String, ArrayList<Integer>> ranges=new HashMap<>();
     private String currentRoom="Room1_1";
@@ -132,11 +132,11 @@ public class Game extends Canvas implements Runnable, Serializable {
         inv = new Inventory();
 
         magic = new Magic();
-      //  magic.addItem(new Spells("Auto kill", "Yeet and Delete", magic,0,0,0,0,ID.Spell,this,0));
+        magic.addItem(new Spells("Auto kill", "Yeet and Delete", magic,0,0,0,0,ID.Spell,this,0,false,false,0,0));
 
         //loadSave();
-        knuckles1 = new Knuckles(5760, 385, 100, 52, handler, this, ID.Knuckles, 2, tbHandler, "CLICK CLICK CLICK", player, true);
-        bigChungus = new BigChungus(5760, 375, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "CHUNGA", player, true);
+        knuckles1 = new Enemy(5760, 385, 100, 52, handler, this, ID.Knuckles, 2, tbHandler, "Ugandan Knuckles", player, ID.Knuckles,20,20,4,tex.Knuckles_BattleForm,Color.red,100);
+        bigChungus = new Enemy(5760, 375, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "Big Chungus", player, ID.BigChungus,100,100,4,tex.BigChungusBF[0],Color.gray,1000);
 
 
 
@@ -235,7 +235,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 
                     //handler.addObject(knuckles1);
                     //Pikachu pikachu = new Pikachu(800, 500, 96, 48, handler, this, ID.Pikachu, 2, tbHandler, "Pikaaachuuu", player, true);
-                    bigChungus = new BigChungus(500, 500, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "CHUNGA", player, true);
+                    tex=getInstance();
+                    bigChungus = new Enemy(5760, 375, 433, 225, handler, this, ID.BigChungus, 7, tbHandler, "Big Chungus", player, ID.BigChungus,100,100,4,tex.BigChungusBF[0],Color.gray,1000);
                     // handler.addObject(pikachu);
                     //handler.addObject(npc);
                     //handler.addObject(bigChungus);
@@ -381,58 +382,69 @@ public class Game extends Canvas implements Runnable, Serializable {
             g2d.translate(camera.getX(), camera.getY());
             tbHandler.render(g);
 
-            if(player.getInv().getOpen()){
-                player.getInv().render(g);
-                player.drawHealthBar(8,540,g);
-                player.drawManaBar(8,600,g);
+            try{
+                if(player.getInv().getOpen()){
+                    player.getInv().render(g);
+                    player.drawHealthBar(8,540,g);
+                    player.drawManaBar(8,600,g);
 
-                fnt = new Font("Serif", 0, 20);
-                g.setFont(fnt);
-                g.setColor(Color.white);
-                g.drawString("HP", 8,530);
-                g.setColor(Color.white);
+                    fnt = new Font("Serif", 0, 20);
+                    g.setFont(fnt);
+                    g.setColor(Color.white);
+                    g.drawString("HP", 8,530);
+                    g.setColor(Color.white);
 
-                fnt = new Font("Serif", 1, 16);
-                g.setFont(fnt);
-                g.drawString(player.getHealth() + " / " + player.getMaxHealth(), 215, 565);
+                    fnt = new Font("Serif", 1, 16);
+                    g.setFont(fnt);
+                    g.drawString(player.getHealth() + " / " + player.getMaxHealth(), 215, 565);
 
 
 
-                fnt = new Font("Serif", 0, 20);
-                g.setFont(fnt);
-                g.setColor(Color.white);
-                g.drawString("Mana", 8,595);
-                g.setColor(Color.white);
+                    fnt = new Font("Serif", 0, 20);
+                    g.setFont(fnt);
+                    g.setColor(Color.white);
+                    g.drawString("Mana", 8,595);
+                    g.setColor(Color.white);
 
-                fnt = new Font("Serif", 1, 16);
-                g.setFont(fnt);
-                g.drawString(player.getMana() + " / " + player.getMaxMana(), 215, 620);
+                    fnt = new Font("Serif", 1, 16);
+                    g.setFont(fnt);
+                    g.drawString(player.getMana() + " / " + player.getMaxMana(), 215, 620);
 
-            }else if(player.getMagic().getOpen()){
-                player.getMagic().render(g);
-                player.drawHealthBar(8,540,g);
-                player.drawManaBar(8,600,g);
+                }else if(player.getMagic().getOpen()){
+                    player.getMagic().render(g);
+                    player.drawHealthBar(8,540,g);
+                    player.drawManaBar(8,600,g);
 
-                fnt = new Font("Serif", 0, 20);
-                g.setFont(fnt);
-                g.setColor(Color.white);
-                g.drawString("Mana", 8,595);
-                g.setColor(Color.white);
+                    fnt = new Font("Serif", 0, 20);
+                    g.setFont(fnt);
+                    g.setColor(Color.white);
+                    g.drawString("Mana", 8,595);
+                    g.setColor(Color.white);
 
-                fnt = new Font("Serif", 1, 16);
-                g.setFont(fnt);
-                g.drawString(player.getMana() + " / " + player.getMaxMana(), 215, 620);
+                    fnt = new Font("Serif", 1, 16);
+                    g.setFont(fnt);
+                    g.drawString(player.getMana() + " / " + player.getMaxMana(), 215, 620);
 
-                fnt = new Font("Serif", 0, 20);
-                g.setFont(fnt);
-                g.setColor(Color.white);
-                g.drawString("HP", 8,530);
-                g.setColor(Color.white);
+                    fnt = new Font("Serif", 0, 20);
+                    g.setFont(fnt);
+                    g.setColor(Color.white);
+                    g.drawString("HP", 8,530);
+                    g.setColor(Color.white);
 
-                fnt = new Font("Serif", 1, 16);
-                g.setFont(fnt);
-                g.drawString(player.getHealth() + " / " + player.getMaxHealth(), 215, 565);
+                    fnt = new Font("Serif", 1, 16);
+                    g.setFont(fnt);
+                    g.drawString(player.getHealth() + " / " + player.getMaxHealth(), 215, 565);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                player.setInv(new Inventory());
+
+                player.setMagic(new Magic());
+                player.getMagic().addItem(new Spells("Auto kill", "Yeet and Delete", magic,0,0,0,0,ID.Spell,this,0,false,false,0,0));
+
             }
+
+
 
 
 
@@ -621,8 +633,8 @@ public class Game extends Canvas implements Runnable, Serializable {
             camera.updateRange("Room1_1");
 
 
-            handler.addObject(new AntiHero(700, 500, 92, 25, handler, this, ID.AntiHero, 2, tbHandler, "...", player, true));
-            handler.addObject(new BongoCat(800, 500, 96, 48, handler, this, ID.BongoCat, 2, tbHandler, "YOSHI", player, true));
+            handler.addObject(new Enemy(700, 500, 92, 25, handler, this, ID.Spaget, 2, tbHandler, "Spaget", player, ID.Spaget,20,20,2,tex.SpagetBF,Color.green,50));
+            handler.addObject(new Enemy(800, 500, 96, 48, handler, this, ID.Arthur, 1, tbHandler, "Arthur", player, ID.Arthur,20,20,2,tex.ArthurBF,new Color(255,224,189),40));
 
 
         }else if(currentRoom.equals("Room2_1")){
@@ -664,7 +676,7 @@ public class Game extends Canvas implements Runnable, Serializable {
         }else if(currentRoom.equals("Room2_4")){
             handler.addObject(new Transition(0,30,32,1000,ID.Transition,"Room2_3",2250,5900,player,true));
 
-            if(!knuckles1.defeated){
+            if(!knuckles1.isDefeated()){
                 handler.addObject(knuckles1);
                 handler.addObject(new TextBox(null,"CLUCK CLUCK CLUCK (I know who you are.)",1120,0,1000,16,ID.TextBox,tbHandler));
                 handler.addObject(new TextBox(null,"CLUCK CLUCK CLUCK (I know what you are going to try to do.)",1740,0,1000,16,ID.TextBox,tbHandler));
@@ -833,13 +845,13 @@ public class Game extends Canvas implements Runnable, Serializable {
                     player=(Player)handler.object.get(i);
                     handler.object.set(i, player);
                 }else if(handler.object.get(i).getId()==ID.BigChungus){
-                    bigChungus=(BigChungus) handler.object.get(i);
+                    bigChungus=(Enemy) handler.object.get(i);
                     handler.object.set(i, bigChungus);
                 }else if(handler.object.get(i).getId()==ID.Knuckles){
-                    knuckles1=(Knuckles) handler.object.get(i);
+                    knuckles1=(Enemy) handler.object.get(i);
                     handler.object.set(i, knuckles1);
                 }else if(handler.object.get(i).getId()==ID.Pikachu){
-                    pikachu=(Pikachu) handler.object.get(i);
+                    pikachu=(Enemy) handler.object.get(i);
                     handler.object.set(i, pikachu);
                 }else if(handler.object.get(i).getId()==ID.NPC){
                     npc=(NPC) handler.object.get(i);

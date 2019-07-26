@@ -1,3 +1,5 @@
+import sun.security.krb5.internal.TGSRep;
+
 import java.awt.Color;
 
 import java.awt.Graphics;
@@ -15,6 +17,8 @@ public class EnemyAttackItem extends GameObject implements Serializable {
     private BattlePlayer bPlayer;
     private Player player;
     private Handler handler;
+    private int way;
+    private boolean original=false;
     Textures tex = Game.getInstance();
     Rectangle playerBounds = new Rectangle(522, 538, 246, 246);
     Rectangle expandedPlayerBounds= new Rectangle(482, 492, 286,286);
@@ -194,6 +198,151 @@ public class EnemyAttackItem extends GameObject implements Serializable {
                 velY=-3;
             }
 
+        }else if(movement.equals("magicBlast3")){
+            width++;
+            height++;
+            scaleX++;
+            scaleY++;
+        }else if(movement.equals("banana")){
+            if(velY>0 && y<1000)
+                velY+=.5;
+            else if(velY<0 && y>100)
+                velY-=.5;
+
+            if(y>1000){
+                velY=-5;
+            }else if(y<100)
+                velY=5;
+
+        }else if(movement.equals("rifle")){
+            if(x>200){
+                velX+=1;
+                x++;
+                scaleX++;
+                y++;
+                scaleY++;
+                width++;
+                height++;
+            }
+
+        }else if(movement.equals("lizard")){
+            if(scaleX>250){
+                way=-2;
+            }else if(scaleX<20){
+                way=2;
+            }
+
+            scaleX+=way;
+            scaleY+=way;
+            width+=way;
+            height+=way;
+            x+=way;
+            y+=way;
+        }else if(movement.equals("facebook")){
+            if(x<500){
+                velX=0;
+                velY=20;
+            }
+
+            if(ThreadLocalRandom.current().nextInt(10)==0 && original){
+                EnemyAttackItem myobj = new EnemyAttackItem(2000, 100, 80, 85, ID.EnemyAttackItem, tex.Zuck_A2, 3, 85, 80, bPlayer, player, handler,battle);
+                myobj.movement="facebook";
+                myobj.setVelX(-10);
+                myobj.setVelY(0);
+                handler.addObject(myobj);
+            }
+
+
+
+        }else if(movement.equals("facebook2")){
+            if(x<600){
+                velX=0;
+                velY=20;
+            }
+
+            if(ThreadLocalRandom.current().nextInt(10)==0&& original){
+                EnemyAttackItem myobj = new EnemyAttackItem(2000, 100, 80, 85, ID.EnemyAttackItem, tex.Zuck_A2, 3, 85, 80, bPlayer, player, handler,battle);
+                myobj.movement="facebook2";
+                myobj.setVelX(-10);
+                myobj.setVelY(0);
+                handler.addObject(myobj);
+            }
+
+        }else if(movement.equals("facebook3")){
+            if(x<700){
+                velX=0;
+                velY=20;
+            }
+
+            if(ThreadLocalRandom.current().nextInt(10)==0&& original){
+                EnemyAttackItem myobj = new EnemyAttackItem(2000, 100, 80, 85, ID.EnemyAttackItem, tex.Zuck_A2, 3, 85, 80, bPlayer, player, handler,battle);
+                myobj.movement="facebook3";
+                myobj.setVelX(-10);
+                myobj.setVelY(0);
+                handler.addObject(myobj);
+            }
+
+        }else if(movement.equals("kazoo1")){
+            if(ThreadLocalRandom.current().nextInt(20)==0){
+                velY*=-1;
+            }
+        }else if(movement.equals("kazoo2")){
+            if(ThreadLocalRandom.current().nextInt(20)==0)
+                velX*=-1;
+        }else if(movement.equals("boot")){
+            if(scaleX>35){
+                width-=2;
+                height-=2;
+                scaleX-=2;
+                scaleY-=2;
+            }
+
+        }else if(movement.equals("yodelnote")){
+            isVisible=!isVisible;
+
+            velX=ThreadLocalRandom.current().nextInt(3,10);
+            velY=ThreadLocalRandom.current().nextInt(2,4);
+            if(ThreadLocalRandom.current().nextInt(2)==0)
+                velY*=-1;
+
+        }else if(movement.equals("krabbypatty")){
+            if(ThreadLocalRandom.current().nextInt(50)==0){
+                tex=Game.getInstance();
+                EnemyAttackItem temp = new EnemyAttackItem(this.x, this.y, 44, 49,ID.EnemyAttackItem,tex.Spongebob_A1,2,49,44,bPlayer,player,handler,battle);
+                temp.velX=ThreadLocalRandom.current().nextInt(3,6);
+                temp.velY=ThreadLocalRandom.current().nextInt(3,6);
+                if(ThreadLocalRandom.current().nextInt(2)==0)
+                    temp.velX*=-1;
+                if(ThreadLocalRandom.current().nextInt(2)==0)
+                    temp.velY*=-1;
+                temp.movement="krabbypatty2";
+                handler.addObject(temp);
+            }
+            scaleX--;
+            scaleY--;
+            width--;
+            height--;
+            if(scaleX<20)
+                handler.removeObject(this);
+
+        }else if(movement.equals("net")){
+            if(y>500)
+                velY*=-1;
+            if(y<600)
+                velY*=-1;
+        }else if(movement.equals("L")){
+            if(x<=500){
+                velX=0;
+                velY=-10;
+            }
+        }else if(movement.equals("racket")){
+            if(y>=675){
+                velY=0;
+                velX=ThreadLocalRandom.current().nextInt(7,10);
+                if(ThreadLocalRandom.current().nextInt(2)==0)
+                    velX*=-1;
+                movement="racketMoved";
+            }
         }
 
         collision();
@@ -700,6 +849,179 @@ public class EnemyAttackItem extends GameObject implements Serializable {
             velY*=-1;
         movement="crabArm";
     }
+
+    public void magicBlast1(){
+        movement="magicBlast1";
+        int temp = ThreadLocalRandom.current().nextInt(2);
+        if(temp==0){
+            EnemyAttackItem tempAttack = new EnemyAttackItem(600, 600, 53, 67, ID.AntiHero, tex.AntiHero_A1, 3, 67, 53, bPlayer, player, handler,battle);
+            x=150;
+            y=300;
+            tempAttack.setX(1200);
+            tempAttack.setY(200);
+            velX=8;
+            velY=6;
+            tempAttack.setVelX(-8);
+            tempAttack.setVelY(6);
+            tempAttack.movement="magicBlast1";
+            handler.addObject(tempAttack);
+        }else{
+            EnemyAttackItem tempAttack = new EnemyAttackItem(600, 600, 53, 67, ID.AntiHero, tex.AntiHero_A1, 3, 67, 53, bPlayer, player, handler,battle);
+            x=300;
+            y=bPlayer.getY();
+            tempAttack.setX(1000);
+            tempAttack.setY(y);
+            velX=8;
+            tempAttack.setVelX(-8);
+            tempAttack.movement="magicBlast1";
+
+            handler.addObject(tempAttack);
+        }
+    }
+    public void magicBlast2(){
+        x=ThreadLocalRandom.current().nextInt(400,750);
+        y=0;
+        velY=ThreadLocalRandom.current().nextInt(6,10);
+        movement="magicBlast2";
+
+    }
+    public void magicBlast3(){
+        x=ThreadLocalRandom.current().nextInt(50,100);
+        y=200;
+        velX=ThreadLocalRandom.current().nextInt(5,7);
+        velY=ThreadLocalRandom.current().nextInt(4,6);
+        movement="magicBlast3";
+
+    }
+    public void banana(){
+        x=1200;
+        y=ThreadLocalRandom.current().nextInt(100,800);
+        velX=-5;
+        if(ThreadLocalRandom.current().nextInt(2)==0){
+            velY=5;
+        }else
+            velY=-5;
+        movement="banana";
+    }
+    public void rifle(){
+        x=100;
+        y=ThreadLocalRandom.current().nextInt(500,800);
+        velX=1;
+        movement="rifle";
+
+    }
+
+    public void lizard(){
+        x=ThreadLocalRandom.current().nextInt(400,800);
+        y=0;
+        velY=4;
+        way=2;
+        velX=ThreadLocalRandom.current().nextInt(1,3);
+        if(ThreadLocalRandom.current().nextInt(2)==0){
+            velX*=-1;
+        }
+        movement="lizard";
+
+    }
+    public void facebook(){
+
+         x=2000;
+         y=100;
+         velX=-10;
+         velY=0;
+
+         int temp =ThreadLocalRandom.current().nextInt(3);
+
+         if(temp==0)
+             movement="facebook";
+         else if(temp==1)
+             movement="facebook2";
+         else if(temp==2)
+             movement="facebook3";
+
+         original=true;
+
+    }
+
+    public void kazoo1(){
+        x= 100;
+        y=500;
+        velX=5;
+        velY=ThreadLocalRandom.current().nextInt(3,6);
+        if(ThreadLocalRandom.current().nextInt(2)==0)
+            velY*=-1;
+        movement="kazoo1";
+    }
+    public void kazoo2(){
+        x=ThreadLocalRandom.current().nextInt(450,700);
+        y=400;
+        velY=5;
+        velX=ThreadLocalRandom.current().nextInt(3,6);
+        if(ThreadLocalRandom.current().nextInt(2)==0)
+            velX*=-1;
+
+        movement="kazoo2";
+    }
+    public void boot(){
+        x=1200;
+        y=0;
+        velX=ThreadLocalRandom.current().nextInt(4,7);
+        velX*=-1;
+        velY=ThreadLocalRandom.current().nextInt(3,10);
+
+
+        movement="boot";
+    }
+    public void yodelnote(){
+
+        x=100;
+        y=ThreadLocalRandom.current().nextInt(500,800);
+        velX=ThreadLocalRandom.current().nextInt(3,10);
+        velY=ThreadLocalRandom.current().nextInt(1,3);
+
+
+        movement="yodelnote";
+    }
+    public void krabbypatty(){
+        x=ThreadLocalRandom.current().nextInt(400,700);
+        y=10;
+        velX=ThreadLocalRandom.current().nextInt(1,3);
+        velY=ThreadLocalRandom.current().nextInt(5,8);
+
+
+        movement="krabbypatty";
+    }
+    public void net(){
+        x= 1200;
+        y=ThreadLocalRandom.current().nextInt(500,600);
+        velX=ThreadLocalRandom.current().nextInt(4,9);
+        velX*=-1;
+        velY=ThreadLocalRandom.current().nextInt(2,4);
+        if(ThreadLocalRandom.current().nextInt(2)==0){
+            velY*=-1;
+        }
+        movement="net";
+
+    }
+    public void L(){
+        x=1200;
+        y=ThreadLocalRandom.current().nextInt(400,900);
+        velX=-4;
+        velY=0;
+
+        movement="L";
+
+    }
+    public void racket(){
+        x=ThreadLocalRandom.current().nextInt(500,800);
+        y=0;
+        velY=4;
+        velX=0;
+
+        movement="racket";
+    }
+
+
 
     public void collision(){
         if(movement.equals("boxBounce")){

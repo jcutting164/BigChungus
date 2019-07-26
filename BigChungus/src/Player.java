@@ -84,19 +84,19 @@ public class Player extends Character implements Serializable {
                 if(value2==0){
                     game.setSwitch(false);
                     game.setCurrentState(Game.STATE.Battle);
-                    game.setCurrentBattle(new Battle(this, new Malario(0,0,0,0,handler,game,ID.Malario,0,game.getTbHandler(),"Malario",game.getPlayer(),true), handler, game,  game.getAp()));
+                    game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Malario,0,game.getTbHandler(),"Malario",game.getPlayer(),ID.Malario,10,10,2,tex.MalarioBF,Color.red,20), handler, game,  game.getAp()));
                 }else if(value2==1){
                     game.setSwitch(false);
                     game.setCurrentState(Game.STATE.Battle);
-                    game.setCurrentBattle(new Battle(this, new TPoser(0,0,0,0,handler,game,ID.TPoser,0,game.getTbHandler(),"TPoser",game.getPlayer(),true), handler, game,  game.getAp()));
+                    game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.TPoser,0,game.getTbHandler(),"TPoser",game.getPlayer(),ID.TPoser,10,10,2,tex.TposerBF,Color.blue.brighter(),20), handler, game,  game.getAp()));
                 }else if(value2==2){
                     game.setSwitch(false);
                     game.setCurrentState(Game.STATE.Battle);
-                    game.setCurrentBattle(new Battle(this, new FatYoshi(0,0,0,0,handler,game,ID.FatYoshi,0,game.getTbHandler(),"Fat Yoshi",game.getPlayer(),true), handler, game,  game.getAp()));
+                    game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.FatYoshi,0,game.getTbHandler(),"Fat Yoshi",game.getPlayer(),ID.FatYoshi,10,10,2,tex.FatYoshiBF,Color.green,20), handler, game,  game.getAp()));
                 }else if(value2==3){
                     game.setSwitch(false);
                     game.setCurrentState(Game.STATE.Battle);
-                    game.setCurrentBattle(new Battle(this, new JoshuaGiraffe(0,0,0,0,handler,game,ID.JoshuaGiraffe,0,game.getTbHandler(),"Joshua Giraffe",game.getPlayer(),true), handler, game,  game.getAp()));
+                    game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.JoshuaGiraffe,0,game.getTbHandler(),"Joshua Giraffe",game.getPlayer(),ID.JoshuaGiraffe,10,10,2,tex.JoshuaGiraffeBF,Color.yellow,20), handler, game,  game.getAp()));
                 }
 
 
@@ -223,27 +223,30 @@ public class Player extends Character implements Serializable {
                         // y+= velY*-1;
                         lastKeyHit=100;
                     }
-                }else if(tempObject.getId() == ID.Knuckles){
-                    Knuckles tempKnuckles = (Knuckles) tempObject;
+                }else if(tempObject.getId() == ID.Knuckles || tempObject.getId()==ID.Spongebob || tempObject.getId()==ID.Waluigi || tempObject.getId()==ID.Spaget || tempObject.getId()==ID.Arthur){
+
+                    Enemy tempKnuckles = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                        System.out.println("here m ");
                         x+= velX * -1;
                         y+= velY*-1;
                         if(tempKnuckles.getBattleReady()){
+
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
                             game.setCurrentBattle(new Battle(this, tempKnuckles, handler, game,  game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                        tempKnuckles.interaction();
+                        //tempKnuckles.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;
                     }
                 }else if(tempObject.getId() == ID.Pikachu){
-                    Pikachu tempPikachu = (Pikachu) tempObject;
+                    Enemy tempPikachu = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
@@ -256,13 +259,13 @@ public class Player extends Character implements Serializable {
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                        tempPikachu.interaction();
+                        //tempPikachu.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;
                     }
                 }else if(tempObject.getId() == ID.BigChungus){
-                    BigChungus tempBigChungus = (BigChungus) tempObject;
+                    Enemy tempBigChungus = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
@@ -275,7 +278,7 @@ public class Player extends Character implements Serializable {
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                        tempBigChungus.interaction();
+                        //tempBigChungus.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;
@@ -366,7 +369,7 @@ public class Player extends Character implements Serializable {
 
 
                 }else if(tempObject.getId() == ID.Malario){
-                    Malario tempMalario = (Malario) tempObject;
+                    Enemy tempMalario = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
@@ -379,13 +382,13 @@ public class Player extends Character implements Serializable {
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                        tempMalario.interaction();
+                       // tempMalario.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;
                     }
                 }else if(tempObject.getId()==ID.TPoser){
-                    TPoser tempTposer = (TPoser) tempObject;
+                    Enemy tempTposer = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
@@ -398,7 +401,7 @@ public class Player extends Character implements Serializable {
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                        tempTposer.interaction();
+                      //  tempTposer.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;
@@ -415,7 +418,7 @@ public class Player extends Character implements Serializable {
                     }
 
                 }else if(tempObject.getId() == ID.FatYoshi){
-                    FatYoshi tempFatYoshi = (FatYoshi) tempObject;
+                    Enemy tempFatYoshi = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
@@ -428,13 +431,13 @@ public class Player extends Character implements Serializable {
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                        tempFatYoshi.interaction();
+                       // tempFatYoshi.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;
                     }
                 }else if(tempObject.getId() == ID.JoshuaGiraffe){
-                    JoshuaGiraffe tempJoshuaGiraffe = (JoshuaGiraffe) tempObject;
+                    Enemy tempJoshuaGiraffe = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
@@ -447,13 +450,13 @@ public class Player extends Character implements Serializable {
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                        tempJoshuaGiraffe.interaction();
+                       // tempJoshuaGiraffe.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;
                     }
                 }else if(tempObject.getId() == ID.Kermit){
-                    Kermit tempKermit = (Kermit) tempObject;
+                    Enemy tempKermit = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
@@ -466,13 +469,13 @@ public class Player extends Character implements Serializable {
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                        tempKermit.interaction();
+                       // tempKermit.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;
                     }
                 }else if(tempObject.getId() == ID.DatBoi){
-                    DatBoi tempDatBoi = (DatBoi) tempObject;
+                    Enemy tempDatBoi = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
@@ -485,13 +488,13 @@ public class Player extends Character implements Serializable {
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                        tempDatBoi.interaction();
+                      //  tempDatBoi.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;
                     }
                 }else if(tempObject.getId() == ID.BongoCat){
-                    BongoCat tempBongoCat = (BongoCat) tempObject;
+                    Enemy tempBongoCat = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
@@ -504,13 +507,13 @@ public class Player extends Character implements Serializable {
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                        tempBongoCat.interaction();
+                      //  tempBongoCat.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;
                     }
                 }else if(tempObject.getId() == ID.Crab){
-                    Crab tempCrab = (Crab) tempObject;
+                    Enemy tempCrab = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
@@ -523,13 +526,13 @@ public class Player extends Character implements Serializable {
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
-                        tempCrab.interaction();
+                      //  tempCrab.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;
                     }
                 }else if(tempObject.getId() == ID.AntiHero){
-                    AntiHero tempAntiHero = (AntiHero) tempObject;
+                    Enemy tempAntiHero = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
@@ -543,6 +546,82 @@ public class Player extends Character implements Serializable {
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
                         tempAntiHero.interaction();
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        lastKeyHit=100;
+                    }
+                }else if(tempObject.getId() == ID.Zuck){
+                    Enemy tempZuck = (Enemy) tempObject;
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        if(tempZuck.getBattleReady()){
+                            game.setSwitch(false);
+                            game.setCurrentState(Game.STATE.Battle);
+                            game.setCurrentBattle(new Battle(this, tempZuck, handler, game, game.getAp()));
+                        }
+                    }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                      //  tempZuck.interaction();
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        lastKeyHit=100;
+                    }
+                }else if(tempObject.getId() == ID.Harambe){
+                    Enemy tempHarambe = (Enemy) tempObject;
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        if(tempHarambe.getBattleReady()){
+                            game.setSwitch(false);
+                            game.setCurrentState(Game.STATE.Battle);
+                            game.setCurrentBattle(new Battle(this, tempHarambe, handler, game, game.getAp()));
+                        }
+                    }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                      //  tempHarambe.interaction();
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        lastKeyHit=100;
+                    }
+                }else if(tempObject.getId() == ID.KazooKid){
+                    Enemy tempKazooKid = (Enemy) tempObject;
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        if(tempKazooKid.getBattleReady()){
+                            game.setSwitch(false);
+                            game.setCurrentState(Game.STATE.Battle);
+                            game.setCurrentBattle(new Battle(this, tempKazooKid, handler, game, game.getAp()));
+                        }
+                    }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                       // tempKazooKid.interaction();
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        lastKeyHit=100;
+                    }
+                }else if(tempObject.getId() == ID.YodelBoy){
+                    Enemy tempYodelBoy = (Enemy) tempObject;
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                        x+= velX * -1;
+                        y+= velY*-1;
+                        if(tempYodelBoy.getBattleReady()){
+                            game.setSwitch(false);
+                            game.setCurrentState(Game.STATE.Battle);
+                            game.setCurrentBattle(new Battle(this, tempYodelBoy, handler, game, game.getAp()));
+                        }
+                    }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                       // tempYodelBoy.interaction();
                         x+= velX * -1;
                         y+= velY*-1;
                         lastKeyHit=100;

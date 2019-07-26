@@ -55,6 +55,11 @@ public class Textures implements Serializable {
     SpriteSheet SS_BongoCatCrab;
     SpriteSheet SS_AntiHero;
     SpriteSheet SS_AntiHeroBackwards;
+    SpriteSheet SS_AntiHeroAttacks;
+    SpriteSheet SS_ZuckHarambe;
+    SpriteSheet SS_YodelKazoo;
+    SpriteSheet SS_WaluigiBob;
+    SpriteSheet SS_ArthurSpaget;
 
 
 
@@ -104,7 +109,11 @@ public class Textures implements Serializable {
     private transient BufferedImage BI_BongoCatCrab;
     private transient BufferedImage BI_AntiHero;
     private transient BufferedImage BI_AntiHeroBackwards;
-
+    private transient BufferedImage BI_AntiHeroAttacks;
+    private transient BufferedImage BI_ZuckHarambe;
+    private transient BufferedImage BI_YodelKazoo;
+    private transient BufferedImage BI_WaluigiBob;
+    private transient BufferedImage BI_ArthurSpaget;
 
 
 
@@ -152,6 +161,11 @@ public class Textures implements Serializable {
     private transient InputStream IS_BongoCatCrab;
     private transient InputStream IS_AntiHero;
     private transient InputStream IS_AntiHeroBackwards;
+    private transient InputStream IS_AntiHeroAttacks;
+    private transient InputStream IS_ZuckHarambe;
+    private transient InputStream IS_YodelKazoo;
+    private transient InputStream IS_WaluigiBob;
+    private transient InputStream IS_ArthurSpaget;
 
     public transient BufferedImage[] Player_WalkLeft = new BufferedImage[2];
     public transient BufferedImage[] Player_WalkRight = new BufferedImage[2];
@@ -207,6 +221,11 @@ public class Textures implements Serializable {
     public transient BufferedImage[] AntiHero_WalkDownB = new BufferedImage[3];
     public transient BufferedImage[] AntiHero_FaceB = new BufferedImage[1];
     public transient BufferedImage AntiHeroBFB;
+    public transient BufferedImage[] AntiHero_A1=new BufferedImage[1];
+    public transient BufferedImage[] AntiHero_A2=new BufferedImage[1];
+    public transient BufferedImage[] AntiHero_A3=new BufferedImage[1];
+    public transient BufferedImage[] AntiHero_A4=new BufferedImage[1];
+
 
 
     public transient BufferedImage Room1_1;
@@ -260,6 +279,37 @@ public class Textures implements Serializable {
     public transient BufferedImage[] BongoCat_A2=new BufferedImage[1];
     public transient BufferedImage[] Crab_A1=new BufferedImage[1];
     public transient BufferedImage[] Crab_A2=new BufferedImage[1];
+
+    public transient BufferedImage ZuckBF;
+    public transient BufferedImage HarambeBF;
+    public transient BufferedImage[] Zuck_A1=new BufferedImage[1];
+    public transient BufferedImage[] Zuck_A2=new BufferedImage[1];
+    public transient BufferedImage[] Harambe_A1=new BufferedImage[1];
+    public transient BufferedImage[] Harambe_A2=new BufferedImage[1];
+
+    public transient BufferedImage YodelBoyBF;
+    public transient BufferedImage KazooKidBF;
+    public transient BufferedImage[] YodelBoy_A1=new BufferedImage[1];
+    public transient BufferedImage[] YodelBoy_A2=new BufferedImage[1];
+    public transient BufferedImage[] KazooKid_A1=new BufferedImage[1];
+    public transient BufferedImage[] KazooKid_A2=new BufferedImage[1];
+
+    public transient BufferedImage SpongebobBF;
+    public transient BufferedImage WaluigiBF;
+    public transient BufferedImage[] Spongebob_A1= new BufferedImage[1];
+    public transient BufferedImage[] Spongebob_A2= new BufferedImage[1];
+    public transient BufferedImage[] Waluigi_A1= new BufferedImage[1];
+    public transient BufferedImage[] Waluigi_A2= new BufferedImage[1];
+
+    public transient BufferedImage ArthurBF;
+    public transient BufferedImage SpagetBF;
+    public transient BufferedImage[] Arthur_A1 = new BufferedImage[1];
+    public transient BufferedImage[] Arthur_A2 = new BufferedImage[1];
+    public transient BufferedImage[] Spaget_A1 = new BufferedImage[1];
+    public transient BufferedImage[] Spaget_A2 = new BufferedImage[1];
+
+
+
 
 
 
@@ -387,6 +437,21 @@ public class Textures implements Serializable {
             IS_AntiHeroBackwards=new FileInputStream("res/Player/SS_AntiPlayerBackwards.png");
             BI_AntiHeroBackwards=ImageIO.read(IS_AntiHeroBackwards);
 
+            IS_AntiHeroAttacks=new FileInputStream("res/Player/MagicBlasts.png");
+            BI_AntiHeroAttacks=ImageIO.read(IS_AntiHeroAttacks);
+
+            IS_ZuckHarambe=new FileInputStream("res/ZuckHarambe/ZuckHarambe.png");
+            BI_ZuckHarambe=ImageIO.read(IS_ZuckHarambe);
+
+            IS_YodelKazoo=new FileInputStream("res/YodelKazoo/YodelKazoo.png");
+            BI_YodelKazoo=ImageIO.read(IS_YodelKazoo);
+
+            IS_WaluigiBob=new FileInputStream("res/WaluigiBob/WaluigiBob.png");
+            BI_WaluigiBob=ImageIO.read(IS_WaluigiBob);
+
+            IS_ArthurSpaget=new FileInputStream("res/ArthurSpaget/ArthurSpaget.png");
+            BI_ArthurSpaget=ImageIO.read(IS_ArthurSpaget);
+
 
         }catch(Exception e){
             e.printStackTrace();
@@ -434,6 +499,13 @@ public class Textures implements Serializable {
 
         SS_AntiHero=new SpriteSheet(BI_AntiHero);
         SS_AntiHeroBackwards=new SpriteSheet(BI_AntiHeroBackwards);
+        SS_AntiHeroAttacks=new SpriteSheet(BI_AntiHeroAttacks);
+        SS_ZuckHarambe=new SpriteSheet(BI_ZuckHarambe);
+
+        SS_YodelKazoo=new SpriteSheet(BI_YodelKazoo);
+        SS_WaluigiBob=new SpriteSheet(BI_WaluigiBob);
+
+        SS_ArthurSpaget=new SpriteSheet(BI_ArthurSpaget);
 
 
         getTextures();
@@ -646,7 +718,45 @@ public class Textures implements Serializable {
         AntiHeroBFB=SS_AntiHeroBackwards.getSubImage(65, 85, 19, 74);
 
 
+        AntiHero_A1[0]=SS_AntiHeroAttacks.getSubImage(286,39,84,79);
+        AntiHero_A2[0]=SS_AntiHeroAttacks.getSubImage(55,145,104,104);
+        AntiHero_A3[0]=SS_AntiHeroAttacks.getSubImage(38,263,97,97);
+        AntiHero_A4[0]=SS_AntiHeroAttacks.getSubImage(244,370,126,106);
 
+        Zuck_A1[0]=SS_ZuckHarambe.getSubImage(461,0,141,226);
+        Zuck_A2[0]=SS_ZuckHarambe.getSubImage(444,262,182,182);
+
+        Harambe_A1[0]=SS_ZuckHarambe.getSubImage(16,594,153,132);
+        Harambe_A2[0]=SS_ZuckHarambe.getSubImage(214,603,454,115);
+        ZuckBF=SS_ZuckHarambe.getSubImage(0,236,422,313);
+        HarambeBF=SS_ZuckHarambe.getSubImage(64,54,171,160);
+
+        KazooKidBF=SS_YodelKazoo.getSubImage(10,0,318,286);
+        KazooKid_A1[0]=SS_YodelKazoo.getSubImage(257,339,124,44);
+        KazooKid_A2[0]=SS_YodelKazoo.getSubImage(270,482,110,75);
+
+
+        YodelBoyBF=SS_YodelKazoo.getSubImage(0,305,100,397);
+        YodelBoy_A1[0]=SS_YodelKazoo.getSubImage(121,316,87,125);
+        YodelBoy_A2[0]=SS_YodelKazoo.getSubImage(129,456,111,145);
+
+
+        WaluigiBF=SS_WaluigiBob.getSubImage(404,0,184,254);
+        Waluigi_A1[0]=SS_WaluigiBob.getSubImage(636,37,132,186);
+        Waluigi_A2[0]=SS_WaluigiBob.getSubImage(408,312,142,338);
+
+        SpongebobBF=SS_WaluigiBob.getSubImage(0,0,341,324);
+        Spongebob_A1[0]=SS_WaluigiBob.getSubImage(0,371,98,88);
+        Spongebob_A2[0]=SS_WaluigiBob.getSubImage(175,361,220,256);
+
+
+        ArthurBF=SS_ArthurSpaget.getSubImage(15,0,70,237);
+        Arthur_A1[0]=SS_ArthurSpaget.getSubImage(0,245,75,79);
+        Arthur_A2[0]=SS_ArthurSpaget.getSubImage(94,242,81,81);
+
+        SpagetBF=SS_ArthurSpaget.getSubImage(133,37,117,172);
+        Spaget_A1[0]=SS_ArthurSpaget.getSubImage(253,17,109,72);
+        Spaget_A2[0]=SS_ArthurSpaget.getSubImage(259,115,134,80);
 
 
 
