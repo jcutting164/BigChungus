@@ -1930,7 +1930,7 @@ public class Battle implements Serializable {
                         timeNow = System.currentTimeMillis();
                         time = timeNow - timeOfLastShot;
 
-                        if(time > 7000) {
+                        if(time > 5000) {
                             timeOfLastShot=0;
                             // end func
                             // will update damage calculation based on attack / defense, for now is one value
@@ -1940,9 +1940,9 @@ public class Battle implements Serializable {
                         }else{
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
-                            if(time2>1250 && track < 10){
+                            if(time2>1000 && track < 1){
                                 EnemyAttackItem temp = new EnemyAttackItem(600, 600, 79, 75, ID.EnemyAttackItem, tex.Arthur_A1, 3, 75, 79, bPlayer, player, handler,this);
-                                temp.kazoo1();
+                                temp.gottemFist();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
                                 track++;
@@ -1962,8 +1962,8 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(time2>1250 && track < 10){
-                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 81, 81, ID.EnemyAttackItem, tex.Arthur_A2, 3, 81, 81, bPlayer, player, handler,this);
-                                temp.kazoo2();
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 20, 20, ID.EnemyAttackItem, tex.Arthur_A2, 3, 20, 20, bPlayer, player, handler,this);
+                                temp.fist();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
                                 track++;
@@ -1986,8 +1986,8 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(time2>1250 && track < 10){
-                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 72, 109, ID.EnemyAttackItem, tex.KazooKid_A1, 3, 109, 72, bPlayer, player, handler,this);
-                                temp.kazoo1();
+                                EnemyAttackItem temp = new EnemyAttackItem(600, 600, 72, 109, ID.EnemyAttackItem, tex.Spaget_A1, 3, 109, 72, bPlayer, player, handler,this);
+                                temp.spagetFilled();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
                                 track++;
@@ -2007,8 +2007,8 @@ public class Battle implements Serializable {
                             timeNow2 = System.currentTimeMillis();
                             time2 = timeNow2 - timeOfLastShot2;
                             if(time2>1250 && track < 10){
-                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 80, 134, ID.EnemyAttackItem, tex.KazooKid_A2, 3, 134, 80, bPlayer, player, handler,this);
-                                temp.kazoo2();
+                                EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 80, 134, ID.EnemyAttackItem, tex.Spaget_A2, 3, 134, 80, bPlayer, player, handler,this);
+                                temp.spaget();
                                 handler.addObject(temp);
                                 timeOfLastShot2=timeNow2;
                                 track++;

@@ -42,6 +42,51 @@ public class NPC extends Character implements Serializable {
             this.currentImages=new BufferedImage[1];
             this.currentImages[0]=tex.Book;
             this.Face=tex.Player_Face[0];
+        }else if(sID==ID.Alien1){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.aliens[0];
+            this.Face=tex.alienFaces[1];
+
+        }else if(sID==ID.Alien2){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.aliens[1];
+            this.Face=tex.alienFaces[0];
+
+        }else if(sID==ID.Alien3){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.aliens[2];
+            this.Face=tex.alienFaces[2];
+
+        }else if(sID==ID.Alien4){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.aliens[3];
+            this.Face=tex.alienFaces[3];
+
+        }else if(sID==ID.Guard1){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.guards[1];
+            this.Face=tex.guardFaces[1];
+
+        }else if(sID==ID.Guard2){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.guards[2];
+            this.Face=tex.guardFaces[2];
+
+
+        }else if(sID==ID.Guard3){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.guards[3];
+            this.Face=tex.guardFaces[3];
+
+        }else if(sID==ID.Guard4){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.guards[3];
+            this.Face=tex.guardFaces[3];
+
+        }else if(sID==ID.redSwitch1 || sID==ID.redSwitch2 || sID==ID.redSwitch3 || sID==ID.redSwitch4){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.redSwitch[0];
+            this.Face=tex.redSwitch[0];
         }
         else{
             this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
@@ -61,6 +106,9 @@ public class NPC extends Character implements Serializable {
 
 
     public void tick(){
+
+
+
         x+=velX;
         y+=velY;
 
@@ -139,10 +187,41 @@ public class NPC extends Character implements Serializable {
         for(int i= 0; i<game.getKeyInput().getKeyDown().length; i++){
             game.getKeyInput().getKeyDown()[i] = false;
         }
-        if(!text.equals("")){
-            TextBox tb = new TextBox(this, text,0,0,0,0,ID.TextBox,tbHandler);
-            tbHandler.addObject(tb);
+        if(!(sID==ID.Alien1 || sID==ID.Alien2 || sID==ID.Alien3 || sID==ID.Alien4 )){
+            if(!text.equals("")){
+                TextBox tb = new TextBox(this, text,0,0,0,0,ID.TextBox,tbHandler);
+                tbHandler.addObject(tb);
+            }
+        }else if(game.getCurrentRoom().equals("Room3_1")){
+            if(xBounds().intersects(player.getBounds())){
+                if(!text.equals("")){
+                    TextBox tb = new TextBox(this, text,0,0,0,0,ID.TextBox,tbHandler);
+                    tbHandler.addObject(tb);
+                }
+            }
         }
+
+        if(sID==ID.redSwitch1 || sID==ID.redSwitch2 || sID==ID.redSwitch3 || sID==ID.redSwitch4){
+            if(sID==ID.redSwitch1){
+                game.setA51_Switch1(!(game.isA51_Switch1()));
+            }else if(sID==ID.redSwitch2) {
+                game.setA51_Switch2(!(game.isA51_Switch2()));
+            }else if(sID==ID.redSwitch3) {
+                game.setA51_Switch3(!(game.isA51_Switch3()));
+            }else if(sID==ID.redSwitch4) {
+                game.setA51_Switch4(!(game.isA51_Switch4()));
+            }
+
+
+            if(currentImages[0]==tex.redSwitch[0])
+                currentImages[0]=tex.redSwitch[1];
+            else
+                currentImages[0]=tex.redSwitch[0];
+
+
+
+        }
+
 
         if(battleReady==true){
             //battle function
@@ -175,5 +254,10 @@ public class NPC extends Character implements Serializable {
 
     public void setsID(ID sID) {
         this.sID = sID;
+    }
+
+    // extends x interaction bounds
+    public Rectangle xBounds(){
+        return new Rectangle((int)x-300,(int)y, (int)width+1200, (int)height+200);
     }
 }

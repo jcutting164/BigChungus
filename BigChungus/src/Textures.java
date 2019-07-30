@@ -38,6 +38,11 @@ public class Textures implements Serializable {
     SpriteSheet SS_Room2_3;
     SpriteSheet SS_Room2_4;
     SpriteSheet SS_Room3_1;
+    SpriteSheet SS_Room3_2;
+    SpriteSheet SS_Room3_3;
+    SpriteSheet SS_Room3_4;
+    SpriteSheet SS_Room3_5;
+    SpriteSheet SS_Room3_6;
 
 
     SpriteSheet SS_People;
@@ -60,6 +65,7 @@ public class Textures implements Serializable {
     SpriteSheet SS_YodelKazoo;
     SpriteSheet SS_WaluigiBob;
     SpriteSheet SS_ArthurSpaget;
+    SpriteSheet SS_Area51;
 
 
 
@@ -94,6 +100,12 @@ public class Textures implements Serializable {
     private transient BufferedImage BI_Room2_3;
     private transient BufferedImage BI_Room2_4;
     private transient BufferedImage BI_Room3_1;
+    private transient BufferedImage BI_Room3_2;
+    private transient BufferedImage BI_Room3_3;
+    private transient BufferedImage BI_Room3_4;
+    private transient BufferedImage BI_Room3_5;
+    private transient BufferedImage BI_Room3_6;
+
 
 
 
@@ -114,6 +126,7 @@ public class Textures implements Serializable {
     private transient BufferedImage BI_YodelKazoo;
     private transient BufferedImage BI_WaluigiBob;
     private transient BufferedImage BI_ArthurSpaget;
+    private transient BufferedImage BI_Area51;
 
 
 
@@ -146,6 +159,13 @@ public class Textures implements Serializable {
     private transient InputStream IS_Room2_3;
     private transient InputStream IS_Room2_4;
     private transient InputStream IS_Room3_1;
+    private transient InputStream IS_Room3_2;
+    private transient InputStream IS_Room3_3;
+    private transient InputStream IS_Room3_4;
+    private transient InputStream IS_Room3_5;
+    private transient InputStream IS_Room3_6;
+
+
 
     private transient InputStream IS_ExtraItems;
     private transient InputStream IS_Malario;
@@ -166,6 +186,7 @@ public class Textures implements Serializable {
     private transient InputStream IS_YodelKazoo;
     private transient InputStream IS_WaluigiBob;
     private transient InputStream IS_ArthurSpaget;
+    private transient InputStream IS_Area51;
 
     public transient BufferedImage[] Player_WalkLeft = new BufferedImage[2];
     public transient BufferedImage[] Player_WalkRight = new BufferedImage[2];
@@ -239,6 +260,17 @@ public class Textures implements Serializable {
     public transient BufferedImage Room2_4O;
     public transient BufferedImage Room3_1;
     public transient BufferedImage Room3_1O;
+    public transient BufferedImage Room3_2;
+    public transient BufferedImage Room3_2O;
+    public transient BufferedImage Room3_3;
+    public transient BufferedImage Room3_3O;
+    public transient BufferedImage Room3_4;
+    public transient BufferedImage Room3_4O;
+    public transient BufferedImage Room3_5;
+    public transient BufferedImage Room3_5O;
+    public transient BufferedImage Room3_6;
+    public transient BufferedImage Room3_6O;
+
 
     public transient BufferedImage TheLastEntity;
     public transient BufferedImage TheLastEntityFace;
@@ -308,7 +340,15 @@ public class Textures implements Serializable {
     public transient BufferedImage[] Spaget_A1 = new BufferedImage[1];
     public transient BufferedImage[] Spaget_A2 = new BufferedImage[1];
 
+    public transient BufferedImage[] aliens=new BufferedImage[4];
+    public transient BufferedImage[] guards=new BufferedImage[4];
+    public transient BufferedImage[] area51Tiles=new BufferedImage[2];
 
+    public transient BufferedImage[] alienFaces=new BufferedImage[4];
+    public transient BufferedImage[] guardFaces = new BufferedImage[4];
+
+    public transient BufferedImage[] redSwitch= new BufferedImage[2];
+    public transient BufferedImage[] greenSwitch= new BufferedImage[2];
 
 
 
@@ -452,6 +492,25 @@ public class Textures implements Serializable {
             IS_ArthurSpaget=new FileInputStream("res/ArthurSpaget/ArthurSpaget.png");
             BI_ArthurSpaget=ImageIO.read(IS_ArthurSpaget);
 
+            IS_Area51=new FileInputStream("res/Area51.png");
+            BI_Area51=ImageIO.read(IS_Area51);
+
+            IS_Room3_2=new FileInputStream("res/Rooms/Room3_2.png");
+            BI_Room3_2=ImageIO.read(IS_Room3_2);
+
+            IS_Room3_3=new FileInputStream("res/Rooms/Room3_3.png");
+            BI_Room3_3=ImageIO.read(IS_Room3_3);
+
+            IS_Room3_4=new FileInputStream("res/Rooms/Room3_4.png");
+            BI_Room3_4=ImageIO.read(IS_Room3_4);
+
+            IS_Room3_5=new FileInputStream("res/Rooms/Room3_5.png");
+            BI_Room3_5=ImageIO.read(IS_Room3_5);
+
+            IS_Room3_6=new FileInputStream("res/Rooms/Room3_6.png");
+            BI_Room3_6=ImageIO.read(IS_Room3_6);
+
+
 
         }catch(Exception e){
             e.printStackTrace();
@@ -487,6 +546,12 @@ public class Textures implements Serializable {
         SS_Room2_3=new SpriteSheet(BI_Room2_3);
         SS_Room2_4=new SpriteSheet(BI_Room2_4);
         SS_Room3_1=new SpriteSheet(BI_Room3_1);
+        SS_Room3_2=new SpriteSheet(BI_Room3_2);
+        SS_Room3_3=new SpriteSheet(BI_Room3_3);
+        SS_Room3_4=new SpriteSheet(BI_Room3_4);
+        SS_Room3_5=new SpriteSheet(BI_Room3_5);
+        SS_Room3_6=new SpriteSheet(BI_Room3_6);
+
 
         SS_Tiles=new SpriteSheet(BI_Tiles);
 
@@ -506,6 +571,10 @@ public class Textures implements Serializable {
         SS_WaluigiBob=new SpriteSheet(BI_WaluigiBob);
 
         SS_ArthurSpaget=new SpriteSheet(BI_ArthurSpaget);
+        SS_Area51= new SpriteSheet(BI_Area51);
+
+
+
 
 
         getTextures();
@@ -755,8 +824,50 @@ public class Textures implements Serializable {
         Arthur_A2[0]=SS_ArthurSpaget.getSubImage(94,242,81,81);
 
         SpagetBF=SS_ArthurSpaget.getSubImage(133,37,117,172);
-        Spaget_A1[0]=SS_ArthurSpaget.getSubImage(253,17,109,72);
+        Spaget_A1[0]=SS_ArthurSpaget.getSubImage(253,12,109,76);
         Spaget_A2[0]=SS_ArthurSpaget.getSubImage(259,115,134,80);
+
+        aliens[0]=SS_Area51.getSubImage(10,61,43,58);
+        aliens[1]=SS_Area51.getSubImage(65,2,29,59);
+        aliens[2]=SS_Area51.getSubImage(70,67,22,61);
+        aliens[3]=SS_Area51.getSubImage(103,69,57,76);
+
+        guards[0]=SS_Area51.getSubImage(0,154,68,85);
+        guards[1]=SS_Area51.getSubImage(105,2,44,66);
+        guards[2]=SS_Area51.getSubImage(162,72,44,75);
+        guards[3]=SS_Area51.getSubImage(93,160,54,95);
+
+        area51Tiles[0]=SS_Area51.getSubImage(9,0,12,18);
+        area51Tiles[1]=SS_Area51.getSubImage(10,21,33,33);
+
+
+
+        alienFaces[0]=SS_Area51.getSubImage(65,2,30,30);
+        alienFaces[1]=SS_Area51.getSubImage(10,61,42,39);
+        alienFaces[2]=SS_Area51.getSubImage(70,67,18,29);
+        alienFaces[3]=SS_Area51.getSubImage(111,70,29,36);
+
+        guardFaces[0]=SS_Area51.getSubImage(22,154,20,23);
+        guardFaces[1]=SS_Area51.getSubImage(122,2,18,22);
+        guardFaces[2]=SS_Area51.getSubImage(176,72,21,23);
+        guardFaces[3]=SS_Area51.getSubImage(93,160,37,42);
+
+        Room3_2=SS_Room3_2.getSubImage(0,0,32,32);
+        Room3_2O=SS_Room3_2.getSubImage(0,32,32,32);
+        Room3_3=SS_Room3_3.getSubImage(0,0,96,32);
+        Room3_3O=SS_Room3_3.getSubImage(0,32,96,32);
+        Room3_4=SS_Room3_4.getSubImage(0,0,64,64);
+        Room3_4O=SS_Room3_4.getSubImage(0,64,64,64);
+        Room3_5O=SS_Room3_5.getSubImage(0,32,32,32);
+        Room3_5=SS_Room3_5.getSubImage(0,0,32,32);
+        Room3_6=SS_Room3_6.getSubImage(0,64,128,64);
+        Room3_6O=SS_Room3_6.getSubImage(0,0,128,64);
+
+        redSwitch[0]=SS_Area51.getSubImage(142,150,47,43);
+        redSwitch[1]=SS_Area51.getSubImage(195,153,47,40);
+        greenSwitch[0]=SS_Area51.getSubImage(150,207,47,43);
+        greenSwitch[1]=SS_Area51.getSubImage(202,209,47,43);
+
 
 
 

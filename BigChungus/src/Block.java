@@ -33,6 +33,10 @@ public class Block extends GameObject implements Serializable {
             img=tex.Mushroom;
         else if(id==ID.RedGround)
             img=tex.RedGround;
+        else if(id==ID.sideRail)
+            img=tex.area51Tiles[0];
+        else if(id==ID.bottomRail)
+            img=tex.area51Tiles[1];
         //walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
 
     }

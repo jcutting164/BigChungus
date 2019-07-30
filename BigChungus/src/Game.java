@@ -51,7 +51,19 @@ public class Game extends Canvas implements Runnable, Serializable {
     private Enemy bigChungus;
     transient private HashMap<String, BufferedImage> rooms = new HashMap<>();
     private HashMap<String, ArrayList<Integer>> ranges=new HashMap<>();
-    private String currentRoom="Room1_1";
+    private String currentRoom="Room3_1";
+    private String currentArea="";
+    private boolean aliensFreed;
+    private boolean A51_Switch1;
+    private boolean A51_Switch2;
+    private boolean A51_Switch3;
+    private boolean A51_Switch4;
+    private NPC A51_RSwitch1;
+    private NPC A51_RSwitch2;
+    private NPC A51_RSwitch3;
+    private NPC A51_RSwitch4;
+
+
 
 
     private boolean endangered=false;
@@ -96,6 +108,12 @@ public class Game extends Canvas implements Runnable, Serializable {
         rooms.put("Room2_3",tex.Room2_3);
         rooms.put("Room2_4",tex.Room2_4);
         rooms.put("Room3_1",tex.Room3_1);
+        rooms.put("Room3_2",tex.Room3_2);
+        rooms.put("Room3_3",tex.Room3_3);
+        rooms.put("Room3_4",tex.Room3_4);
+        rooms.put("Room3_5",tex.Room3_5);
+        rooms.put("Room3_6",tex.Room3_6);
+
 
         ranges.put("Room1_1",new ArrayList<>());
         ranges.get("Room1_1").add(4000);
@@ -119,8 +137,28 @@ public class Game extends Canvas implements Runnable, Serializable {
 
 
         ranges.put("Room3_1",new ArrayList<>());
-        ranges.get("Room3_1").add((3380));
-        ranges.get("Room3_1").add(3100);
+        ranges.get("Room3_1").add((2720));
+        ranges.get("Room3_1").add(3050);
+
+        ranges.put("Room3_2",new ArrayList<>());
+        ranges.get("Room3_2").add((690));
+        ranges.get("Room3_2").add(1040);
+
+        ranges.put("Room3_3",new ArrayList<>());
+        ranges.get("Room3_3").add((4790));
+        ranges.get("Room3_3").add(1040);
+
+        ranges.put("Room3_4",new ArrayList<>());
+        ranges.get("Room3_4").add((700));
+        ranges.get("Room3_4").add(3050);
+
+        ranges.put("Room3_5",new ArrayList<>());
+        ranges.get("Room3_5").add((660));
+        ranges.get("Room3_5").add(3050);
+
+        ranges.put("Room3_6",new ArrayList<>());
+        ranges.get("Room3_6").add((10000));
+        ranges.get("Room3_6").add(3050);
 
         window = new Window(WIDTH, HEIGHT, "The Reign of Big Chungus", this);
         handler = new Handler(this);
@@ -194,6 +232,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 
             if(currentState==null){
                 currentState = STATE.FirstArea;
+                currentArea="wae";
                 camera = new Camera(0,0,this);
                 camera.updateRange("Room1_1");
                 player = new Player(900, 100, 92, 25, handler, this, ID.Player, 2,inv, magic);
@@ -212,7 +251,11 @@ public class Game extends Canvas implements Runnable, Serializable {
                 inv.addItem(Room2_3_Tidepod);
                 magic.addItem(Room2_2_Basic_Heal);
                 magic.addItem(Room2_3_YeetusDeletus);
-
+                aliensFreed=false;
+                A51_RSwitch1=new NPC(750,500,47,43,handler,this,ID.NPC,1,tbHandler,"Click!",player,ID.redSwitch1);
+                A51_RSwitch2=new NPC(1500,500,47,43,handler,this,ID.NPC,1,tbHandler,"Click!",player,ID.redSwitch2);
+                A51_RSwitch3=new NPC(1500,500,47,43,handler,this,ID.NPC,1,tbHandler,"Click!",player,ID.redSwitch3);
+                A51_RSwitch4=new NPC(1500,500,47,43,handler,this,ID.NPC,1,tbHandler,"Click!",player,ID.redSwitch4);
             }if(currentState==STATE.FirstArea && Switch == false){
                // handler.clear();
 
@@ -248,20 +291,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 
 
 
-                }else if(currentRoom.equals("Room2_1")){
-                    handler.clear();
-                    loadLevel(currentRoom);
-                    handler.addObject(player);
-                }else if(currentRoom.equals("Room2_3")){
-                    handler.clear();
-                    loadLevel(currentRoom);
-                    handler.addObject(player);
-                }else if(currentRoom.equals("Room2_4")){
-                    System.out.println("here");
-                    handler.clear();
-                    loadLevel(currentRoom);
-                    handler.addObject(player);
-                }else if(currentRoom.equals("Room3_1")){
+                }else if(currentRoom.equals("Room2_1") || currentRoom.equals("Room2_3") || currentRoom.equals("Room2_4") || currentRoom.equals("Room3_1") || currentRoom.equals("Room3_2") || currentRoom.equals("Room3_3") || currentRoom.equals("Room3_4") || currentRoom.equals("Room3_5") || currentRoom.equals("Room3_6")){
                     handler.clear();
                     loadLevel(currentRoom);
                     handler.addObject(player);
@@ -621,6 +651,10 @@ public class Game extends Canvas implements Runnable, Serializable {
                 }else if(red==255&&green==111&&blue==0){
                     //handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.RedGround));
 
+                }else if(red==0 && green==255 && blue==100){
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.sideRail));
+                }else if(red==100 && green==100 && blue==0){
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.bottomRail));
                 }
             }
         }
@@ -628,7 +662,7 @@ public class Game extends Canvas implements Runnable, Serializable {
             handler.addObject(new NPC(1050,500,64,64,handler,this,ID.NPC,3,tbHandler,"You... are the last of us. I am unable to continue to fight him. My last gift to you... the prophecy.",player,ID.TheLastEntity));
             handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, The Labyrinth, sdrawkcaB ehT, and the Land of Dead Memes in order to..... (The rest is cut out) What will you choose?",player, ID.Book));
             // transition object to room 2_2
-            handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",950,100,player,true));
+            handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",950,100,player,true,"wae"));
             handler.addObject(Room1_1_Apple);
             camera.updateRange("Room1_1");
 
@@ -641,15 +675,15 @@ public class Game extends Canvas implements Runnable, Serializable {
 
             setBackground(Color.black);
             loadLevel(tex.Room2_1O);
-            handler.addObject(new Transition(835,0,32,300,ID.Transition, "Room1_1",900,1800,player,false));
-            handler.addObject(new Transition(0,130,70,32,ID.Transition, "Room2_2",1100,130,player,false));
-            handler.addObject(new Transition(900,1925,32,200,ID.Transition,"Room2_3",3000,200,player,true));
+            handler.addObject(new Transition(835,0,32,300,ID.Transition, "Room1_1",900,1800,player,false,"wae"));
+            handler.addObject(new Transition(0,130,70,32,ID.Transition, "Room2_2",1100,130,player,false,"wae"));
+            handler.addObject(new Transition(900,1925,32,200,ID.Transition,"Room2_3",3000,200,player,true,"wae"));
             camera.updateRange("Room2_1");
         }else if(currentRoom.equals("Room2_2")){
             setBackground(Color.black);
             loadLevel(tex.Room2_2O);
             // add transistion back lol
-            handler.addObject(new Transition(1175,105,70,32,ID.Transition, "Room2_1",60,155,player,true));
+            handler.addObject(new Transition(1175,105,70,32,ID.Transition, "Room2_1",60,155,player,true,"wae"));
 
             camera.updateRange("Room2_2");
             handler.addObject(Room2_2_Basic_Heal);
@@ -658,8 +692,8 @@ public class Game extends Canvas implements Runnable, Serializable {
             setBackground(Color.black);
             loadLevel(tex.Room2_3O);
             camera.updateRange("Room2_3");
-            handler.addObject(new Transition(2600,100,32,700,ID.Transition, "Room2_1",975,1800,player,true));
-            handler.addObject(new Transition(2050,6025,32,400,ID.Transition,"Room2_4",480,60,player,false));
+            handler.addObject(new Transition(2600,100,32,700,ID.Transition, "Room2_1",975,1800,player,true,"wae"));
+            handler.addObject(new Transition(2050,6025,32,400,ID.Transition,"Room2_4",480,60,player,false,"wae"));
             // coords for room2_4 transistion
             // 2050,6025
 
@@ -674,7 +708,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 
 
         }else if(currentRoom.equals("Room2_4")){
-            handler.addObject(new Transition(0,30,32,1000,ID.Transition,"Room2_3",2250,5900,player,true));
+            handler.addObject(new Transition(0,30,32,1000,ID.Transition,"Room2_3",2250,5900,player,true,"wae"));
 
             if(!knuckles1.isDefeated()){
                 handler.addObject(knuckles1);
@@ -683,14 +717,14 @@ public class Game extends Canvas implements Runnable, Serializable {
                 handler.addObject(new TextBox(null,"CLUCK CLUCK CLUCK (I will give you a choice to turn back now before it is too late.)",2360,0,1000,16,ID.TextBox,tbHandler));
                 handler.addObject(new TextBox(knuckles1,"CLUCK CLUCK CLUCK (I'm sorry, but I must protect him with my life)",5180,0,1000,16,ID.TextBox,tbHandler));
                 handler.addObject(new TextBox(knuckles1,"CLUCK CLUCK (I, Ugandan Knuckles will stop you. Approach me and seek destruction.)",5560,0,1000,16,ID.TextBox,tbHandler));
+                handler.addObject(new TextBox(player, "The Wae Forest has been cleared! Knuckles has been set free of the hex. Let's keep moving into Area 51.",5850,0,1000,16,ID.TextBox,tbHandler));
 
-                handler.addObject(new SaveObject(5280,200,64,64));
             }
 
-            handler.addObject(new TextBox(player, "The Wae Forest has been cleared! Knuckles has been set free of the hex. Let's keep moving into The Labyrinth.",5850,0,1000,16,ID.TextBox,tbHandler));
+            handler.addObject(new SaveObject(5280,200,64,64));
 
 
-            handler.addObject(new Transition(5900,0,1000,16,ID.Transition,"Room3_1",400,400,player,true));
+            handler.addObject(new Transition(6050,0,1000,16,ID.Transition,"Room3_1",50,3540,player,true,"51"));
 
 
 
@@ -704,6 +738,66 @@ public class Game extends Canvas implements Runnable, Serializable {
             setBackground(Color.black);
             loadLevel(tex.Room3_1O);
             camera.updateRange("Room3_1");
+            if(!aliensFreed){
+                handler.addObject(new NPC(3250,550,129,159,handler,this,ID.NPC,1,tbHandler,"Help!",player,ID.Alien1));
+                handler.addObject(new NPC(3250,1480,180,180,handler,this,ID.NPC,1,tbHandler,"Hey, you're the hero aren't you? How bout you help us out? Find the GREEN switch that takes off our electric collars and we are out of here! We promise it will be worth it if you help us out.",player,ID.Alien2));
+                handler.addObject(new NPC(3250,2680,150,123,handler,this,ID.NPC,1,tbHandler,"I just wish I didn't have to stay here, could you help us out? My boss above me here can't hear or see well. But if you manage to get close to him, he can tell you how to get us out of here!",player,ID.Alien3));
+            }
+
+            handler.addObject(new Transition(0,3280,1000,16,ID.Transition,"Room2_4",6000,400,player,false,"wae"));
+            handler.addObject(new Transition(0,0,16,1000,ID.Transition,"Room3_3",90,1800,player,true,"51"));
+            handler.addObject(new Transition(3960,320,400,20,ID.Transition,"Room3_4",50,675,player,true,"51"));
+            handler.addObject(new Transition(3960,1220,400,20,ID.Transition,"Room3_4",50,1305,player,true,"51"));
+            handler.addObject(new Transition(3960,2560,400,20,ID.Transition,"Room3_4",50,2045,player,true,"51"));
+            handler.addObject(new Transition(3480,4000,32,100,ID.Transition,"Room3_5",980,20,player,true,"51"));
+            handler.addObject(new NPC(200,3160,78,85,handler,this, ID.NPC, 1,tbHandler,"Hey what's up? Welcome to Area 51! I don't mind if you have a look around here. Just ya know. There are 4 red switches which can you hit to get to another sector if you want. Do NOT hit the green switch.",player,ID.Guard1));
+            handler.addObject(A51_RSwitch2);
+
+
+        }else if(currentRoom.equals("Room3_2")){
+
+            handler.addObject(new Transition(1940,0,256,16,ID.Transition,"Room3_3",50,350,player,true,"51"));
+            setBackground(Color.black);
+            loadLevel(tex.Room3_2O);
+            camera.updateRange("Room3_2");
+            handler.addObject(A51_RSwitch3);
+
+        }else if(currentRoom.equals("Room3_3")){
+            handler.addObject(new Transition(10,260,1000,16,ID.Transition,"Room3_2",1850,90,player,true,"51"));
+
+            handler.addObject(new Transition(0,1900,16,1000,ID.Transition,"Room3_1",420,25,player,true,"51"));
+
+            handler.addObject(new Transition(6050,1280,500,16,ID.Transition,"Room3_4",200,200,player,true,"51"));
+            if(!(A51_Switch1 && A51_Switch2 && A51_Switch3 && A51_Switch4)){
+                handler.addObject(new Block(5700,80, 350, 64, handler, this, ID.sideRail));
+            }else
+                handler.addObject(new Transition(5700,20,32,500,ID.Transition,"Room3_6",100,100,player,true,"51"));
+            setBackground(Color.black);
+            loadLevel(tex.Room3_3O);
+            camera.updateRange("Room3_3");
+
+        }else if(currentRoom.equals("Room3_4")){
+            handler.addObject(new Transition(0,0,0,0,ID.Transition,"Room3_3",6000,600,player,true,"51"));
+            handler.addObject(new Transition(0,600,300,16,ID.Transition,"Room3_1",3900,500,player,false,"51"));
+            handler.addObject(new Transition(0,1280,300,16,ID.Transition,"Room3_1",3900,1485,player,false,"51"));
+            handler.addObject(new Transition(0,1960,300,16,ID.Transition,"Room3_1",3900,2665,player,false,"51"));
+
+            setBackground(Color.black);
+            loadLevel(tex.Room3_4O);
+            camera.updateRange("Room3_4");
+            handler.addObject(A51_RSwitch4);
+
+        }else if(currentRoom.equals("Room3_5")){
+            handler.addObject(new Transition(800,0,8,500,ID.Transition,"Room3_1",3475,3900,player,true,"51"));
+            setBackground(Color.black);
+            loadLevel(tex.Room3_5O);
+            camera.updateRange("Room3_5");
+            handler.addObject(A51_RSwitch1);
+
+        }else if(currentRoom.equals("Room3_6")){
+            setBackground(Color.black);
+            loadLevel(tex.Room3_6O);
+            camera.updateRange("Room3_6");
         }
 
         camera.setX(((player.getX())  ));
@@ -742,14 +836,18 @@ public class Game extends Canvas implements Runnable, Serializable {
                 }else if(red==255&&green==111&&blue==0){
                     handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.RedGround));
 
+                }else if(red==0 && green==255 && blue==100){
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.sideRail));
+                }else if(red==100 && green==100 && blue==0){
+                    handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.bottomRail));
                 }
             }
         }
         if(currentRoom.equals("Room1_1")){
             handler.addObject(new NPC(1050,500,64,64,handler,this,ID.NPC,3,tbHandler,"You... are the last of us. I am unable to continue to fight him. My last gift to you... the prophecy.",player,ID.TheLastEntity));
-            handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae, The Labyrinth, Eht Sdrawkcab and the Land of Dead Memes and make the ultimate decision. The choice is up to fate. The decision that he will hate.",player, ID.Book));
+            handler.addObject(new NPC(750,500,48,32,handler,this,ID.NPC,3,tbHandler,"The Chosen One must travel through The Wae Forest, Area 51, Eht Sdrawkcab and the Land of Dead Memes to make the ultimate decision. The choice is up to fate. The decision that he will hate.",player, ID.Book));
             // transition object to room 2_2
-            handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",850,100,player,true));
+            handler.addObject(new Transition(835,1975,32,100,ID.Transition,"Room2_1",850,100,player,true,"wae"));
             handler.addObject(new Items("Apple","Good Snack boi",900,1700,64,64,ID.Item,this,0,0,false,false,0,0));
 
 
@@ -958,6 +1056,78 @@ public class Game extends Canvas implements Runnable, Serializable {
         return currentRoom;
     }
 
+    public String getCurrentArea() {
+        return currentArea;
+    }
+
+    public void setCurrentArea(String currentArea) {
+        this.currentArea = currentArea;
+    }
 
 
+    public boolean isA51_Switch1() {
+        return A51_Switch1;
+    }
+
+    public void setA51_Switch1(boolean a51_Switch1) {
+        A51_Switch1 = a51_Switch1;
+    }
+
+    public boolean isA51_Switch2() {
+        return A51_Switch2;
+    }
+
+    public void setA51_Switch2(boolean a51_Switch2) {
+        A51_Switch2 = a51_Switch2;
+    }
+
+    public boolean isA51_Switch3() {
+        return A51_Switch3;
+    }
+
+    public void setA51_Switch3(boolean a51_Switch3) {
+        A51_Switch3 = a51_Switch3;
+    }
+
+    public boolean isA51_Switch4() {
+        return A51_Switch4;
+    }
+
+    public void setA51_Switch4(boolean a51_Switch4) {
+        A51_Switch4 = a51_Switch4;
+    }
+
+
+
+    public NPC getA51_RSwitch1() {
+        return A51_RSwitch1;
+    }
+
+    public void setA51_RSwitch1(NPC a51_RSwitch1) {
+        A51_RSwitch1 = a51_RSwitch1;
+    }
+
+    public NPC getA51_RSwitch2() {
+        return A51_RSwitch2;
+    }
+
+    public void setA51_RSwitch2(NPC a51_RSwitch2) {
+        A51_RSwitch2 = a51_RSwitch2;
+    }
+
+    public NPC getA51_RSwitch3() {
+        return A51_RSwitch3;
+    }
+
+    public void setA51_RSwitch3(NPC a51_RSwitch3) {
+        A51_RSwitch3 = a51_RSwitch3;
+    }
+
+    public NPC getA51_RSwitch4() {
+        return A51_RSwitch4;
+    }
+
+    public void setA51_RSwitch4(NPC a51_RSwitch4) {
+        A51_RSwitch4 = a51_RSwitch4;
+    }
 }

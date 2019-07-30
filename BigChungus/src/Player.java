@@ -81,23 +81,84 @@ public class Player extends Character implements Serializable {
             int value = rand.nextInt(500);
             if(value==1){
                 int value2 = rand.nextInt(4);
-                if(value2==0){
-                    game.setSwitch(false);
-                    game.setCurrentState(Game.STATE.Battle);
-                    game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Malario,0,game.getTbHandler(),"Malario",game.getPlayer(),ID.Malario,10,10,2,tex.MalarioBF,Color.red,20), handler, game,  game.getAp()));
-                }else if(value2==1){
-                    game.setSwitch(false);
-                    game.setCurrentState(Game.STATE.Battle);
-                    game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.TPoser,0,game.getTbHandler(),"TPoser",game.getPlayer(),ID.TPoser,10,10,2,tex.TposerBF,Color.blue.brighter(),20), handler, game,  game.getAp()));
-                }else if(value2==2){
-                    game.setSwitch(false);
-                    game.setCurrentState(Game.STATE.Battle);
-                    game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.FatYoshi,0,game.getTbHandler(),"Fat Yoshi",game.getPlayer(),ID.FatYoshi,10,10,2,tex.FatYoshiBF,Color.green,20), handler, game,  game.getAp()));
-                }else if(value2==3){
-                    game.setSwitch(false);
-                    game.setCurrentState(Game.STATE.Battle);
-                    game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.JoshuaGiraffe,0,game.getTbHandler(),"Joshua Giraffe",game.getPlayer(),ID.JoshuaGiraffe,10,10,2,tex.JoshuaGiraffeBF,Color.yellow,20), handler, game,  game.getAp()));
+
+                if(game.getCurrentArea().equals("wae")){
+                    if(value2==0){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Malario,0,game.getTbHandler(),"Malario",game.getPlayer(),ID.Malario,10,10,2,tex.MalarioBF,Color.red,20), handler, game,  game.getAp()));
+                    }else if(value2==1){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.TPoser,0,game.getTbHandler(),"TPoser",game.getPlayer(),ID.TPoser,10,10,2,tex.TposerBF,Color.blue.brighter(),20), handler, game,  game.getAp()));
+                    }else if(value2==2){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.FatYoshi,0,game.getTbHandler(),"Fat Yoshi",game.getPlayer(),ID.FatYoshi,10,10,2,tex.FatYoshiBF,Color.green,20), handler, game,  game.getAp()));
+                    }else if(value2==3){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.JoshuaGiraffe,0,game.getTbHandler(),"Joshua Giraffe",game.getPlayer(),ID.JoshuaGiraffe,10,10,2,tex.JoshuaGiraffeBF,Color.yellow,20), handler, game,  game.getAp()));
+                    }
+                }else if(game.getCurrentArea().equals("51")){
+                    if(value2==0){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.BongoCat,0,game.getTbHandler(),"Bongo Cat",game.getPlayer(),ID.BongoCat,10,10,2,tex.BongoCatBF,Color.white,20), handler, game,  game.getAp()));
+                    }else if(value2==1){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Zuck,0,game.getTbHandler(),"Zuckerberg",game.getPlayer(),ID.Zuck,10,10,2,tex.ZuckBF,Color.blue.brighter(),20), handler, game,  game.getAp()));
+                    }else if(value2==2){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.DatBoi,0,game.getTbHandler(),"Dat Boi",game.getPlayer(),ID.DatBoi,10,10,2,tex.DatBoiBF,Color.green,20), handler, game,  game.getAp()));
+                    }else if(value2==3){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Spongebob,0,game.getTbHandler(),"SpOnGeBoB",game.getPlayer(),ID.Spongebob,10,10,2,tex.SpongebobBF,Color.yellow,20), handler, game,  game.getAp()));
+
+                    }
+                }else if(game.getCurrentArea().equals("back")){
+                    if(value2==0){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Crab,0,game.getTbHandler(),"Crab Rave",game.getPlayer(),ID.Crab,10,10,2,tex.CrabBF,Color.red.brighter(),20), handler, game,  game.getAp()));
+                    }else if(value2==1){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Kermit,0,game.getTbHandler(),"Kermit",game.getPlayer(),ID.Kermit,10,10,2,tex.KermitBF,Color.green.brighter(),20), handler, game,  game.getAp()));
+                    }else if(value2==2){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.KazooKid,0,game.getTbHandler(),"The Kazoo Kid",game.getPlayer(),ID.KazooKid,10,10,2,tex.KazooKidBF,Color.red,20), handler, game,  game.getAp()));
+                    }else if(value2==3){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.YodelBoy,0,game.getTbHandler(),"Walmart Yodel Boy",game.getPlayer(),ID.YodelBoy,10,10,2,tex.YodelBoyBF,Color.blue.brighter(),20), handler, game,  game.getAp()));
+                    }
+                }else if(game.getCurrentArea().equals("dead")){
+                    if(value2==0){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Harambe,0,game.getTbHandler(),"Harambe",game.getPlayer(),ID.Harambe,10,10,2,tex.HarambeBF,Color.white,20), handler, game,  game.getAp()));
+                    }else if(value2==1){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Waluigi,0,game.getTbHandler(),"Waluigi",game.getPlayer(),ID.Waluigi,10,10,2,tex.WaluigiBF,new Color(204, 0, 164),20), handler, game,  game.getAp()));
+                    }else if(value2==2){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Arthur,0,game.getTbHandler(),"Arthur",game.getPlayer(),ID.Arthur,10,10,2,tex.ArthurBF,new Color(255,219,172),20), handler, game,  game.getAp()));
+                    }else if(value2==3){
+                        game.setSwitch(false);
+                        game.setCurrentState(Game.STATE.Battle);
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Spaget,0,game.getTbHandler(),"Spaget",game.getPlayer(),ID.Spaget,10,10,2,tex.SpagetBF,Color.green.brighter().brighter(),20), handler, game,  game.getAp()));
+                    }
                 }
+
+
+
 
 
 
@@ -195,7 +256,7 @@ public class Player extends Character implements Serializable {
 
                 GameObject tempObject = this.handler.object.get(i);
 
-                if(tempObject.getId() == ID.BlackGround || tempObject.getId()==ID.Tree || tempObject.getId()==ID.Mushroom){
+                if(tempObject.getId() == ID.BlackGround || tempObject.getId()==ID.Tree || tempObject.getId()==ID.Mushroom || tempObject.getId()==ID.bottomRail || tempObject.getId()==ID.sideRail){
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(tempObject.getBounds())){
@@ -206,23 +267,41 @@ public class Player extends Character implements Serializable {
                         y+= velY*-1;
                     }
                 }else if(tempObject.getId() == ID.NPC){
+
+
                     NPC tempNPC = (NPC) tempObject;
                     Rectangle tempRect = getBounds();
-                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
-                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
-                        x+= velX * -1;
-                        y+= velY*-1;
-                        if(tempNPC.getBattleReady()){
-                            game.setSwitch(false);
-                            game.setCurrentState(Game.STATE.Battle);
-                        }
-                    }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+                    tempRect.setSize((int)width,(int)height-5);
+                    Rectangle tempRect2 = tempNPC.getBounds();
+                    tempRect2.setSize((int)tempRect2.getWidth(), (int)(tempRect2.getHeight()/2));
 
-                        tempNPC.interaction();
-                        //x+= velX * -1;
-                        // y+= velY*-1;
-                        lastKeyHit=100;
+                    if(!(game.getCurrentRoom().equals("Room3_1"))){
+                        if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                            x+= velX * -1;
+                            y+= velY*-1;
+                            if(tempNPC.getBattleReady()){
+                                game.setSwitch(false);
+                                game.setCurrentState(Game.STATE.Battle);
+                            }
+                        }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
+
+                            tempNPC.interaction();
+                            //x+= velX * -1;
+                            // y+= velY*-1;
+                            lastKeyHit=100;
+                        }
+                    }else{
+                        if(tempRect2.intersects(getBounds())){
+                            x+= velX * -1;
+                            y+= velY*-1;
+                        }
+                        if(tempNPC.xBounds().intersects(getBounds()) && (lastKeyHit==4)){
+                            tempNPC.interaction();
+                            lastKeyHit=100;
+                        }
                     }
+
+
                 }else if(tempObject.getId() == ID.Knuckles || tempObject.getId()==ID.Spongebob || tempObject.getId()==ID.Waluigi || tempObject.getId()==ID.Spaget || tempObject.getId()==ID.Arthur){
 
                     Enemy tempKnuckles = (Enemy) tempObject;
@@ -313,6 +392,7 @@ public class Player extends Character implements Serializable {
                         game.getPlayer().setX(tempTransition.getNewPlayerX());
                         game.getPlayer().setY(tempTransition.getNewPlayerY());
                         game.setEndangered(tempTransition.getDangerZone());
+                        game.setCurrentArea(tempTransition.getArea());
                     }
 
                 /*if(tempTransition.getDestination().equals("Room2_1") && getBounds().intersects(tempTransition.getBounds())){
@@ -551,6 +631,8 @@ public class Player extends Character implements Serializable {
                         lastKeyHit=100;
                     }
                 }else if(tempObject.getId() == ID.Zuck){
+                    y+= velY*-1;
+
                     Enemy tempZuck = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
@@ -565,9 +647,7 @@ public class Player extends Character implements Serializable {
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
                       //  tempZuck.interaction();
-                        x+= velX * -1;
-                        y+= velY*-1;
-                        lastKeyHit=100;
+                        x+= velX * -1;                        lastKeyHit=100;
                     }
                 }else if(tempObject.getId() == ID.Harambe){
                     Enemy tempHarambe = (Enemy) tempObject;

@@ -343,6 +343,48 @@ public class EnemyAttackItem extends GameObject implements Serializable {
                     velX*=-1;
                 movement="racketMoved";
             }
+        }else if(movement.equals("gottemFist")){
+            if(ThreadLocalRandom.current().nextInt(20)==0){
+                EnemyAttackItem temp = new EnemyAttackItem(0, this.y,this.height,this.width,this.id,tex.Arthur_A1,2,this.scaleX,this.scaleY,bPlayer,player,handler,battle);
+                temp.movement="none";
+                temp.velX=30;
+                handler.addObject(temp);
+            }
+
+        }else if(movement.equals("fist")){
+            scaleX++;
+            scaleY++;
+            x--;
+            y--;
+            width++;
+            height++;
+        }else if(movement.equals("spagetFilled")){
+            if(ThreadLocalRandom.current().nextInt(500)==0){
+                if(velX>0 || velX<0)
+                    velX*=-1;
+                else if(velY<0 || velY>0)
+                    velY*=-1;
+            }
+        }else if(movement.equals("spaget")){
+            if(way==0){
+                scaleX++;
+                width++;
+                x++;
+                scaleY++;
+                height++;
+                y++;
+            }
+
+            else{
+                scaleX--;
+                width--;
+                x--;
+                scaleY--;
+                height--;
+                y--;
+            }
+
+
         }
 
         collision();
@@ -1019,6 +1061,65 @@ public class EnemyAttackItem extends GameObject implements Serializable {
         velX=0;
 
         movement="racket";
+    }
+    public void fist(){
+        x=ThreadLocalRandom.current().nextInt(500,800);
+        y=0;
+        velY=ThreadLocalRandom.current().nextInt(1,9);
+        movement="fist";
+
+    }
+    public void gottemFist(){
+        x=0;
+        y=ThreadLocalRandom.current().nextInt(500,800);
+        velX=0;
+        velY=0;
+        movement="gottemFist";
+
+    }
+    public void spagetFilled(){
+        int temp = ThreadLocalRandom.current().nextInt(0,4);
+        if(temp==0){
+            x=0;
+            y=ThreadLocalRandom.current().nextInt(500,800);
+            velX=ThreadLocalRandom.current().nextInt(6,9);
+            velY=0;
+        }else if(temp==1){
+            x=1200;
+            y=ThreadLocalRandom.current().nextInt(500,800);
+            velX=ThreadLocalRandom.current().nextInt(6,9);
+            velX*=-1;
+            velY=0;
+
+        }else if(temp==2){
+            x=ThreadLocalRandom.current().nextInt(500,800);
+            y=0;
+            velX=0;
+            velY=ThreadLocalRandom.current().nextInt(6,9);
+        }else if(temp==3){
+            x=ThreadLocalRandom.current().nextInt(500,800);
+            y=1000;
+            velY=ThreadLocalRandom.current().nextInt(6,9);
+            velY=-1;
+
+        }
+
+        movement="spagetFilled";
+
+    }
+    public void spaget(){
+        x=ThreadLocalRandom.current().nextInt(500,800);
+        int temp=ThreadLocalRandom.current().nextInt(2);
+        if(temp==0){
+            y=0;
+            velY=7;
+            way=0;
+        }else{
+            y=1000;
+            velY=-7;
+            way=1;
+        }
+        movement="spaget";
     }
 
 

@@ -40,7 +40,22 @@ public enum ID implements Serializable {
     Spongebob,
     Waluigi,
     Spaget,
-    Arthur;
+    Arthur,
+    sideRail,
+    bottomRail,
+    Alien1,
+    Alien2,
+    Alien3,
+    Alien4,
+    Guard1,
+    Guard2,
+    Guard3,
+    Guard4,
+    greenSwitch,
+    redSwitch1,
+    redSwitch2,
+    redSwitch3,
+    redSwitch4;
 
 
 }

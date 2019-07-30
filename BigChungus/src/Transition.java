@@ -6,12 +6,14 @@ public class Transition extends GameObject {
     private int newPlayerY;
     private boolean dangerZone;
     private String destination;
-    public Transition(float x, float y, float height, float width, ID id, String destination, int newPlayerX, int newPlayerY,Player player,boolean dangerZone){
+    private String area;
+    public Transition(float x, float y, float height, float width, ID id, String destination, int newPlayerX, int newPlayerY,Player player,boolean dangerZone,String area){
         super(x, y, height, width, id);
         this.destination=destination;
         this.newPlayerX = newPlayerX;
         this.newPlayerY=newPlayerY;
         this.dangerZone=dangerZone;
+        this.area=area;
 
     }
 
@@ -58,5 +60,13 @@ public class Transition extends GameObject {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 }

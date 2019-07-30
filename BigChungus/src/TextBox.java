@@ -148,6 +148,8 @@ public class TextBox extends GameObject implements Serializable {
                     g.drawImage(this.character.Face,140,800,100,100,null);
                 else if(this.character.getsID()==ID.Book){
                     g.drawImage(this.character.Face, 130, 800,135, 140, null);
+                }else{
+                    g.drawImage(this.character.Face,130,800,128,128,null);
                 }
             }
 
