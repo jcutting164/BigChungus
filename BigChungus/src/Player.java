@@ -36,8 +36,8 @@ public class Player extends Character implements Serializable {
         this.game = game;
         this.inv = inv;
         this.magic = magic;
-        this.mana=20;
-        this.maxMana=20;
+        this.mana=100;
+        this.maxMana=100;
 
 
         this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
@@ -168,14 +168,21 @@ public class Player extends Character implements Serializable {
     public void render(Graphics g){
 
 
+
+
+
         //g.drawImage(tex.Player_WalkLeft[0], (int) this.x, (int)this.y, 38, 148, null);
         try{
             if(velX != 0 && velY==0){
                 if(velX < 0){
+                    width=22;
+                    height=92;
                     walkLeft.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkLeft;
 
                 }else if(velX > 0){
+                    width=22;
+                    height=92;
                     walkRight.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkRight;
                 }
@@ -187,31 +194,46 @@ public class Player extends Character implements Serializable {
                     g.drawImage(tex.Player_WalkLeft[0], (int)x, (int)y, (int)width, (int)height, null);
                 else if(this.currentImages==tex.Player_WalkRight)
                     g.drawImage(tex.Player_WalkRight[0], (int)x, (int)y, (int)width, (int)height, null);
-                else if(this.currentImages==tex.Player_WalkUp)
+                else if(this.currentImages==tex.Player_WalkUp){
                     g.drawImage(tex.Player_WalkUp[0], (int)x, (int)y, (int)width, (int)height, null);
-                else if(this.currentImages==tex.Player_WalkDown)
+                    width=24;
+                    height=92;
+                }
+                else if(this.currentImages==tex.Player_WalkDown){
                     g.drawImage(tex.Player_WalkDown[0], (int)x, (int)y, (int)width, (int)height, null);
+                    width=23;
+                    height=92;
+                }
                 else{
                     g.drawImage(tex.Player_WalkDown[0], (int)x, (int)y, (int)width, (int)height, null);
                 }
                 // deals with pure y moving animation
             }else if(velX==0 && velY!=0){
                 if(velY < 0){
+                    width=24;
+                    height=92;
                     walkUp.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkUp;
 
                 }else if(velY > 0){
+                    width=22;
+                    height=92;
                     walkDown.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkDown;
                 }
 
                 //deals with diagonal movement
             }else if(velX!=0 && velY!=0){
+
                 if((velY < 0 && velX < 0) || (velY<0 && velX>0)){
+                    width=24;
+                    height=92;
                     walkUp.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkUp;
 
                 }else if((velX > 0 && velY > 0) || (velY>0 && velX<0)){
+                    width=22;
+                    height=92;
                     walkDown.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
                     currentImages = tex.Player_WalkDown;
                 }
@@ -256,15 +278,22 @@ public class Player extends Character implements Serializable {
 
                 GameObject tempObject = this.handler.object.get(i);
 
-                if(tempObject.getId() == ID.BlackGround || tempObject.getId()==ID.Tree || tempObject.getId()==ID.Mushroom || tempObject.getId()==ID.bottomRail || tempObject.getId()==ID.sideRail){
+                if(tempObject.getId() == ID.BlackGround || tempObject.getId()==ID.Tree || tempObject.getId()==ID.Mushroom || tempObject.getId()==ID.bottomRail || tempObject.getId()==ID.sideRail || tempObject.getId()==ID.invisWall){
                     Rectangle tempRect = getBounds();
-                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(tempObject.getBounds())){
+                        if(limited){
+                            x+=velX*-1;
+                            y+=velY*-1;
+                            velX=0;
+                            velY=0;
 
-
+                            limited=false;
+                        }
 
                         x+= velX * -1;
                         y+= velY*-1;
+
+
                     }
                 }else if(tempObject.getId() == ID.NPC){
 
@@ -385,6 +414,9 @@ public class Player extends Character implements Serializable {
                     Transition tempTransition = (Transition) tempObject;
                     if(getBounds().intersects(tempTransition.getBounds())){
                         handler.clear();
+                        game.getPlayer().setLimited(false);
+                        game.getPlayer().setVelX(0);
+                        game.getPlayer().setVelY(0);
                         game.setCurrentRoom(tempTransition.getDestination());
                         game.setCurrentLevel(game.getRooms().get(tempTransition.getDestination()));
                         game.loadLevel(tempTransition.getDestination());
@@ -433,7 +465,13 @@ public class Player extends Character implements Serializable {
                             game.getPlayer().setVelX(0);
                             game.getPlayer().setVelY(0);
                             game.getPlayer().setLimited(true);
-                            game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got a "+temp.getName()+". Check your inventory with C to look at it!",0,0,0,0,ID.TextBox,game.getTbHandler()));
+                            if(temp.getName().charAt(0)=='e'||temp.getName().charAt(0)=='i'||temp.getName().charAt(0)=='o'||temp.getName().charAt(0)=='u'||temp.getName().charAt(0)=='a'||temp.getName().charAt(0)=='E'||temp.getName().charAt(0)=='I'||temp.getName().charAt(0)=='O'||temp.getName().charAt(0)=='U'||temp.getName().charAt(0)=='A'){
+                                game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got an "+temp.getName()+". Check your inventory with C to look at it!",0,0,0,0,ID.TextBox,game.getTbHandler()));
+
+                            }else{
+                                game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got a "+temp.getName()+". Check your inventory with C to look at it!",0,0,0,0,ID.TextBox,game.getTbHandler()));
+
+                            }
                         }
                     }else if(tempObject.getId()==ID.Spell){
                         Spells temp = (Spells) (tempObject);
@@ -443,7 +481,13 @@ public class Player extends Character implements Serializable {
                             game.getPlayer().setVelX(0);
                             game.getPlayer().setVelY(0);
                             game.getPlayer().setLimited(true);
-                            game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got a "+temp.getName()+" spell. Check your spell books with V to look at it!",0,0,0,0,ID.TextBox,game.getTbHandler()));
+                            if(temp.getName().charAt(0)=='e'||temp.getName().charAt(0)=='i'||temp.getName().charAt(0)=='o'||temp.getName().charAt(0)=='u'||temp.getName().charAt(0)=='a'||temp.getName().charAt(0)=='E'||temp.getName().charAt(0)=='I'||temp.getName().charAt(0)=='O'||temp.getName().charAt(0)=='U'||temp.getName().charAt(0)=='A'){
+                                game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got an "+temp.getName()+" spell. Check your spell books with V to look at it!",0,0,0,0,ID.TextBox,game.getTbHandler()));
+
+                            }else{
+                                game.getTbHandler().addObject(new TextBox(game.getPlayer(),"You just got a "+temp.getName()+" spell. Check your spell books with V to look at it!",0,0,0,0,ID.TextBox,game.getTbHandler()));
+
+                            }
                         }
                     }
 
@@ -706,6 +750,41 @@ public class Player extends Character implements Serializable {
                         y+= velY*-1;
                         lastKeyHit=100;
                     }
+                }else if(tempObject.getId()==ID.Ice){
+                    if(tempObject.getBounds().intersects(getBounds())){
+                        if(velX!=0 || velY!=0)
+                            limited=true;
+                        else
+                            limited=false;
+                        /*
+                        if(velX>0 && velY==0){
+                            // right
+
+                        }else if(velX<0 && velY==0){
+                            // left
+                        }else if(velX==0 && velY>0){
+                            // down
+                        }else if(velX==0 && velY<0){
+                            // up
+                        }else if(velX>0 && velY>0){
+                            // down right
+
+                        }else if(velX<0 && velY>0){
+                            // down left
+                        }else if(velX>0 && velY<0){
+                            // up right
+                        }else if(velX<0 && velY<0){
+                            // up left
+                        }*/
+                    }
+                }else if(tempObject.getId()==ID.RedGround){
+                    if(tempObject.getBounds().intersects(getBounds())){
+                        if(limited){
+                            velX=0;
+                            velY=0;
+                            limited=false;
+                        }
+                    }
                 }
             }
         }
@@ -775,6 +854,11 @@ public class Player extends Character implements Serializable {
                 g.setColor(Color.white);
 
             g.drawRect(540, y, 200, 32);
+            if(this.getBackwards()){
+                g.setColor(Color.white);
+            }else
+                g.setColor(Color.black);
+            g.drawRect(539,y-1,202,34);
         }else{
             g.fillRect(540, y, mana*(200/maxMana), 32);
             if(!this.getBackwards()){
@@ -783,6 +867,11 @@ public class Player extends Character implements Serializable {
                 g.setColor(Color.white);
             }
             g.drawRect(540, y, 200, 32);
+            if(this.getBackwards()){
+                g.setColor(Color.white);
+            }else
+                g.setColor(Color.black);
+            g.drawRect(539,y-1,202,34);
         }
 
 
@@ -794,7 +883,7 @@ public class Player extends Character implements Serializable {
         if(mana >= maxMana*.5){
             g.setColor(Color.blue.brighter().brighter().brighter());
         }else{
-            g.setColor(Color.black);
+            g.setColor(Color.red.darker().darker().darker());
         }
 
 

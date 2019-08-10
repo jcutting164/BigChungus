@@ -18,8 +18,20 @@ public class Items extends GameObject implements Serializable {
     private boolean damaging;
     private int healFactor;
     private int damageFactor;
+    String desc2="";
     public Items(String name, String desc,float x, float y, float height, float width, ID id,Game game, int attack, int defense, boolean healing, boolean damaging,int healFactor, int damageFactor){
         super(x, y, height, width, id);
+        this.name = name;
+        this.desc = desc;
+        this.game=game;
+        this.healing=healing;
+        this.damaging=damaging;
+        this.healFactor=healFactor;
+        this.damageFactor=damageFactor;
+    }
+    public Items(String name, String desc,String desc2,float x, float y, float height, float width, ID id,Game game, int attack, int defense, boolean healing, boolean damaging,int healFactor, int damageFactor){
+        super(x, y, height, width, id);
+        this.desc2=desc2;
         this.name = name;
         this.desc = desc;
         this.game=game;
@@ -57,6 +69,144 @@ public class Items extends GameObject implements Serializable {
                 enemy.setHealth(enemy.getHealth()+healFactor);
 
             user.getInv().removeItem(this);
+        }else if(name.equals("Light Saber")){
+            if(user.getWeapon()==null){
+                user.setWeapon(this);
+                user.getInv().removeItem(this);
+            }else{
+                user.getInv().addItem(game.getPlayer().getWeapon());
+                user.setWeapon(this);
+                user.getInv().removeItem(this);
+
+            }
+        }else if(name.equals("Alien Hat")){
+            if(user.getArmor()==null){
+                user.setArmor(this);
+                user.getInv().removeItem(this);
+
+            }else{
+                user.getInv().addItem(game.getPlayer().getArmor());
+                user.setArmor(this);
+                user.getInv().removeItem(this);
+
+
+            }
+        }else if(name.equals("Wizard Wand")){
+            if(user.getWeapon()==null){
+                user.setWeapon(this);
+                user.getInv().removeItem(this);
+
+            }else{
+                user.getInv().addItem(game.getPlayer().getWeapon());
+                user.setWeapon(this);
+                user.getInv().removeItem(this);
+
+
+            }
+        }else if(name.equals("Wizard Cloak")){
+            if(user.getArmor()==null){
+                user.setArmor(this);
+                user.getInv().removeItem(this);
+
+            }else{
+                user.getInv().addItem(game.getPlayer().getArmor());
+                user.setArmor(this);
+                user.getInv().removeItem(this);
+
+
+            }
+        }else if(name.equals("Chicken Nugget")){
+            if(!game.getPlayer().getBackwards())
+                user.setHealth(user.getHealth()+healFactor);
+            else
+                enemy.setHealth(enemy.getHealth()+healFactor);
+            user.getInv().removeItem(this);
+
+
+
+        }else if(name.equals("Insta Protein")){
+            if(!(game.getCurrentBattle()==null)){
+                if(!game.getPlayer().getBackwards())
+                    user.setAttack(user.getAttack()+15);
+                else
+                    enemy.setHealth(enemy.getHealth()+healFactor);
+                user.getInv().removeItem(this);
+
+            }
+
+
+
+
+        }else if(name.equals("Big Bopper")){
+            if(!game.getPlayer().getBackwards())
+                user.setHealth(user.getHealth()+healFactor);
+            else
+                enemy.setHealth(enemy.getHealth()+healFactor);
+            user.getInv().removeItem(this);
+
+
+
+        }else if(name.equals("Space Food")){
+            int heal = user.getMaxHealth();
+            if(!game.getPlayer().getBackwards())
+                user.setHealth(user.getHealth()+heal);
+            else
+                enemy.setHealth(enemy.getHealth()+heal);
+            user.getInv().removeItem(this);
+
+
+
+        }else if(name.equals("CIT Shirt")){
+
+            if(user.getArmor()==null){
+                user.setArmor(this);
+                user.getInv().removeItem(this);
+
+            }else {
+                user.getInv().addItem(game.getPlayer().getArmor());
+                user.setArmor(this);
+                user.getInv().removeItem(this);
+            }
+
+        }else if(name.equals("YuGiOh Card")){
+            if(!(game.getCurrentBattle()==null)){
+                if(!game.getPlayer().getBackwards())
+                    enemy.setHealth(enemy.getHealth()-damageFactor);
+                else
+                    user.setHealth(user.getHealth()-damageFactor);
+                user.getInv().removeItem(this);
+            }
+
+
+        }else if(name.equals("Nokia")){
+            if(user.getWeapon()==null){
+                user.setWeapon(this);
+                user.getInv().removeItem(this);
+
+            }else {
+                user.getInv().addItem(game.getPlayer().getWeapon());
+                user.setWeapon(this);
+                user.getInv().removeItem(this);
+            }
+        }else if(name.equals("Uno Reverse")){
+            if(!(game.getCurrentBattle()==null)){
+                if(!game.getPlayer().getBackwards())
+                    enemy.setHealth(enemy.getHealth()-enemy.getAttack()*2);
+                else
+                    user.setHealth(user.getHealth()-user.getAttack()*2);
+                user.getInv().removeItem(this);
+            }
+
+        }else if(name.equals("Bunny Ears")){
+            if(user.getArmor()==null){
+                user.setArmor(this);
+                user.getInv().removeItem(this);
+
+            }else {
+                user.getInv().addItem(game.getPlayer().getArmor());
+                user.setArmor(this);
+                user.getInv().removeItem(this);
+            }
         }
     }
 
@@ -149,5 +299,13 @@ public class Items extends GameObject implements Serializable {
 
     public void setDamageFactor(int damageFactor) {
         this.damageFactor = damageFactor;
+    }
+
+    public String getDesc2() {
+        return desc2;
+    }
+
+    public void setDesc2(String desc2) {
+        this.desc2 = desc2;
     }
 }

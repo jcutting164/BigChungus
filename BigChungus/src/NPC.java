@@ -1,5 +1,4 @@
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
@@ -83,10 +82,22 @@ public class NPC extends Character implements Serializable {
             this.currentImages[0]=tex.guards[3];
             this.Face=tex.guardFaces[3];
 
-        }else if(sID==ID.redSwitch1 || sID==ID.redSwitch2 || sID==ID.redSwitch3 || sID==ID.redSwitch4){
+        }else if(sID==ID.redSwitch1 || sID==ID.redSwitch2 || sID==ID.redSwitch3 || sID==ID.redSwitch4||sID==ID.redSwitch5 || sID==ID.redSwitch6 || sID==ID.redSwitch7 || sID==ID.redSwitch8){
             this.currentImages=new BufferedImage[1];
             this.currentImages[0]=tex.redSwitch[0];
             this.Face=tex.redSwitch[0];
+        }else if(sID==ID.greenSwitch){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.greenSwitch[0];
+            this.Face=tex.greenSwitch[0];
+        }else if(sID==ID.WHO1 || sID==ID.WHO2){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.WHO;
+            this.Face=tex.WHO;
+        }else if(sID==ID.Computer){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.computer;
+            this.Face=tex.computer;
         }
         else{
             this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
@@ -199,9 +210,22 @@ public class NPC extends Character implements Serializable {
                     tbHandler.addObject(tb);
                 }
             }
+        }else if(!game.getCurrentRoom().equals("Room3_1") && sID==ID.Alien2){
+            if(!text.equals("")){
+                TextBox tb = new TextBox(this, text,0,0,0,0,ID.TextBox,tbHandler);
+                tbHandler.addObject(tb);
+            }
+        }else if(sID==ID.WHO1){
+            if(handler.object.contains(game.getWhoT1())){
+                handler.removeObject(game.getWhoT1());
+            }
+        }else if(sID==ID.WHO2){
+            if(handler.object.contains(game.getWhoT2())){
+                handler.removeObject(game.getWhoT2());
+            }
         }
 
-        if(sID==ID.redSwitch1 || sID==ID.redSwitch2 || sID==ID.redSwitch3 || sID==ID.redSwitch4){
+        if(sID==ID.redSwitch1 || sID==ID.redSwitch2 || sID==ID.redSwitch3 || sID==ID.redSwitch4||sID==ID.redSwitch5 || sID==ID.redSwitch6 || sID==ID.redSwitch7 || sID==ID.redSwitch8 || sID==ID.greenSwitch){
             if(sID==ID.redSwitch1){
                 game.setA51_Switch1(!(game.isA51_Switch1()));
             }else if(sID==ID.redSwitch2) {
@@ -210,15 +234,59 @@ public class NPC extends Character implements Serializable {
                 game.setA51_Switch3(!(game.isA51_Switch3()));
             }else if(sID==ID.redSwitch4) {
                 game.setA51_Switch4(!(game.isA51_Switch4()));
+            }else if(sID==ID.redSwitch5) {
+                game.setA51_Switch5(!(game.isA51_Switch5()));
+                if(game.isA51_Switch6() && game.isA51_Switch7()&& game.isA51_Switch8()&& game.isA51_Switch5()){
+                    game.getHandler().removeObject(game.getBarrier());
+                }
+            }else if(sID==ID.redSwitch6) {
+                game.setA51_Switch6(!(game.isA51_Switch6()));
+                if(game.isA51_Switch6() && game.isA51_Switch7()&& game.isA51_Switch8()&& game.isA51_Switch5()){
+                    game.getHandler().removeObject(game.getBarrier());
+                }
+            }else if(sID==ID.redSwitch7) {
+                game.setA51_Switch7(!(game.isA51_Switch7()));
+                if(game.isA51_Switch6() && game.isA51_Switch7()&& game.isA51_Switch8()&& game.isA51_Switch5()){
+                    game.getHandler().removeObject(game.getBarrier());
+                }
+            }else if(sID==ID.redSwitch8) {
+                game.setA51_Switch8(!(game.isA51_Switch8()));
+                if(game.isA51_Switch6() && game.isA51_Switch7()&& game.isA51_Switch8()&& game.isA51_Switch5()){
+                    game.getHandler().removeObject(game.getBarrier());
+                }
+            }else if(sID==ID.greenSwitch)
+                game.setAliensFreed(true);
+
+            if(!(sID==ID.greenSwitch)){
+                if(currentImages[0]==tex.redSwitch[0])
+                    currentImages[0]=tex.redSwitch[1];
+                else
+                    currentImages[0]=tex.redSwitch[0];
+            }else{
+                System.out.println("test");
+                if(currentImages[0]==tex.greenSwitch[0])
+                    currentImages[0]=tex.greenSwitch[1];
+                else
+                    currentImages[0]=tex.greenSwitch[0];
             }
 
 
-            if(currentImages[0]==tex.redSwitch[0])
-                currentImages[0]=tex.redSwitch[1];
-            else
-                currentImages[0]=tex.redSwitch[0];
 
 
+
+
+        }else if(sID==ID.Computer){
+            if(!game.isSpecialGameWin()){
+                game.setCurrentState(Game.STATE.SpecialGame);
+                game.getHandler().clear();
+                game.setBackground(Color.black);
+                game.getHandler().addObject(new GamePlayer(Game.WIDTH/2,Game.HEIGHT-100,32,32,ID.GamePlayer,game.getHandler(),game));
+                game.setLevel(1);
+                game.setScore(0);
+                game.setGameHealth(10);
+                game.setSpawn(new Spawn(game.getHandler(), game));
+                AudioPlayer.getMusic("GAME").loop();
+            }
 
         }
 

@@ -37,6 +37,11 @@ public class Block extends GameObject implements Serializable {
             img=tex.area51Tiles[0];
         else if(id==ID.bottomRail)
             img=tex.area51Tiles[1];
+        else if(id==ID.Ice)
+            img=tex.Ice;
+        else if(id==ID.invisWall)
+            img=null;
+
         //walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
 
     }
@@ -50,18 +55,21 @@ public class Block extends GameObject implements Serializable {
 
 
 
-        if(img!=tex.Room1_1){
-            g.drawImage(img,(int)x,(int)y,(int)height,(int)width,null);
-        }else{
-            if(id==ID.GrayGround){
-                g.setColor(Color.gray);
-                g.fillRect((int)x, (int)y, (int)width, (int)height);
-            }else if(id==ID.BlackGround){
-                g.setColor(Color.black);
-                g.fillRect((int)x, (int)y, (int)width, (int)height);
-            }
+        if(img!=null){
+            if(img!=tex.Room1_1){
+                g.drawImage(img,(int)x,(int)y,(int)width,(int)height,null);
+            }else{
+                if(id==ID.GrayGround){
+                    g.setColor(Color.gray);
+                    g.fillRect((int)x, (int)y, (int)width, (int)height);
+                }else if(id==ID.BlackGround){
+                    g.setColor(Color.black);
+                    g.fillRect((int)x, (int)y, (int)width, (int)height);
+                }
 
+            }
         }
+
 
 
 

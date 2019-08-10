@@ -49,7 +49,13 @@ public class S_BasicAttack extends Usables {
 
         handler.removeObject(this);
         // will update damage calculation based on attack / defense, for now is one value
-        int damage = ThreadLocalRandom.current().nextInt(battle.getPlayer().getAttack(),(int)(battle.getPlayer().getAttack()*1.5+1));
+
+        int attackPower=0;
+        if(battle.getPlayer().getWeapon()!=null)
+            attackPower= battle.getPlayer().getAttack() + battle.getPlayer().getWeapon().getDamageFactor();
+        else
+            attackPower=battle.getPlayer().getAttack();
+        int damage = ThreadLocalRandom.current().nextInt(attackPower,(int)(attackPower*1.5+1));
         if(!(battle.getPlayer().getBackwards())){
             enemy.setHealth(enemy.getHealth() - damage);
         }else{

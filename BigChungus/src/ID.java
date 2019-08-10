@@ -55,7 +55,24 @@ public enum ID implements Serializable {
     redSwitch1,
     redSwitch2,
     redSwitch3,
-    redSwitch4;
+    redSwitch4,
+    redSwitch5,
+    redSwitch6,
+    redSwitch7,
+    redSwitch8,
+    WHO1,
+    WHO2,
+    Ice,
+    invisWall,
+    Computer,
+    GamePlayer,
+    SmartEnemy,
+    Trail,
+    EnemyBoss,
+    Laser,
+    BasicEnemy,
+    EndEnemy,
+    CoolEnemy;
 
 
 }

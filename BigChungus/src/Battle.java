@@ -757,6 +757,7 @@ public class Battle implements Serializable {
                                     timeOfLastShot2 = timeNow2;
                                 }else{
                                     ArrayList<EnemyAttackItem> templist = handler.getELIST();
+                                    // temp getting rid of 1
                                     templist.get(templist.size()-1).setVelY(20);
 
 
@@ -1316,7 +1317,7 @@ public class Battle implements Serializable {
                             for(int i = 0; i<enemy.getInv().inv.size(); i++){
                                 int tempHealth=enemy.getHealth();
                                 Enemy tempEnemy=new Enemy(0,0,0,0,handler,game,ID.AntiHero,3,game.getTbHandler(),"...",player,ID.AntiHero,enemy.getAttack(),enemy.getDefense(),enemy.getMoves(),enemy.getBattleForm(),enemy.getNameColor(),enemy.getHealth());
-                                tempEnemy.inv=new Inventory();
+                                tempEnemy.inv=new Inventory(game);
                                 for(int j = 0; j<enemy.getInv().inv.size(); j++){
                                     Items temp = enemy.getInv().inv.get(i);
                                     tempEnemy.inv.addItem(new Items(temp.getName(),temp.getDesc(),temp.getX(),temp.getY(),temp.getHeight(),temp.getWidth(),temp.getId(),game,temp.getAttack(),temp.getDefense(),temp.isHealing(),temp.isDamaging(),temp.getHealFactor(),temp.getDamageFactor()));
@@ -1574,7 +1575,7 @@ public class Battle implements Serializable {
                             time2 = timeNow2 - timeOfLastShot2;
                             if(time2>1000 && track < 10){
                                 EnemyAttackItem temp = new EnemyAttackItem(-100, 0, 42, 59, ID.EnemyAttackItem, tex.AntiHero_A4, 3, 59, 42, bPlayer, player, handler,this);
-                                int move = ThreadLocalRandom.current().nextInt(23);
+                                int move = ThreadLocalRandom.current().nextInt(38);
                                 switch (move){
                                     case 0:
                                         temp.boxBounce();
@@ -1645,6 +1646,53 @@ public class Battle implements Serializable {
                                     case 22:
                                         temp.crabArm();
                                         break;
+                                    case 23:
+                                        temp.banana();
+                                        break;
+                                    case 24:
+                                        temp.rifle();
+                                        break;
+                                    case 25:
+                                        temp.lizard();
+                                        break;
+                                    case 26:
+                                        temp.facebook();
+                                        break;
+                                    case 27:
+                                        temp.kazoo1();
+                                        break;
+                                    case 28:
+                                        temp.kazoo2();
+                                        break;
+                                    case 29:
+                                        temp.boot();
+                                        break;
+                                    case 30:
+                                        temp.yodelnote();
+                                        break;
+                                    case 31:
+                                        temp.krabbypatty();
+                                        break;
+                                    case 32:
+                                        temp.net();
+                                        break;
+                                    case 33:
+                                        temp.L();
+                                        break;
+                                    case 34:
+                                        temp.racket();
+                                        break;
+                                    case 35:
+                                        temp.gottemFist();
+                                        break;
+                                    case 36:
+                                        temp.spagetFilled();
+                                        break;
+                                    case 37:
+                                        temp.spaget();
+                                        break;
+
+
 
                                 }
                                 handler.addObject(temp);
@@ -2108,7 +2156,7 @@ public class Battle implements Serializable {
         track = 0;
         timeOfLastShot=System.currentTimeMillis();
         timeOfLastShot2=System.currentTimeMillis();
-
+        firstLoop=true;
 
 
     }

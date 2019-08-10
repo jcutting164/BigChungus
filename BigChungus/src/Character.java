@@ -1,3 +1,5 @@
+import org.newdawn.slick.tests.xml.Item;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -26,6 +28,8 @@ public abstract class Character extends GameObject implements Serializable {
     protected ID sID;
     protected  Inventory inv;
     protected  Magic magic;
+    protected Items Weapon;
+    protected Items Armor;
     Textures tex = Game.getInstance();
 
     public Character(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed){
@@ -100,7 +104,7 @@ public abstract class Character extends GameObject implements Serializable {
                 g.setColor(Color.black);
             g.drawRect(540, y, 200, 32);
         }else{
-            g.fillRect(540, y, health*(200/maxhealth), 32);
+            g.fillRect(540, y, (int)((health*(200/(float)(maxhealth)))), 32);
             if(!(game.getPlayer().getBackwards()))
                 g.setColor(Color.white);
             else
@@ -132,7 +136,7 @@ public abstract class Character extends GameObject implements Serializable {
                 g.setColor(Color.white);
             g.drawRect(x, y, 200, 32);
         }else{
-            g.fillRect(x, y, health*(200/maxhealth), 32);
+            g.fillRect(x, y, (int)((health*(200/(float)(maxhealth)))), 32);
             if(game.getPlayer().getBackwards()){
                 g.setColor(Color.black);
             }else
@@ -223,4 +227,22 @@ public abstract class Character extends GameObject implements Serializable {
     public void setDefense(int defense) {
         this.defense = defense;
     }
+
+    public Items getWeapon() {
+        return Weapon;
+    }
+
+    public void setWeapon(Items weapon) {
+        Weapon = weapon;
+    }
+
+    public Items getArmor() {
+        return Armor;
+    }
+
+    public void setArmor(Items armor) {
+        Armor = armor;
+    }
+
+
 }

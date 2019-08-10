@@ -1153,7 +1153,13 @@ public class EnemyAttackItem extends GameObject implements Serializable {
             }
         }else{
             if(getBounds().intersects(bPlayer.getBounds()) && !bPlayer.getCooldown()){
-                int damage=Math.max(5,battle.getEnemy().getAttack()-player.getDefense());
+
+                int defensePower;
+                if(player.getArmor()!=null)
+                    defensePower = player.getDefense()+player.getArmor().getHealFactor();
+                else
+                    defensePower=player.getDefense();
+                int damage=Math.max(5,battle.getEnemy().getAttack()-defensePower);
                 // add real damage calculation later based on attack/defense
                 if(!player.getBackwards()){
 

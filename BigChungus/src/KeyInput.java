@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
@@ -10,30 +11,40 @@ public class KeyInput extends KeyAdapter implements Serializable {
     private TBHandler tbHandler;
 
     private long timeNow, time, timeOfLastShot;
+    private GamePlayer gp;
 
 
 
     private boolean[] keyDown = new boolean[6];
+    private boolean[] keyDownS=new boolean[5];
     private Player player;
     private Inventory inv;
+    private Game game;
 
-    public KeyInput(Handler handler, Player player, TBHandler tbHandler, Inventory inv) {
+    public KeyInput(Handler handler, Player player, TBHandler tbHandler, Inventory inv, GamePlayer gp,Game game) {
         this.handler = handler;
         this.timeOfLastShot = 0;
         this.player = player;
         this.tbHandler = tbHandler;
         this.inv = inv;
+        this.gp = gp;
+        this.game=game;
 
         for(int i = 0; i<6; i++) {
             keyDown[i] = false;
+        }
+        for(int i = 0; i<5; i++){
+            keyDown[i]=false;
         }
     }
 
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
+        System.out.println(key);
 
-        if(!player.getLimited()){
+        if(!player.getLimited() && handler.object.contains(player)){
+            System.out.println(1);
             for(int i = 0; i< handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
 
@@ -84,8 +95,11 @@ public class KeyInput extends KeyAdapter implements Serializable {
                     }
                 }
 
+
+
             }
-        }else if(player.getLimited()){
+        }else if(player.getLimited() && handler.object.contains(player)){
+            System.out.println(2);
 
             for(int i = 0; i< handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
@@ -101,10 +115,15 @@ public class KeyInput extends KeyAdapter implements Serializable {
 
 
                 if(inv.getOpen()){
+                    System.out.println("Options: "+inv.getCurrentOption());
+                    System.out.println("size"+inv.inv.size());
+
                     if(key==KeyEvent.VK_DOWN){
 
-                        if(!inv.getOptions()[inv.inv.size()]){
+                        if(!inv.getOptions()[inv.inv.size()-1]){
                             for(int j = 0; j<inv.inv.size()-1; j++){
+                                System.out.println("size"+inv.inv.size());
+                                System.out.println(j+": "+inv.getOptions()[j]);
                                 if(inv.getOptions()[j]){
                                     inv.setSpecOption(false, j);
                                     inv.setSpecOption(true, inv.getCurrentOption()+1);
@@ -116,8 +135,13 @@ public class KeyInput extends KeyAdapter implements Serializable {
 
                     }else if(key==KeyEvent.VK_UP){
                         if(!inv.getOptions()[0]){
+                            System.out.println("size2"+inv.inv.size());
+
                             for(int j = 0; j<inv.inv.size(); j++){
+                                System.out.println("size"+inv.inv.size());
+                                System.out.println(j+": "+inv.getOptions()[j]);
                                 if(inv.getOptions()[j]){
+                                    System.out.println("jaja");
                                     inv.setSpecOption(false, j);
                                     inv.setSpecOption(true, inv.getCurrentOption()-1);
                                     inv.setCurrentOption(inv.getCurrentOption()-1);
@@ -130,7 +154,10 @@ public class KeyInput extends KeyAdapter implements Serializable {
                         player.setLimited(false);
                         inv.setOpen(false);
                     }else if(key==KeyEvent.VK_X){
+
                         inv.inv.get(inv.getCurrentOption()).use(player,null);
+
+
 
                     }else if(key==KeyEvent.VK_V){
                         player.getMagic().setOpen(true);
@@ -185,6 +212,42 @@ public class KeyInput extends KeyAdapter implements Serializable {
 
 
             }
+        }else{
+            for(int i =0; i<handler.object.size(); i++){
+                GameObject tempObject=handler.object.get(i);
+                if(tempObject.getId()==ID.GamePlayer){
+                    if(key==37){
+                        keyDownS[2]=true;
+                        tempObject.setVelX(-5);
+                    }else if(key==39){
+                        tempObject.setVelX(5);
+                        keyDownS[3]=true;
+                    }else if(key==38){
+                        keyDownS[0]=true;
+                        tempObject.setVelY(-5);
+                    }else if(key==40){
+                        keyDownS[1]=true;
+                        tempObject.setVelY(5);
+                    }else if(key==KeyEvent.VK_SPACE){
+                        keyDownS[4] = true;
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+                        if(time > 200) {
+                            handler.addObject(new Laser(tempObject.getX() + (tempObject.getWidth() / 2), tempObject.getY() - (tempObject.getHeight() / 2), 16, 4, ID.Laser, handler.object.get(i), handler, Color.red,game));
+                            AudioPlayer.getSound("LASER_SOUND").play();
+                            timeOfLastShot = timeNow;
+                        }else {
+
+                        }
+
+                    }else if(key==KeyEvent.VK_F){
+                        game.setScore(game.getScore()+100);
+                    }
+                }
+            }
+
+
+
         }
 
 
@@ -228,15 +291,45 @@ public class KeyInput extends KeyAdapter implements Serializable {
 
                 // horizontal
                 if((!keyDown[2] && !keyDown[3]) && tempObject.getId() == ID.Player){
-                    System.out.println("YEET");
                     tempObject.setVelX(0);
                 }
+
+                for(int g = 0; g<4; g++){
+                    System.out.println(keyDownS[g]);
+                }
+
+
 
 
             }
 
 
         }else{
+            for(int i = 0; i<handler.object.size(); i++){
+                GameObject tempObject = handler.object.get(i);
+                if(tempObject.getId()==ID.GamePlayer){
+                    if(key == 38) {
+                        keyDownS[0] = false;
+                    }else if(key == 40) {
+                        keyDownS[1] = false;
+                    }else if(key == 37) {
+                        keyDownS[2] = false;
+                    }else if(key == 39) {
+                        keyDownS[3] = false;
+                    }else if(key == KeyEvent.VK_SPACE) {
+                        keyDownS[4] = false;
+                    }
+                }
+                if((!keyDownS[0] && !keyDownS[1]) && tempObject.getId() == ID.GamePlayer){
+                    tempObject.setVelY(0);
+                }
+
+                // horizontal
+                if((!keyDownS[2] && !keyDownS[3]) && tempObject.getId() == ID.GamePlayer){
+                    tempObject.setVelX(0);
+                }
+            }
+
 
         }
         if(key == KeyEvent.VK_ESCAPE) {

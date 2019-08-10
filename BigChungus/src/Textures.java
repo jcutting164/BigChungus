@@ -43,7 +43,16 @@ public class Textures implements Serializable {
     SpriteSheet SS_Room3_4;
     SpriteSheet SS_Room3_5;
     SpriteSheet SS_Room3_6;
-
+    SpriteSheet SS_Room3_7;
+    SpriteSheet SS_Room3_8;
+    SpriteSheet SS_Room3_9;
+    SpriteSheet SS_Room4_1;
+    SpriteSheet SS_Room4_2;
+    SpriteSheet SS_Room4_3;
+    SpriteSheet SS_Room4_4;
+    SpriteSheet SS_Room4_5;
+    SpriteSheet SS_Room4_6;
+    SpriteSheet SS_Room4_7;
 
     SpriteSheet SS_People;
     SpriteSheet SS_Forest;
@@ -105,7 +114,16 @@ public class Textures implements Serializable {
     private transient BufferedImage BI_Room3_4;
     private transient BufferedImage BI_Room3_5;
     private transient BufferedImage BI_Room3_6;
-
+    private transient BufferedImage BI_Room3_7;
+    private transient BufferedImage BI_Room3_8;
+    private transient BufferedImage BI_Room3_9;
+    private transient  BufferedImage BI_Room4_1;
+    private transient BufferedImage BI_Room4_2;
+    private transient BufferedImage BI_Room4_3;
+    private transient BufferedImage BI_Room4_4;
+    private transient BufferedImage BI_Room4_5;
+    private transient BufferedImage BI_Room4_6;
+    private transient BufferedImage BI_Room4_7;
 
 
 
@@ -164,6 +182,18 @@ public class Textures implements Serializable {
     private transient InputStream IS_Room3_4;
     private transient InputStream IS_Room3_5;
     private transient InputStream IS_Room3_6;
+    private transient InputStream IS_Room3_7;
+    private transient InputStream IS_Room3_8;
+    private transient InputStream IS_Room3_9;
+    private transient InputStream IS_Room4_1;
+    private transient InputStream IS_Room4_2;
+    private transient InputStream IS_Room4_3;
+    private transient InputStream IS_Room4_4;
+    private transient InputStream IS_Room4_5;
+    private transient InputStream IS_Room4_6;
+    private transient InputStream IS_Room4_7;
+
+
 
 
 
@@ -270,6 +300,26 @@ public class Textures implements Serializable {
     public transient BufferedImage Room3_5O;
     public transient BufferedImage Room3_6;
     public transient BufferedImage Room3_6O;
+    public transient BufferedImage Room3_7;
+    public transient BufferedImage Room3_7O;
+    public transient BufferedImage Room3_8;
+    public transient BufferedImage Room3_8O;
+    public transient BufferedImage Room3_9;
+    public transient BufferedImage Room3_9O;
+    public transient BufferedImage Room4_1;
+    public transient BufferedImage Room4_1O;
+    public transient BufferedImage Room4_2;
+    public transient BufferedImage Room4_2O;
+    public transient BufferedImage Room4_3;
+    public transient BufferedImage Room4_3O;
+    public transient BufferedImage Room4_4;
+    public transient BufferedImage Room4_4O;
+    public transient BufferedImage Room4_5;
+    public transient BufferedImage Room4_5O;
+    public transient BufferedImage Room4_6;
+    public transient BufferedImage Room4_6O;
+    public transient BufferedImage Room4_7;
+    public transient BufferedImage Room4_7O;
 
 
     public transient BufferedImage TheLastEntity;
@@ -350,7 +400,9 @@ public class Textures implements Serializable {
     public transient BufferedImage[] redSwitch= new BufferedImage[2];
     public transient BufferedImage[] greenSwitch= new BufferedImage[2];
 
+    public transient BufferedImage WHO;
 
+    public transient BufferedImage computer;
 
 
     public Textures(){
@@ -510,6 +562,36 @@ public class Textures implements Serializable {
             IS_Room3_6=new FileInputStream("res/Rooms/Room3_6.png");
             BI_Room3_6=ImageIO.read(IS_Room3_6);
 
+            IS_Room3_7=new FileInputStream("res/Rooms/Room3_7.png");
+            BI_Room3_7=ImageIO.read(IS_Room3_7);
+
+            IS_Room3_8=new FileInputStream("res/Rooms/Room3_8.png");
+            BI_Room3_8=ImageIO.read(IS_Room3_8);
+
+            IS_Room3_9=new FileInputStream("res/Rooms/Room3_9.png");
+            BI_Room3_9=ImageIO.read(IS_Room3_9);
+
+            IS_Room4_1=new FileInputStream("res/Rooms/Room4_1.png");
+            BI_Room4_1=ImageIO.read(IS_Room4_1);
+
+            IS_Room4_2=new FileInputStream("res/Rooms/Room4_2.png");
+            BI_Room4_2=ImageIO.read(IS_Room4_2);
+
+            IS_Room4_3=new FileInputStream("res/Rooms/Room4_3.png");
+            BI_Room4_3=ImageIO.read(IS_Room4_3);
+
+            IS_Room4_4=new FileInputStream("res/Rooms/Room4_4R.png");
+            BI_Room4_4=ImageIO.read(IS_Room4_4);
+
+            IS_Room4_5=new FileInputStream("res/Rooms/Room4_5.png");
+            BI_Room4_5=ImageIO.read(IS_Room4_5);
+
+            IS_Room4_6=new FileInputStream("res/Rooms/Room4_6.png");
+            BI_Room4_6=ImageIO.read(IS_Room4_6);
+
+            IS_Room4_7=new FileInputStream("res/Rooms/Room4_7.png");
+            BI_Room4_7=ImageIO.read(IS_Room4_7);
+
 
 
         }catch(Exception e){
@@ -551,7 +633,16 @@ public class Textures implements Serializable {
         SS_Room3_4=new SpriteSheet(BI_Room3_4);
         SS_Room3_5=new SpriteSheet(BI_Room3_5);
         SS_Room3_6=new SpriteSheet(BI_Room3_6);
-
+        SS_Room3_7=new SpriteSheet(BI_Room3_7);
+        SS_Room3_8=new SpriteSheet(BI_Room3_8);
+        SS_Room3_9=new SpriteSheet(BI_Room3_9);
+        SS_Room4_1=new SpriteSheet(BI_Room4_1);
+        SS_Room4_2=new SpriteSheet(BI_Room4_2);
+        SS_Room4_3=new SpriteSheet(BI_Room4_3);
+        SS_Room4_4=new SpriteSheet(BI_Room4_4);
+        SS_Room4_5=new SpriteSheet(BI_Room4_5);
+        SS_Room4_6=new SpriteSheet(BI_Room4_6);
+        SS_Room4_7=new SpriteSheet(BI_Room4_7);
 
         SS_Tiles=new SpriteSheet(BI_Tiles);
 
@@ -835,7 +926,7 @@ public class Textures implements Serializable {
         guards[0]=SS_Area51.getSubImage(0,154,68,85);
         guards[1]=SS_Area51.getSubImage(105,2,44,66);
         guards[2]=SS_Area51.getSubImage(162,72,44,75);
-        guards[3]=SS_Area51.getSubImage(93,160,54,95);
+        guards[3]=SS_Area51.getSubImage(93,160,50,95);
 
         area51Tiles[0]=SS_Area51.getSubImage(9,0,12,18);
         area51Tiles[1]=SS_Area51.getSubImage(10,21,33,33);
@@ -852,6 +943,8 @@ public class Textures implements Serializable {
         guardFaces[2]=SS_Area51.getSubImage(176,72,21,23);
         guardFaces[3]=SS_Area51.getSubImage(93,160,37,42);
 
+        computer=SS_Tiles.getSubImage(549,239,115,159);
+
         Room3_2=SS_Room3_2.getSubImage(0,0,32,32);
         Room3_2O=SS_Room3_2.getSubImage(0,32,32,32);
         Room3_3=SS_Room3_3.getSubImage(0,0,96,32);
@@ -860,15 +953,48 @@ public class Textures implements Serializable {
         Room3_4O=SS_Room3_4.getSubImage(0,64,64,64);
         Room3_5O=SS_Room3_5.getSubImage(0,32,32,32);
         Room3_5=SS_Room3_5.getSubImage(0,0,32,32);
-        Room3_6=SS_Room3_6.getSubImage(0,64,128,64);
-        Room3_6O=SS_Room3_6.getSubImage(0,0,128,64);
+        Room3_6O=SS_Room3_6.getSubImage(0,64,128,64);
+        Room3_6=SS_Room3_6.getSubImage(0,0,128,64);
+
+        Room3_7O=SS_Room3_7.getSubImage(0,32,32,32);
+        Room3_7=SS_Room3_7.getSubImage(0,0,32,32);
+
+        Room3_8O=SS_Room3_8.getSubImage(0,32,32,32);
+        Room3_8=SS_Room3_8.getSubImage(0,0,32,32);
+
+        Room3_9O=SS_Room3_9.getSubImage(0,64,24,64);
+        Room3_9=SS_Room3_9.getSubImage(0,0,24,64);
+
+        Room4_1O=SS_Room4_1.getSubImage(0,64,64,64);
+        Room4_1=SS_Room4_1.getSubImage(0,0,64,64);
+
+        Room4_2O=SS_Room4_2.getSubImage(0,64,64,64);
+        Room4_2=SS_Room4_2.getSubImage(0,0,64,64);
+
+        Room4_3O=SS_Room4_3.getSubImage(0,64,64,64);
+        Room4_3=SS_Room4_3.getSubImage(0,0,64,64);
+
+        Room4_4O=SS_Room4_4.getSubImage(0,128,64,128);
+        Room4_4=SS_Room4_4.getSubImage(0,0,64,128);
+
+        Room4_5O=SS_Room4_5.getSubImage(0,20,20,20);
+        Room4_5=SS_Room4_5.getSubImage(0,0,20,20);
+
+        Room4_6O=SS_Room4_6.getSubImage(0,64,64,64);
+        Room4_6=SS_Room4_6.getSubImage(0,0,64,64);
+
+        Room4_7O=SS_Room4_7.getSubImage(0,32,32,32);
+        Room4_7=SS_Room4_7.getSubImage(0,0,32,32);
+
+
+
 
         redSwitch[0]=SS_Area51.getSubImage(142,150,47,43);
         redSwitch[1]=SS_Area51.getSubImage(195,153,47,40);
         greenSwitch[0]=SS_Area51.getSubImage(150,207,47,43);
         greenSwitch[1]=SS_Area51.getSubImage(202,209,47,43);
 
-
+        WHO=SS_Tiles.getSubImage(679,260,128,128);
 
 
 

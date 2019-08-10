@@ -17,6 +17,7 @@ public class Spells extends GameObject implements Serializable {
     private boolean healing;
     private int healFactor;
     private int damageFactor;
+    private String desc2="";
     public Spells(String name, String desc, Magic magic,float x, float y, float height, float width, ID id, Game game,int manaREQ, boolean healing, boolean damaging, int healFactor, int damageFactor){
         super(x, y, height, width, id);
         this.name = name;
@@ -28,6 +29,21 @@ public class Spells extends GameObject implements Serializable {
         this.healing=healing;
         this.healFactor=healFactor;
         this.damageFactor=damageFactor;
+    }
+
+    public Spells(String name, String desc, String desc2, Magic magic,float x, float y, float height, float width, ID id, Game game,int manaREQ, boolean healing, boolean damaging, int healFactor, int damageFactor){
+        super(x, y, height, width, id);
+        this.name = name;
+        this.desc = desc;
+        this.magic = magic;
+        this.game=game;
+        this.manaREQ=manaREQ;
+        this.damaging=damaging;
+        this.healing=healing;
+        this.healFactor=healFactor;
+        this.damageFactor=damageFactor;
+        this.desc2=desc2;
+
     }
 
 
@@ -74,6 +90,118 @@ public class Spells extends GameObject implements Serializable {
                 user.setMana(user.getMana()-manaREQ);
             }
 
+
+        }else if(name.equals("Mana Throw")){
+            if(!(game.getCurrentBattle()==null)){
+
+                if(!game.getPlayer().getBackwards()){
+                    enemy.setHealth(enemy.getHealth()-user.getMana());
+
+                }else
+                    user.setHealth(user.getHealth()-user.getMana());
+
+                user.setMana(0);
+            }
+        }else if(name.equals("Earthquake")){
+            if(!(game.getCurrentBattle()==null)){
+
+                if(enemy.getId()==ID.Pikachu){
+                    enemy.setHealth(enemy.getHealth()-50);
+                }else{
+                    if(!game.getPlayer().getBackwards()){
+                        enemy.setHealth(enemy.getHealth()-5);
+
+                    }else
+                        user.setHealth(user.getHealth()-5);
+                }
+
+
+
+                user.setMana(user.getMana()-manaREQ);
+            }
+        }else if(name.equals("Focus Beam")){
+            if(!(game.getCurrentBattle()==null)){
+                int damage=0;
+                if(user.getWeapon()!=null)
+                    damage=user.getAttack()+user.getWeapon().getDamageFactor();
+                else
+                    damage=user.getAttack();
+
+                if(!game.getPlayer().getBackwards()){
+
+                    enemy.setHealth(enemy.getHealth()-damage);
+
+                }else
+                    user.setHealth(user.getHealth()-damage);
+
+
+
+
+                user.setMana(user.getMana()-manaREQ);
+            }
+
+        }else if(name.equals("Laser")){
+            if(!(game.getCurrentBattle()==null)){
+
+                if(!game.getPlayer().getBackwards()){
+                    enemy.setHealth(enemy.getHealth()-damageFactor);
+
+                }else
+                    user.setHealth(user.getHealth()-damageFactor);
+
+                user.setMana(user.getMana()-manaREQ);
+            }
+
+        }else if(name.equals("Screech")){
+            int damage=ThreadLocalRandom.current().nextInt(1,200);
+            if(!(game.getCurrentBattle()==null)){
+
+                if(!game.getPlayer().getBackwards()){
+                    enemy.setHealth(enemy.getHealth()-damage);
+
+                }else
+                    user.setHealth(user.getHealth()-damage);
+
+                user.setMana(user.getMana()-manaREQ);
+            }
+
+        }else if(name.equals("Take it back now")){
+
+            if(!(game.getCurrentBattle()==null)){
+                int damage=user.getMaxHealth()-user.getHealth();
+
+                if(!game.getPlayer().getBackwards()){
+                    enemy.setHealth(enemy.getHealth()-damage);
+
+                }else
+                    user.setHealth(user.getHealth()-damageFactor);
+
+                user.setMana(user.getMana()-manaREQ);
+            }
+
+        }else if(name.equals("Skert")){
+            int damage=ThreadLocalRandom.current().nextInt(1,20);
+            if(!(game.getCurrentBattle()==null)){
+
+                if(!game.getPlayer().getBackwards()){
+                    enemy.setHealth(enemy.getHealth()-damage);
+
+                }else
+                    user.setHealth(user.getHealth()-damage);
+
+                user.setMana(user.getMana()-manaREQ);
+            }
+
+        }else if(name.equals("Full Heal")){
+            int heal=user.getMaxHealth();
+
+            if(!game.getPlayer().getBackwards()){
+                enemy.setHealth(enemy.getHealth()+heal);
+
+            }else
+                user.setHealth(user.getHealth()+heal);
+
+            user.setMana(user.getMana()-manaREQ);
 
         }
     }
@@ -158,5 +286,13 @@ public class Spells extends GameObject implements Serializable {
 
     public void setDamageFactor(int damageFactor) {
         this.damageFactor = damageFactor;
+    }
+
+    public String getDesc2() {
+        return desc2;
+    }
+
+    public void setDesc2(String desc2) {
+        this.desc2 = desc2;
     }
 }

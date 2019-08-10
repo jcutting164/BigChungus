@@ -80,13 +80,13 @@ public  class Enemy extends NPC implements Serializable {
             this.walkUp = new Animation(speed, tex.Pikachu_WalkUp[0], tex.Pikachu_WalkUp[1], tex.Pikachu_WalkUp[2]);
             this.walkDown = new Animation(speed, tex.Pikachu_WalkDown[0], tex.Pikachu_WalkDown[1], tex.Pikachu_WalkDown[2]);
 
-            this.currentImages= tex.Pikachu_WalkLeft;
+            this.currentImages= tex.Pikachu_WalkDown;
             this.isVisible = true;
             this.Face = tex.PikachuFace[0];
             this.BattleForm = tex.PikachuBF[0];
 
         }else if(id==ID.AntiHero){
-            this.inv = new Inventory();
+            this.inv = new Inventory(game);
             this.magic=new Magic();
             for(int i= 0; i<player.getInv().inv.size(); i++){
                 Items temp = player.getInv().inv.get(i);
@@ -167,7 +167,7 @@ public  class Enemy extends NPC implements Serializable {
     public void render(Graphics g){
 
         try{
-            g.drawImage(currentImages[0], (int) this.x, (int)this.y, 48, 96, null);
+            g.drawImage(currentImages[0], (int) this.x, (int)this.y, (int)this.width, (int)this.height, null);
         }catch(Exception e){
             tex=Game.getInstance();
 

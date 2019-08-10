@@ -164,6 +164,11 @@ public class Magic implements Serializable {
         g.drawString("Desc:", 318, 680);
         g.drawString(magic.get(currentOption).getDesc(), 328, 720);
 
+        if(!(magic.get(currentOption).getDesc2().equals(""))){
+            g.drawString(magic.get(currentOption).getDesc2(), 328, 750);
+
+        }
+
 
     }
 
