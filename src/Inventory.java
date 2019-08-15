@@ -1,3 +1,5 @@
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.awt.Graphics;
@@ -5,18 +7,18 @@ import java.awt.Color;
 import java.awt.Font;
 
 
-public class Inventory implements Serializable {
+public class Inventory extends MouseAdapter implements Serializable {
 
     private boolean isOpen;
     private Font fnt;
     private boolean[] options;
     int page;
     int currentOption;
-
+    private Game game;
 
     ArrayList<Items> inv = new ArrayList<>();
 
-    public Inventory(){
+    public Inventory(Game game){
         this.options = new boolean[20];
         for(int i = 0; i<20; i++){
             options[i] = false;
@@ -24,6 +26,7 @@ public class Inventory implements Serializable {
         options[0] = true;
         page=1;
         currentOption=0;
+        this.game=game;
     }
 
 
@@ -55,6 +58,7 @@ public class Inventory implements Serializable {
 
     }
     public void render(Graphics g){
+
 
         g.setColor(Color.white);
         g.drawRect(10, 650, 256, 256);
@@ -148,20 +152,60 @@ public class Inventory implements Serializable {
                 j++;
             }
         }
+        try{
+            if(game.getCurrentBattle()==null){
+                g.setColor(Color.white);
+                g.drawRect(300, 775, 512, 128);
+                g.drawRect(299, 774, 514, 130);
+                g.setColor(Color.black);
+                g.fillRect(301, 776, 511, 127);
+                g.setColor(Color.white);
+                g.drawString("Current Weapon:",325,815);
+                g.drawString("Current Armor:",325,865);
+                if(!(game.getPlayer().getWeapon()==null))
+                    g.drawString(game.getPlayer().getWeapon().getName(), 550,815);
+                if(!(game.getPlayer().getArmor()==null))
+                    g.drawString(game.getPlayer().getArmor().getName(), 550,865);
+            }
+        }catch (Exception e){
 
-        fnt = new Font("Serif", 1, 12);
-        g.setFont(fnt);
-        g.drawString(page+" / 5", 230, 900);
+        }
+        try{
 
-        g.drawRect(300, 650, 512, 128);
-        g.drawRect(299, 649, 514, 130);
-        g.setColor(Color.black);
-        g.fillRect(301, 651, 511, 127);
-        g.setColor(Color.white);
-        fnt = new Font("Serif", 1, 25);
-        g.setFont(fnt);
-        g.drawString("Desc:", 318, 680);
-        g.drawString(inv.get(currentOption).getDesc(), 328, 720);
+            fnt = new Font("Serif", 1, 12);
+            g.setFont(fnt);
+            g.drawString(page+" / 5", 230, 900);
+
+            g.drawRect(300, 650, 512, 128);
+            g.drawRect(299, 649, 514, 130);
+            g.setColor(Color.black);
+            g.fillRect(301, 651, 511, 127);
+            g.setColor(Color.white);
+            fnt = new Font("Serif", 1, 25);
+            g.setFont(fnt);
+            g.drawString("Desc:", 318, 680);
+            if(currentOption>=0 && currentOption<inv.size()){
+                g.drawString(inv.get(currentOption).getDesc(), 328, 720);
+            }else{
+                currentOption--;
+                resetOptions();
+                //setSpecOption(true, currentOption);
+            }
+            if(!(inv.get(currentOption).getDesc2().equals(""))){
+                g.drawString(inv.get(currentOption).getDesc2(), 328, 750);
+
+            }
+
+
+
+
+
+
+        }catch (Exception e){
+
+        }
+
+
 
 
     }
@@ -181,6 +225,14 @@ public class Inventory implements Serializable {
     public void setOptions(boolean... args){
         this.options = args;
     }
+    public void resetOptions(){
+        boolean[] temp = new boolean[inv.size()];
+        for(int i = 0; i<inv.size()-1; i++){
+            temp[i]=false;
+        }
+        temp[inv.size()-1]=true;
+        this.options=temp;
+    }
 
     public void setSpecOption(boolean option, int index){
         this.options[index] = option;
@@ -199,6 +251,18 @@ public class Inventory implements Serializable {
     public int getCurrentOption(){
         return currentOption;
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

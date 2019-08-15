@@ -56,6 +56,7 @@ public class Magic implements Serializable {
     }
     public void render(Graphics g){
 
+
         g.setColor(Color.white);
         g.drawRect(10, 650, 256, 256);
         g.drawRect(9, 649, 258, 258);
@@ -162,6 +163,11 @@ public class Magic implements Serializable {
         g.setFont(fnt);
         g.drawString("Desc:", 318, 680);
         g.drawString(magic.get(currentOption).getDesc(), 328, 720);
+
+        if(!(magic.get(currentOption).getDesc2().equals(""))){
+            g.drawString(magic.get(currentOption).getDesc2(), 328, 750);
+
+        }
 
 
     }

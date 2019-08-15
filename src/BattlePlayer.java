@@ -1,4 +1,3 @@
-import org.newdawn.slick.openal.Audio;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -30,7 +29,7 @@ public class BattlePlayer extends GameObject implements Serializable {
 
 
     public void tick(){
-    	if(player.getHealth() <= 0){
+    /*	if(player.getHealth() <= 0){
     		game.setCurrentState(Game.STATE.GameOver);
     		game.setSwitch(true);
     		//ap.load();
@@ -40,7 +39,8 @@ public class BattlePlayer extends GameObject implements Serializable {
             ap.getSound("GameOver").play();
 
 
-    	}
+    	}*/
+
         x+=velX;
         y+=velY;
 
@@ -74,7 +74,11 @@ public class BattlePlayer extends GameObject implements Serializable {
 
     }
     public void render(Graphics g){
-        g.setColor(Color.white);
+        if(player.getBackwards()){
+            g.setColor(Color.black);
+        }else
+            g.setColor(Color.white);
+
         g.fillRect((int)x, (int)y, (int)width, (int)height);
     }
 

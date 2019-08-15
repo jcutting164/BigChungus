@@ -28,7 +28,7 @@ public class SaveObject extends GameObject implements Serializable {
     }
 
     public void render(Graphics g){
-        spin.drawAnimation(g, (int)x, (int)y, 64, 64);
+        spin.drawAnimation(g, (int)x, (int)y, (int)width, (int)height);
 
     }
 
@@ -40,7 +40,7 @@ public class SaveObject extends GameObject implements Serializable {
     public void interaction(Game game){
         game.getPlayer().setLimited(true);
         game.save();
-        game.getTbHandler().addObject(new TextBox(game.getPlayer(), "The game has been saved."));
+        game.getTbHandler().addObject(new TextBox(game.getPlayer(), "The game has been saved.",0,0,0,0,ID.TextBox,game.getTbHandler()));
 
     }
 

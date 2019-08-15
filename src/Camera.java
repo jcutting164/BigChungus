@@ -3,20 +3,26 @@ import java.io.Serializable;
 public class Camera implements Serializable {
 
     private float x, y;
+    private int rangeX, rangeY;
+    private Game game;
 
-    public Camera(float x, float y){
+
+    public Camera(float x, float y, Game game){
         this.x = x;
         this.y = y;
+        this.game=game;
     }
 
     public void tick(GameObject object){
-        x+= ((object.getX() - x) - 1280/2 )* 0.05f;
-        y+= ((object.getY() - y) - 960/2 )* 0.05f;
+        System.out.println(rangeX);
+        x+= ((object.getX() - x) - 1280/2 );
+        y+= ((object.getY() - y) - 960/2 );
+        System.out.println(x+" "+y);
 
         if(x <= 0) x=0;
-        if( x >= 1270) x = 1270;
+        if( x >= rangeX) x = rangeX;
         if(y <= 0) y=0;
-        if(y >= 970) y =970;
+        if(y >= rangeY) y =rangeY;
 
     }
 
@@ -33,5 +39,23 @@ public class Camera implements Serializable {
         return y;
     }
 
+    public int getRangeX() {
+        return rangeX;
+    }
 
+    public void setRangeX(int rangeX) {
+        this.rangeX = rangeX;
+    }
+
+    public int getRangeY() {
+        return rangeY;
+    }
+
+    public void setRangeY(int rangeY) {
+        this.rangeY = rangeY;
+    }
+    public void updateRange(String temp){
+        rangeX=game.getRanges().get(temp).get(0);
+        rangeY=game.getRanges().get(temp).get(1);
+    }
 }
