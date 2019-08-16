@@ -98,6 +98,10 @@ public class NPC extends Character implements Serializable {
             this.currentImages=new BufferedImage[1];
             this.currentImages[0]=tex.computer;
             this.Face=tex.computer;
+        }else if(sID==ID.grave){
+            this.currentImages=new BufferedImage[1];
+            this.currentImages[0]=tex.grave;
+            this.Face=tex.grave;
         }
         else{
             this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);

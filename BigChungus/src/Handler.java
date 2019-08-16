@@ -71,7 +71,9 @@ public class Handler implements Serializable {
                         }else if(red==255&&green==111&&blue==0){
                             //handler.addObject(new Block((xx * 64)-64, (yy * 64)-64, 64, 64, handler, this, ID.RedGround));
                             g.drawImage(tex.RedGround, (xx * 64)-64, (yy * 64)-64, 64, 64,null);
-                        }
+                        }else if(red==0 && green==68 && blue==69)
+                            g.drawImage(tex.dirt, (xx * 64)-64, (yy * 64)-64, 64, 64,null);
+
                     }
                 }
             }

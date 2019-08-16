@@ -319,7 +319,7 @@ public  class Enemy extends NPC implements Serializable {
 
 
     public Rectangle getBounds(){
-        return new Rectangle((int)x, (int)y, 38, 148);
+        return new Rectangle((int)x, (int)y, (int)width, (int)height);
     }
 
     public void setCurrentImages(BufferedImage[] currentImages){

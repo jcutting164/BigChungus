@@ -2312,6 +2312,10 @@ public class Battle implements Serializable {
         game.getPlayer().setVelX(0);
         game.getPlayer().setVelY(0);
 
+        if(enemy.getHealth()<=0){
+            player.addOneKill();
+        }
+
 
 
 

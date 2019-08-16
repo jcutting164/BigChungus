@@ -1,3 +1,5 @@
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.awt.Graphics;
@@ -5,7 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 
-public class Inventory implements Serializable {
+public class Inventory extends MouseAdapter implements Serializable {
 
     private boolean isOpen;
     private Font fnt;
@@ -249,6 +251,18 @@ public class Inventory implements Serializable {
     public int getCurrentOption(){
         return currentOption;
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

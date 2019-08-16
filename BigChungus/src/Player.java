@@ -26,6 +26,7 @@ public class Player extends Character implements Serializable {
     private int level=1;
     public boolean allowed=true;
     private boolean backwards=false;
+    private int kills;
 
 
 
@@ -46,11 +47,12 @@ public class Player extends Character implements Serializable {
         this.walkDown = new Animation(speed, tex.Player_WalkDown[1], tex.Player_WalkDown[2]);
         this.isVisible = true;
         this.Face = tex.Player_Face[0];
-        this.health = 100;
+        this.health = 1000000;
         this.maxhealth=this.health;
         this.name="Filler";
         this.attack=5;
         this.defense=5;
+        this.kills=0;
     }
 
 
@@ -278,7 +280,7 @@ public class Player extends Character implements Serializable {
 
                 GameObject tempObject = this.handler.object.get(i);
 
-                if(tempObject.getId() == ID.BlackGround || tempObject.getId()==ID.Tree || tempObject.getId()==ID.Mushroom || tempObject.getId()==ID.bottomRail || tempObject.getId()==ID.sideRail || tempObject.getId()==ID.invisWall){
+                if(tempObject.getId() == ID.BlackGround || tempObject.getId()==ID.Tree || tempObject.getId()==ID.Mushroom || tempObject.getId()==ID.bottomRail || tempObject.getId()==ID.sideRail || tempObject.getId()==ID.invisWall || tempObject.getId()==ID.Tree2 || tempObject.getId()==ID.blackKey || tempObject.getId()==ID.whiteKey || tempObject.getId()==ID.backPiano){
                     Rectangle tempRect = getBounds();
                     if(tempRect.getBounds().intersects(tempObject.getBounds())){
                         if(limited){
@@ -337,7 +339,7 @@ public class Player extends Character implements Serializable {
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
                     if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
-                        System.out.println("here m ");
+
                         x+= velX * -1;
                         y+= velY*-1;
                         if(tempKnuckles.getBattleReady()){
@@ -376,7 +378,7 @@ public class Player extends Character implements Serializable {
                     Enemy tempBigChungus = (Enemy) tempObject;
                     Rectangle tempRect = getBounds();
                     tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
-                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))){
+                    if(tempRect.getBounds().intersects(tempBigChungus.getBounds())){
                         x+= velX * -1;
                         y+= velY*-1;
                         if(tempBigChungus.getBattleReady()){
@@ -975,4 +977,9 @@ public class Player extends Character implements Serializable {
     public void setBackwards(boolean backwards) {
         this.backwards = backwards;
     }
+
+    public void addOneKill(){
+        this.kills++;
+    }
+
 }

@@ -54,6 +54,36 @@ public class AudioPlayer implements Serializable {
             soundMap.put("LASER_SOUND", new Sound("res/MiscMusic/LASER.wav"));
             soundMap.put("DEATH_SOUND", new Sound("res/MiscMusic/DEATH.wav"));
 
+            soundMap.put("C3", new Sound("res/Piano/C3.wav"));
+            soundMap.put("C#3", new Sound("res/Piano/C#3.wav"));
+            soundMap.put("D3", new Sound("res/Piano/D3.wav"));
+            soundMap.put("D#3", new Sound("res/Piano/D#3.wav"));
+            soundMap.put("E3", new Sound("res/Piano/E3.wav"));
+            soundMap.put("F3", new Sound("res/Piano/F3.wav"));
+            soundMap.put("F#3", new Sound("res/Piano/F#3.wav"));
+            soundMap.put("G3", new Sound("res/Piano/G3.wav"));
+            soundMap.put("G#3", new Sound("res/Piano/G#3.wav"));
+            soundMap.put("A4", new Sound("res/Piano/A4.wav"));
+
+            //
+            soundMap.put("A#4", new Sound("res/Piano/A#4.wav"));
+            soundMap.put("B4", new Sound("res/Piano/B4.wav"));
+            //
+            soundMap.put("C4", new Sound("res/Piano/C4.wav"));
+            soundMap.put("C#4", new Sound("res/Piano/C#4.wav"));
+            soundMap.put("D4", new Sound("res/Piano/D4.wav"));
+            soundMap.put("D#4", new Sound("res/Piano/D#4.wav"));
+            soundMap.put("E4", new Sound("res/Piano/E4.wav"));
+
+
+            soundMap.put("SimonRed",new Sound("res/SimonSays/SimonRed.wav"));
+            soundMap.put("SimonYellow",new Sound("res/SimonSays/SimonYellow.wav"));
+            soundMap.put("SimonBlue",new Sound("res/SimonSays/SimonBlue.wav"));
+            soundMap.put("SimonGreen",new Sound("res/SimonSays/SimonGreen.wav"));
+            soundMap.put("SimonFail",new Sound("res/SimonSays/SimonFail.wav"));
+
+
+
 
 
         } catch (SlickException e) {
