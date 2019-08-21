@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class BufferedImageLoader implements Serializable {
 
-    private BufferedImage image;
+    private transient BufferedImage image;
 
     public BufferedImage loadImage(String path) throws IOException{
         image = ImageIO.read(new File(path));

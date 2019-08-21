@@ -104,7 +104,9 @@ public enum ID implements Serializable {
     lightGreen,
     lightBlue,
     lightRed,
-    lightYellow;
+    lightYellow,
+    Josh,
+    Shaggy;
 
 
 }

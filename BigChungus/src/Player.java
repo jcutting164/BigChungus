@@ -12,7 +12,7 @@ public class Player extends Character implements Serializable {
 
     private  int lastKeyReleased;
     private  int lastKeyHit;
-    transient Handler handler;
+    private Handler handler;
     private  boolean downStop;
     private  Rectangle range;
     private  boolean limited;
@@ -47,10 +47,10 @@ public class Player extends Character implements Serializable {
         this.walkDown = new Animation(speed, tex.Player_WalkDown[1], tex.Player_WalkDown[2]);
         this.isVisible = true;
         this.Face = tex.Player_Face[0];
-        this.health = 1000000;
+        this.health = 100;
         this.maxhealth=this.health;
         this.name="Filler";
-        this.attack=5;
+        this.attack=10000;
         this.defense=5;
         this.kills=0;
     }
@@ -88,74 +88,74 @@ public class Player extends Character implements Serializable {
                     if(value2==0){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Malario,0,game.getTbHandler(),"Malario",game.getPlayer(),ID.Malario,10,10,2,tex.MalarioBF,Color.red,20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.Malario,0,game.getTbHandler(),"Malario",game.getPlayer(),ID.Malario,10,10,2,tex.MalarioBF,Color.red,20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==1){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.TPoser,0,game.getTbHandler(),"TPoser",game.getPlayer(),ID.TPoser,10,10,2,tex.TposerBF,Color.blue.brighter(),20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.TPoser,0,game.getTbHandler(),"TPoser",game.getPlayer(),ID.TPoser,10,10,2,tex.TposerBF,Color.blue.brighter(),20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==2){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.FatYoshi,0,game.getTbHandler(),"Fat Yoshi",game.getPlayer(),ID.FatYoshi,10,10,2,tex.FatYoshiBF,Color.green,20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.FatYoshi,0,game.getTbHandler(),"Fat Yoshi",game.getPlayer(),ID.FatYoshi,10,10,2,tex.FatYoshiBF,Color.green,20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==3){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.JoshuaGiraffe,0,game.getTbHandler(),"Joshua Giraffe",game.getPlayer(),ID.JoshuaGiraffe,10,10,2,tex.JoshuaGiraffeBF,Color.yellow,20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.JoshuaGiraffe,0,game.getTbHandler(),"Joshua Giraffe",game.getPlayer(),ID.JoshuaGiraffe,10,10,2,tex.JoshuaGiraffeBF,Color.yellow,20), game.getHandler(), game,  game.getAp()));
                     }
                 }else if(game.getCurrentArea().equals("51")){
                     if(value2==0){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.BongoCat,0,game.getTbHandler(),"Bongo Cat",game.getPlayer(),ID.BongoCat,10,10,2,tex.BongoCatBF,Color.white,20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.BongoCat,0,game.getTbHandler(),"Bongo Cat",game.getPlayer(),ID.BongoCat,10,10,2,tex.BongoCatBF,Color.white,20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==1){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Zuck,0,game.getTbHandler(),"Zuckerberg",game.getPlayer(),ID.Zuck,10,10,2,tex.ZuckBF,Color.blue.brighter(),20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.Zuck,0,game.getTbHandler(),"Zuckerberg",game.getPlayer(),ID.Zuck,10,10,2,tex.ZuckBF,Color.blue.brighter(),20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==2){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.DatBoi,0,game.getTbHandler(),"Dat Boi",game.getPlayer(),ID.DatBoi,10,10,2,tex.DatBoiBF,Color.green,20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.DatBoi,0,game.getTbHandler(),"Dat Boi",game.getPlayer(),ID.DatBoi,10,10,2,tex.DatBoiBF,Color.green,20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==3){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Spongebob,0,game.getTbHandler(),"SpOnGeBoB",game.getPlayer(),ID.Spongebob,10,10,2,tex.SpongebobBF,Color.yellow,20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.Spongebob,0,game.getTbHandler(),"SpOnGeBoB",game.getPlayer(),ID.Spongebob,10,10,2,tex.SpongebobBF,Color.yellow,20), game.getHandler(), game,  game.getAp()));
 
                     }
                 }else if(game.getCurrentArea().equals("back")){
                     if(value2==0){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Crab,0,game.getTbHandler(),"Crab Rave",game.getPlayer(),ID.Crab,10,10,2,tex.CrabBF,Color.red.brighter(),20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.Crab,0,game.getTbHandler(),"Crab Rave",game.getPlayer(),ID.Crab,10,10,2,tex.CrabBF,Color.red.brighter(),20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==1){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Kermit,0,game.getTbHandler(),"Kermit",game.getPlayer(),ID.Kermit,10,10,2,tex.KermitBF,Color.green.brighter(),20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.Kermit,0,game.getTbHandler(),"Kermit",game.getPlayer(),ID.Kermit,10,10,2,tex.KermitBF,Color.green.brighter(),20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==2){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.KazooKid,0,game.getTbHandler(),"The Kazoo Kid",game.getPlayer(),ID.KazooKid,10,10,2,tex.KazooKidBF,Color.red,20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.KazooKid,0,game.getTbHandler(),"The Kazoo Kid",game.getPlayer(),ID.KazooKid,10,10,2,tex.KazooKidBF,Color.red,20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==3){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.YodelBoy,0,game.getTbHandler(),"Walmart Yodel Boy",game.getPlayer(),ID.YodelBoy,10,10,2,tex.YodelBoyBF,Color.blue.brighter(),20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.YodelBoy,0,game.getTbHandler(),"Walmart Yodel Boy",game.getPlayer(),ID.YodelBoy,10,10,2,tex.YodelBoyBF,Color.blue.brighter(),20), game.getHandler(), game,  game.getAp()));
                     }
                 }else if(game.getCurrentArea().equals("dead")){
                     if(value2==0){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Harambe,0,game.getTbHandler(),"Harambe",game.getPlayer(),ID.Harambe,10,10,2,tex.HarambeBF,Color.white,20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.Harambe,0,game.getTbHandler(),"Harambe",game.getPlayer(),ID.Harambe,10,10,2,tex.HarambeBF,Color.white,20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==1){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Waluigi,0,game.getTbHandler(),"Waluigi",game.getPlayer(),ID.Waluigi,10,10,2,tex.WaluigiBF,new Color(204, 0, 164),20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.Waluigi,0,game.getTbHandler(),"Waluigi",game.getPlayer(),ID.Waluigi,10,10,2,tex.WaluigiBF,new Color(204, 0, 164),20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==2){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Arthur,0,game.getTbHandler(),"Arthur",game.getPlayer(),ID.Arthur,10,10,2,tex.ArthurBF,new Color(255,219,172),20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.Arthur,0,game.getTbHandler(),"Arthur",game.getPlayer(),ID.Arthur,10,10,2,tex.ArthurBF,new Color(255,219,172),20), game.getHandler(), game,  game.getAp()));
                     }else if(value2==3){
                         game.setSwitch(false);
                         game.setCurrentState(Game.STATE.Battle);
-                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,handler,game,ID.Spaget,0,game.getTbHandler(),"Spaget",game.getPlayer(),ID.Spaget,10,10,2,tex.SpagetBF,Color.green.brighter().brighter(),20), handler, game,  game.getAp()));
+                        game.setCurrentBattle(new Battle(this, new Enemy(0,0,0,0,game.getHandler(),game,ID.Spaget,0,game.getTbHandler(),"Spaget",game.getPlayer(),ID.Spaget,10,10,2,tex.SpagetBF,Color.green.brighter().brighter(),20), game.getHandler(), game,  game.getAp()));
                     }
                 }
 
@@ -276,9 +276,12 @@ public class Player extends Character implements Serializable {
             // IDEA FOR RENDERING ONLY NEEDED THINGS
             // WHILE COLLISION CHEKCING, CHECK EVERYTHING AGAINST SPECIAL BOUNDS AND ASSIGN VISIBILITY
 
-            for(int i = 0; i < this.handler.object.size(); i++){
+            for(int i = 0; i < this.game.getHandler().object.size(); i++){
 
-                GameObject tempObject = this.handler.object.get(i);
+                GameObject tempObject = this.game.getHandler().object.get(i);
+
+               // System.out.println(tempObject);
+               // System.out.println(tempObject.getId());
 
                 if(tempObject.getId() == ID.BlackGround || tempObject.getId()==ID.Tree || tempObject.getId()==ID.Mushroom || tempObject.getId()==ID.bottomRail || tempObject.getId()==ID.sideRail || tempObject.getId()==ID.invisWall || tempObject.getId()==ID.Tree2 || tempObject.getId()==ID.blackKey || tempObject.getId()==ID.whiteKey || tempObject.getId()==ID.backPiano){
                     Rectangle tempRect = getBounds();
@@ -346,7 +349,7 @@ public class Player extends Character implements Serializable {
 
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempKnuckles, handler, game,  game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempKnuckles, game.getHandler(), game,  game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -365,7 +368,7 @@ public class Player extends Character implements Serializable {
                         if(tempPikachu.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempPikachu, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempPikachu, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -381,10 +384,10 @@ public class Player extends Character implements Serializable {
                     if(tempRect.getBounds().intersects(tempBigChungus.getBounds())){
                         x+= velX * -1;
                         y+= velY*-1;
-                        if(tempBigChungus.getBattleReady()){
+                        if(tempBigChungus.getBattleReady() && !tempBigChungus.isDefeated()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempBigChungus, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempBigChungus, game.getHandler(), getGame(), getGame().getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -415,18 +418,25 @@ public class Player extends Character implements Serializable {
                 }else if(tempObject.getId()==ID.Transition){
                     Transition tempTransition = (Transition) tempObject;
                     if(getBounds().intersects(tempTransition.getBounds())){
-                        handler.clear();
+                        game.getHandler().clear();
                         game.getPlayer().setLimited(false);
                         game.getPlayer().setVelX(0);
                         game.getPlayer().setVelY(0);
+                        System.out.println("here4");
+                        System.out.println("trans: "+tempTransition.getDestination());
+
                         game.setCurrentRoom(tempTransition.getDestination());
                         game.setCurrentLevel(game.getRooms().get(tempTransition.getDestination()));
                         game.loadLevel(tempTransition.getDestination());
-                        handler.addObject(game.getPlayer());
+                        game.getHandler().addObject(game.getPlayer());
                         game.getPlayer().setX(tempTransition.getNewPlayerX());
                         game.getPlayer().setY(tempTransition.getNewPlayerY());
                         game.setEndangered(tempTransition.getDangerZone());
                         game.setCurrentArea(tempTransition.getArea());
+
+                        System.out.println("after trans: "+game.getCurrentRoom());
+
+
                     }
 
                 /*if(tempTransition.getDestination().equals("Room2_1") && getBounds().intersects(tempTransition.getBounds())){
@@ -504,7 +514,7 @@ public class Player extends Character implements Serializable {
                         if(tempMalario.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempMalario, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempMalario, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -523,7 +533,7 @@ public class Player extends Character implements Serializable {
                         if(tempTposer.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempTposer, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempTposer, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -536,11 +546,14 @@ public class Player extends Character implements Serializable {
                     TextBox tempTB = (TextBox) tempObject;
                     if(getBounds().intersects(tempTB.getBounds())){
                         tempTB.setInteracted(true);
-                        handler.removeObject(tempTB);
+                        game.getHandler().removeObject(tempTB);
                         game.getTbHandler().addObject(tempTB);
                         game.getPlayer().setLimited(true);
                         game.getPlayer().setVelY(0);
                         game.getPlayer().setVelX(0);
+                        this.velX=0;
+                        this.velY=0;
+                        this.limited=true;
                     }
 
                 }else if(tempObject.getId() == ID.FatYoshi){
@@ -553,7 +566,7 @@ public class Player extends Character implements Serializable {
                         if(tempFatYoshi.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempFatYoshi, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempFatYoshi, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -572,7 +585,7 @@ public class Player extends Character implements Serializable {
                         if(tempJoshuaGiraffe.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempJoshuaGiraffe, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempJoshuaGiraffe, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -591,7 +604,7 @@ public class Player extends Character implements Serializable {
                         if(tempKermit.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempKermit, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempKermit, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -610,7 +623,7 @@ public class Player extends Character implements Serializable {
                         if(tempDatBoi.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempDatBoi, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempDatBoi, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -629,7 +642,7 @@ public class Player extends Character implements Serializable {
                         if(tempBongoCat.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempBongoCat, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempBongoCat, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -648,7 +661,7 @@ public class Player extends Character implements Serializable {
                         if(tempCrab.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempCrab, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempCrab, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -667,7 +680,7 @@ public class Player extends Character implements Serializable {
                         if(tempAntiHero.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempAntiHero, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempAntiHero, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -688,7 +701,7 @@ public class Player extends Character implements Serializable {
                         if(tempZuck.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempZuck, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempZuck, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -705,7 +718,7 @@ public class Player extends Character implements Serializable {
                         if(tempHarambe.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempHarambe, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempHarambe, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -724,7 +737,7 @@ public class Player extends Character implements Serializable {
                         if(tempKazooKid.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempKazooKid, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempKazooKid, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -743,7 +756,7 @@ public class Player extends Character implements Serializable {
                         if(tempYodelBoy.getBattleReady()){
                             game.setSwitch(false);
                             game.setCurrentState(Game.STATE.Battle);
-                            game.setCurrentBattle(new Battle(this, tempYodelBoy, handler, game, game.getAp()));
+                            game.setCurrentBattle(new Battle(this, tempYodelBoy, game.getHandler(), game, game.getAp()));
                         }
                     }if(getSpecialBounds().intersects(tempObject.getBounds()) && (lastKeyHit==4)){
 
@@ -785,6 +798,19 @@ public class Player extends Character implements Serializable {
                             velX=0;
                             velY=0;
                             limited=false;
+                        }
+                    }
+                }else if(tempObject.getId()==ID.Shaggy){
+                    Enemy tempShaggy = (Enemy) tempObject;
+                    Rectangle tempRect = getBounds();
+                    tempRect.setSize((int)tempRect.getWidth(), (int)tempRect.getHeight()-5);
+                    if(tempRect.getBounds().intersects(NPC_RECT(tempObject))) {
+                        x += velX * -1;
+                        y += velY * -1;
+                        if (tempShaggy.getBattleReady()) {
+                            game.setSwitch(false);
+                            game.setCurrentState(Game.STATE.Battle);
+                            game.setCurrentBattle(new Battle(this, tempShaggy, game.getHandler(), game, game.getAp()));
                         }
                     }
                 }
@@ -982,4 +1008,20 @@ public class Player extends Character implements Serializable {
         this.kills++;
     }
 
+    public boolean isAllowed() {
+        return allowed;
+    }
+
+    public void setAllowed(boolean allowed) {
+        this.allowed = allowed;
+    }
+
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
 }

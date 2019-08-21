@@ -3,9 +3,10 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.Random;
 
-public class BasicEnemy extends GameObject{
+public class BasicEnemy extends GameObject implements Serializable {
 
     private Handler handler;
     private Color col;

@@ -10,7 +10,7 @@ import java.time.chrono.ThaiBuddhistEra;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class EnemyAttackItem extends GameObject implements Serializable {
-    private BufferedImage[] images;
+    private transient BufferedImage[] images;
     private Animation animation;
     private float scaleX, scaleY;
     private String movement;
@@ -19,7 +19,7 @@ public class EnemyAttackItem extends GameObject implements Serializable {
     private Handler handler;
     private int way;
     private boolean original=false;
-    Textures tex = Game.getInstance();
+    private transient Textures tex = Game.getInstance();
     Rectangle playerBounds = new Rectangle(522, 538, 246, 246);
     Rectangle expandedPlayerBounds= new Rectangle(482, 492, 286,286);
     Rectangle topPlayerBounds= new Rectangle(482, 492, 286,1);
@@ -1120,6 +1120,11 @@ public class EnemyAttackItem extends GameObject implements Serializable {
             way=1;
         }
         movement="spaget";
+    }
+
+    public void yeet(){
+        velY=9;
+        movement="yeet";
     }
 
 

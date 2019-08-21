@@ -6,7 +6,7 @@ public class Block extends GameObject implements Serializable {
     Handler handler;
     Game game;
     Player player;
-    Image img;
+    transient Image img;
     ID sID=ID.BlackGround;
 
     transient Textures  tex = Game.getInstance();
@@ -128,6 +128,43 @@ public class Block extends GameObject implements Serializable {
 
             }
         }else{
+
+            if(id == ID.GrayGround){
+                img=tex.Room1_1;
+            }else if(id == ID.BlackGround){
+                img=tex.Room1_1;
+            }else if(id==ID.Pavement){
+                img=tex.Pavement[0];
+            }else if(id==ID.Grass)
+                img=tex.Grass;
+            else if(id==ID.Tree)
+                img=tex.Tree;
+            else if(id==ID.Mushroom)
+                img=tex.Mushroom;
+            else if(id==ID.RedGround)
+                img=tex.RedGround;
+            else if(id==ID.sideRail)
+                img=tex.area51Tiles[0];
+            else if(id==ID.bottomRail)
+                img=tex.area51Tiles[1];
+            else if(id==ID.Ice)
+                img=tex.Ice;
+            else if(id==ID.invisWall)
+                img=null;
+            else if(id==ID.Tree2)
+                img=tex.Tree2;
+            else if(id==ID.grave)
+                img=tex.grave;
+            else if(id==ID.dirt)
+                img=tex.dirt;
+            else if(id==ID.whiteKey)
+                img=tex.whiteKey;
+            else if(id==ID.blackKey)
+                img=tex.blackKey;
+            else if(id==ID.backPiano)
+                img=tex.pianoBack;
+
+
             if(id==ID.Simon) {
                 if (sID == ID.green) {
                     g.setColor(new Color(0,162,0));

@@ -30,7 +30,7 @@ public abstract class Character extends GameObject implements Serializable {
     protected  Magic magic;
     protected Items Weapon;
     protected Items Armor;
-    Textures tex = Game.getInstance();
+    protected transient Textures tex = Game.getInstance();
 
     public Character(float x, float y, float height, float width, Handler handler, Game game, ID id, int speed){
         super(x, y, height, width, id);

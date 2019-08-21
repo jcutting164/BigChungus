@@ -46,7 +46,14 @@ public class AudioPlayer implements Serializable {
             musicMap.put("Arthur",new Music("res/BattleMusic/Arthur.wav"));
             musicMap.put("TITLE", new Music("res/MiscMusic/TITLE.wav"));
             musicMap.put("GAME", new Music("res/MiscMusic/GAME.wav"));
+            musicMap.put("Shaggy",new Music("res/Shaggy.wav"));
 
+
+            musicMap.put("TitleScreen",new Music("res/GameMusic/TitleScreen.wav"));
+            musicMap.put("Area51", new Music("res/GameMusic/Area51.wav"));
+            musicMap.put("Backwards", new Music("res/GameMusic/Backwards.wav"));
+            musicMap.put("Dead", new Music("res/GameMusic/Dead.wav"));
+            musicMap.put("WaeForest", new Music("res/GameMusic/WaeForest.wav"));
 
 
 
@@ -81,8 +88,8 @@ public class AudioPlayer implements Serializable {
             soundMap.put("SimonBlue",new Sound("res/SimonSays/SimonBlue.wav"));
             soundMap.put("SimonGreen",new Sound("res/SimonSays/SimonGreen.wav"));
             soundMap.put("SimonFail",new Sound("res/SimonSays/SimonFail.wav"));
-
-
+            soundMap.put("Select",new Sound("res/GameMusic/Select.wav"));
+            soundMap.put("Back", new Sound("res/GameMusic/Back.wav"));
 
 
 

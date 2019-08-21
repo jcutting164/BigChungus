@@ -20,7 +20,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
     private Player player;
     private Inventory inv;
     private Game game;
-    private Textures tex = Game.getInstance();
+    private transient Textures tex = Game.getInstance();
 
     public KeyInput(Handler handler, Player player, TBHandler tbHandler, Inventory inv, GamePlayer gp,Game game) {
         this.handler = handler;
@@ -42,9 +42,40 @@ public class KeyInput extends KeyAdapter implements Serializable {
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        System.out.println(key);
+    //    System.out.println(key);
+//        System.out.println(game.getPlayer().getLimited());
 
-        if(!player.getLimited() && handler.object.contains(player)){
+        if(key==KeyEvent.VK_F){
+            game.setScore(game.getScore()+1000);
+        }
+
+
+        if(game.getCurrentState()==Game.STATE.GameOver){
+            if(key==KeyEvent.VK_X){
+                game.loadSave();
+                game.setCurrentState(Game.STATE.FirstArea);
+            }
+        }
+        if(game.getCurrentState()==Game.STATE.TitleScreen){
+            if(key==KeyEvent.VK_X){
+                game.loadSave();
+                game.setCurrentState(Game.STATE.FirstArea);
+            }else if(key==KeyEvent.VK_C){
+                game.setCurrentState(Game.STATE.ControlScreen);
+            }
+        }else if(game.getCurrentState()==Game.STATE.ControlScreen){
+            if(key==KeyEvent.VK_Z){
+                game.setCurrentState(Game.STATE.TitleScreen);
+            }
+        }
+
+
+
+        System.out.println("first click");
+        if(!game.getPlayer().getLimited() && game.getHandler().object.contains(game.getPlayer())){
+            System.out.println("second click");
+
+
 
             for(int i = 0; i< handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
@@ -54,41 +85,44 @@ public class KeyInput extends KeyAdapter implements Serializable {
 
                     if(key == KeyEvent.VK_UP ) {
                         {tempObject.setVelY(-20); keyDown[0]=true; }
-                        player.setLastKeyHit(0);
+                        game.getPlayer().setLastKeyHit(0);
                     }else if((key == KeyEvent.VK_DOWN)) {
                         {tempObject.setVelY(20); keyDown[1]=true; }
-                        player.setLastKeyHit(1);
+                        game.getPlayer().setLastKeyHit(1);
                     }else if(key == KeyEvent.VK_LEFT) {
                         {tempObject.setVelX(-20); keyDown[2]=true; }
-                        player.setLastKeyHit(2);
+                        game.getPlayer().setLastKeyHit(2);
                     }else if(key == KeyEvent.VK_RIGHT) {
                         {tempObject.setVelX(20); keyDown[3]=true; }
-                        player.setLastKeyHit(3);
+                        game.getPlayer().setLastKeyHit(3);
                     }else if(key == KeyEvent.VK_X) {
-                        player.setLastKeyHit(4);
+                        game.getPlayer().setLastKeyHit(4);
                         //hud.setScore(hud.getScore() + 100);
 
                     }else if(key==KeyEvent.VK_C){
-                        player.setVelX(0);
-                        player.setVelY(0);
-                        player.setLimited(true);
-                        inv.setOpen(true);
-                        inv.setOptions(true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
-                        inv.setPage(1);
-                        inv.setCurrentOption(0);
+                        AudioPlayer.getSound("Select").play();
+                        game.getPlayer().setVelX(0);
+                        game.getPlayer().setVelY(0);
+                        game.getPlayer().setLimited(true);
+                        game.getPlayer().getInv().setOpen(true);
+                        game.getPlayer().getInv().setOptions(true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+                        game.getPlayer().getInv().setPage(1);
+                        game.getPlayer().getInv().setCurrentOption(0);
                     }else if(key==KeyEvent.VK_V){
-                        player.setVelX(0);
-                        player.setVelY(0);
-                        player.setLimited(true);
-                        player.getMagic().setOpen(true);
-                        player.getMagic().setOptions(true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
-                        player.getMagic().setPage(1);
-                        player.getMagic().setCurrentOption(0);
+                        AudioPlayer.getSound("Select").play();
+
+                        game.getPlayer().setVelX(0);
+                        game.getPlayer().setVelY(0);
+                        game.getPlayer().setLimited(true);
+                        game.getPlayer().getMagic().setOpen(true);
+                        game.getPlayer().getMagic().setOptions(true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+                        game.getPlayer().getMagic().setPage(1);
+                        game.getPlayer().getMagic().setCurrentOption(0);
 
                     }else if(key==KeyEvent.VK_SHIFT){
-                            player.allowed=!player.allowed;
-
+                        game.getPlayer().setAllowed(!game.getPlayer().isAllowed());
                     }
+
 
                     if(game.getCurrentRoom().equals("Room5_4")){
 
@@ -515,7 +549,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
 
 
             }
-        }else if(player.getLimited() && handler.object.contains(player)){
+        }else if(game.getPlayer().getLimited() && handler.object.contains(game.getPlayer())){
 
 
             for(int i = 0; i< handler.object.size(); i++) {
@@ -525,71 +559,80 @@ public class KeyInput extends KeyAdapter implements Serializable {
                     // key events for NPC.Player 1
                     if(!tbHandler.object.isEmpty()){
                         if(key == KeyEvent.VK_Z && tbHandler.object.get(0).getDone()) {
-                            player.setLimited(false);
+                            game.getPlayer().setLimited(false);
                             tbHandler.removeObject(0);
                         }
                     }
 
 
-                if(inv.getOpen()){
+                if(game.getPlayer().getInv().getOpen()){
 
 
 
                     if(key==KeyEvent.VK_DOWN){
 
-                        if(!inv.getOptions()[inv.inv.size()-1]){
-                            for(int j = 0; j<inv.inv.size()-1; j++){
+                        try{
+                            if(!game.getPlayer().getInv().getOptions()[game.getPlayer().getInv().inv.size()-1]){
+                                for(int j = 0; j<game.getPlayer().getInv().inv.size()-1; j++){
 
 
-                                if(inv.getOptions()[j]){
-                                    inv.setSpecOption(false, j);
-                                    inv.setSpecOption(true, inv.getCurrentOption()+1);
-                                    inv.setCurrentOption(inv.getCurrentOption()+1);
-                                    break;
+                                    if(game.getPlayer().getInv().getOptions()[j]){
+                                        game.getPlayer().getInv().setSpecOption(false, j);
+                                        game.getPlayer().getInv().setSpecOption(true, game.getPlayer().getInv().getCurrentOption()+1);
+                                        game.getPlayer().getInv().setCurrentOption(game.getPlayer().getInv().getCurrentOption()+1);
+                                        break;
+                                    }
                                 }
                             }
+                        }catch (Exception ex){
+                            ex.printStackTrace();
                         }
 
+
+
                     }else if(key==KeyEvent.VK_UP){
-                        if(!inv.getOptions()[0]){
+                        if(!game.getPlayer().getInv().getOptions()[0]){
 
 
-                            for(int j = 0; j<inv.inv.size(); j++){
+                            for(int j = 0; j<game.getPlayer().getInv().inv.size(); j++){
 
 
-                                if(inv.getOptions()[j]){
+                                if(game.getPlayer().getInv().getOptions()[j]){
 
-                                    inv.setSpecOption(false, j);
-                                    inv.setSpecOption(true, inv.getCurrentOption()-1);
-                                    inv.setCurrentOption(inv.getCurrentOption()-1);
+                                    game.getPlayer().getInv().setSpecOption(false, j);
+                                    game.getPlayer().getInv().setSpecOption(true, game.getPlayer().getInv().getCurrentOption()-1);
+                                    game.getPlayer().getInv().setCurrentOption(game.getPlayer().getInv().getCurrentOption()-1);
                                     break;
                                 }
                             }
                         }
 
                     }else if(key==KeyEvent.VK_Z){
-                        player.setLimited(false);
-                        inv.setOpen(false);
+                        AudioPlayer.getSound("Back").play();
+                        game.getPlayer().setLimited(false);
+                        game.getPlayer().getInv().setOpen(false);
                     }else if(key==KeyEvent.VK_X){
 
-                        inv.inv.get(inv.getCurrentOption()).use(player,null);
+                        game.getPlayer().getInv().inv.get(game.getPlayer().getInv().getCurrentOption()).use(game.getPlayer(),null);
 
 
 
                     }else if(key==KeyEvent.VK_V){
-                        player.getMagic().setOpen(true);
-                        player.getInv().setOpen(false);
+                        AudioPlayer.getSound("Select").play();
+
+                        game.getPlayer().getMagic().setOpen(true);
+                        game.getPlayer().getInv().setOpen(false);
                     }
-                }else if(player.getMagic().getOpen()){
+                }else if(game.getPlayer().getMagic().getOpen()){
                     if(key==KeyEvent.VK_DOWN){
 
-                        if(!player.getMagic().getOptions()[player.getMagic().magic.size()]){
-                            for(int j = 0; j<player.getMagic().magic.size()-1; j++){
-                                if(player.getMagic().getOptions()[j]){
+                        if(!game.getPlayer().getMagic().getOptions()[game.getPlayer().getMagic().magic.size()]){
+                            for(int j = 0; j<game.getPlayer().getMagic().magic.size()-1; j++){
+                                if(game.getPlayer().getMagic().getOptions()[j]){
 
-                                    player.getMagic().setSpecOption(false, j);
-                                    player.getMagic().setSpecOption(true, player.getMagic().getCurrentOption()+1);
-                                    player.getMagic().setCurrentOption(player.getMagic().getCurrentOption()+1);
+                                    game.getPlayer().getMagic().setSpecOption(false, j);
+                                    game.getPlayer().getMagic().setSpecOption(true, game.getPlayer().getMagic().getCurrentOption()+1);
+                                    game.getPlayer().getMagic().setCurrentOption(game.getPlayer().getMagic().getCurrentOption()+1);
                                     break;
 
 
@@ -598,28 +641,31 @@ public class KeyInput extends KeyAdapter implements Serializable {
                         }
 
                     }else if(key==KeyEvent.VK_UP){
-                        if(!player.getMagic().getOptions()[0]){
+                        if(!game.getPlayer().getMagic().getOptions()[0]){
                             for(int j = 0; j<player.getMagic().magic.size(); j++){
-                                if(player.getMagic().getOptions()[j]){
-                                    player.getMagic().setSpecOption(false, j);
-                                    player.getMagic().setSpecOption(true, player.getMagic().getCurrentOption()-1);
-                                    player.getMagic().setCurrentOption(player.getMagic().getCurrentOption()-1);
+                                if(game.getPlayer().getMagic().getOptions()[j]){
+                                    game.getPlayer().getMagic().setSpecOption(false, j);
+                                    game.getPlayer().getMagic().setSpecOption(true, game.getPlayer().getMagic().getCurrentOption()-1);
+                                    game.getPlayer().getMagic().setCurrentOption(game.getPlayer().getMagic().getCurrentOption()-1);
                                     break;
                                 }
                             }
                         }
 
                     }else if(key==KeyEvent.VK_Z){
-                        player.setLimited(false);
-                        player.getMagic().setOpen(false);
+                        AudioPlayer.getSound("Back").play();
+                        game.getPlayer().setLimited(false);
+                        game.getPlayer().getMagic().setOpen(false);
                     }else if(key==KeyEvent.VK_X){
-                        if(player.getMagic().magic.get(player.getMagic().getCurrentOption()).getManaREQ()<=player.getMana()){
-                            player.getMagic().magic.get(player.getMagic().getCurrentOption()).use(player, null);
+                        if(game.getPlayer().getMagic().magic.get(game.getPlayer().getMagic().getCurrentOption()).getManaREQ()<=game.getPlayer().getMana()){
+                            game.getPlayer().getMagic().magic.get(game.getPlayer().getMagic().getCurrentOption()).use(game.getPlayer(), null);
                         }
 
                     }else if(key==KeyEvent.VK_C){
-                        player.getMagic().setOpen(false);
-                        player.getInv().setOpen(true);
+                        AudioPlayer.getSound("Select").play();
+
+                        game.getPlayer().getMagic().setOpen(false);
+                        game.getPlayer().getInv().setOpen(true);
                     }
 
                 }
@@ -670,7 +716,7 @@ public class KeyInput extends KeyAdapter implements Serializable {
     }
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        if(player.getLimited() == false){
+        if(game.getPlayer().getLimited() == false){
 
             for(int i = 0; i< handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
@@ -680,21 +726,21 @@ public class KeyInput extends KeyAdapter implements Serializable {
 
                     if(key == KeyEvent.VK_UP) {
                         keyDown[0] = false;
-                        player.setLastKeyReleased(0);
+                        game.getPlayer().setLastKeyReleased(0);
                     }else if(key == KeyEvent.VK_DOWN) {
                         keyDown[1] = false;
-                        player.setLastKeyReleased(1);
+                        game.getPlayer().setLastKeyReleased(1);
                     }else if(key == KeyEvent.VK_LEFT) {
                         keyDown[2] = false;
-                        player.setLastKeyReleased(2);
+                        game.getPlayer().setLastKeyReleased(2);
                     }else if(key == KeyEvent.VK_RIGHT) {
                         keyDown[3] = false;
-                        player.setLastKeyReleased(3);
+                        game.getPlayer().setLastKeyReleased(3);
                     }else if(key == KeyEvent.VK_SPACE) {
                         keyDown[4] = false;
                     }else if(key == KeyEvent.VK_X){
                         keyDown[5] = false;
-                        player.setLastKeyReleased(4);
+                        game.getPlayer().setLastKeyReleased(4);
                     }
                 }
 

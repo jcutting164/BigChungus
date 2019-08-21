@@ -1,6 +1,8 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
-public class Transition extends GameObject {
+import java.io.Serializable;
+
+public class Transition extends GameObject implements Serializable {
 
     private int newPlayerX;
     private int newPlayerY;

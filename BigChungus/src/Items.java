@@ -10,7 +10,7 @@ public class Items extends GameObject implements Serializable {
     private String desc;
     private boolean usable;
     private boolean obtained=false;
-    private BufferedImage img= Game.tex.Orb;
+    private transient BufferedImage img;
     private Game game;
     private int attack;
     private int defense;
@@ -19,6 +19,7 @@ public class Items extends GameObject implements Serializable {
     private int healFactor;
     private int damageFactor;
     String desc2="";
+    Textures tex=Game.getInstance();
     public Items(String name, String desc,float x, float y, float height, float width, ID id,Game game, int attack, int defense, boolean healing, boolean damaging,int healFactor, int damageFactor){
         super(x, y, height, width, id);
         this.name = name;
@@ -28,6 +29,7 @@ public class Items extends GameObject implements Serializable {
         this.damaging=damaging;
         this.healFactor=healFactor;
         this.damageFactor=damageFactor;
+        this.img=tex.Orb;
     }
     public Items(String name, String desc,String desc2,float x, float y, float height, float width, ID id,Game game, int attack, int defense, boolean healing, boolean damaging,int healFactor, int damageFactor){
         super(x, y, height, width, id);
@@ -43,6 +45,9 @@ public class Items extends GameObject implements Serializable {
 
 
     public void use(Character user, Character enemy){
+
+        AudioPlayer.getSound("Select").play();
+
 
 
 
@@ -207,6 +212,31 @@ public class Items extends GameObject implements Serializable {
                 user.setArmor(this);
                 user.getInv().removeItem(this);
             }
+        }else if(name.equals("Orb Of Resurrection")){
+            game.setEndgame(true);
+            game.getPlayer().setLimited(true);
+            game.getTbHandler().addObject(new TextBox(game.getBigChungus(),"Thank you, hero. Perhaps we can move on together as one.",0,0,0,0,ID.TextBox,game.getTbHandler()));
+            user.getInv().removeItem(this);
+            game.getPlayer().getInv().setOpen(false);
+            game.setHero(true);
+        }else if(name.equals("Orb Of Destruction")){
+            game.setEndgame(true);
+            game.getPlayer().setLimited(true);
+            game.getTbHandler().addObject(new TextBox(game.getBigChungus(),"Oh no, what did you do?",0,0,0,0,ID.TextBox,game.getTbHandler()));
+            game.getPlayer().getInv().setOpen(false);
+            game.setHero(false);
+            user.getInv().removeItem(this);
+
+        }else if(name.equals("Bleach")){
+            user.setMaxMana(user.getMaxMana()+25);
+            user.setMana(user.getMaxMana());
+            user.getInv().removeItem(this);
+
+        }else if(name.equals("Chicken Tender")){
+            user.setMaxHealth(user.getMaxHealth()+25);
+            user.setHealth(user.getMaxhealth());
+            user.getInv().removeItem(this);
+
         }
     }
 
@@ -236,8 +266,9 @@ public class Items extends GameObject implements Serializable {
 
     }
     public void render(Graphics g){
+        tex=Game.getInstance();
         if(!obtained)
-            g.drawImage(img,(int)x,(int)y,(int)height,(int)width,null);
+            g.drawImage(tex.Orb,(int)x,(int)y,(int)height,(int)width,null);
 
     }
     public Rectangle getBounds(){
@@ -308,4 +339,9 @@ public class Items extends GameObject implements Serializable {
     public void setDesc2(String desc2) {
         this.desc2 = desc2;
     }
+
+    public void setGame(Game game){
+        this.game=game;
+    }
+
 }

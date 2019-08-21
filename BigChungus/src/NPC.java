@@ -196,9 +196,9 @@ public class NPC extends Character implements Serializable {
         }else if(player.getCurrentImages()==tex.Player_WalkDown){
             //currentImages=tex.Player_WalkUp;
         }
-        player.setLimited(true);
-        player.setVelX(0);
-        player.setVelY(0);
+        game.getPlayer().setLimited(true);
+        game.getPlayer().setVelX(0);
+        game.getPlayer().setVelY(0);
         for(int i= 0; i<game.getKeyInput().getKeyDown().length; i++){
             game.getKeyInput().getKeyDown()[i] = false;
         }
@@ -242,21 +242,29 @@ public class NPC extends Character implements Serializable {
                 game.setA51_Switch5(!(game.isA51_Switch5()));
                 if(game.isA51_Switch6() && game.isA51_Switch7()&& game.isA51_Switch8()&& game.isA51_Switch5()){
                     game.getHandler().removeObject(game.getBarrier());
+                    game.getHandler().addObject(new Transition(7300, 0, 8, 1000, ID.Transition, "Room3_9", 675, 3840, player, true, "51"));
+
                 }
             }else if(sID==ID.redSwitch6) {
                 game.setA51_Switch6(!(game.isA51_Switch6()));
                 if(game.isA51_Switch6() && game.isA51_Switch7()&& game.isA51_Switch8()&& game.isA51_Switch5()){
                     game.getHandler().removeObject(game.getBarrier());
+                    game.getHandler().addObject(new Transition(7300, 0, 8, 1000, ID.Transition, "Room3_9", 675, 3840, player, true, "51"));
+
                 }
             }else if(sID==ID.redSwitch7) {
                 game.setA51_Switch7(!(game.isA51_Switch7()));
                 if(game.isA51_Switch6() && game.isA51_Switch7()&& game.isA51_Switch8()&& game.isA51_Switch5()){
                     game.getHandler().removeObject(game.getBarrier());
+                    game.getHandler().addObject(new Transition(7300, 0, 8, 1000, ID.Transition, "Room3_9", 675, 3840, player, true, "51"));
+
                 }
             }else if(sID==ID.redSwitch8) {
                 game.setA51_Switch8(!(game.isA51_Switch8()));
                 if(game.isA51_Switch6() && game.isA51_Switch7()&& game.isA51_Switch8()&& game.isA51_Switch5()){
                     game.getHandler().removeObject(game.getBarrier());
+                    game.getHandler().addObject(new Transition(7300, 0, 8, 1000, ID.Transition, "Room3_9", 675, 3840, player, true, "51"));
+
                 }
             }else if(sID==ID.greenSwitch)
                 game.setAliensFreed(true);
@@ -289,6 +297,7 @@ public class NPC extends Character implements Serializable {
                 game.setScore(0);
                 game.setGameHealth(10);
                 game.setSpawn(new Spawn(game.getHandler(), game));
+                game.setPlayingGame(true);
                 AudioPlayer.getMusic("GAME").loop();
             }
 

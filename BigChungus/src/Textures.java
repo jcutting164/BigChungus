@@ -1,6 +1,5 @@
 
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_REDPeer;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
@@ -26,12 +25,16 @@ public class Textures implements Serializable {
     SpriteSheet SSA_Pikachu_4;
     SpriteSheet SS_BigChungus;
     SpriteSheet SSA_BigChungus_1;
+    SpriteSheet SS_Shaggy;
     SpriteSheet SSA_BigChungus_2;
     SpriteSheet SS_Save_Icon;
     SpriteSheet SS_Pavement;
 
-
+    SpriteSheet SS_Room0_1;
     SpriteSheet SS_Room1_1;
+    SpriteSheet SS_Room1_2;
+    SpriteSheet SS_Room1_3;
+    SpriteSheet SS_Room1_4;
     SpriteSheet SS_Room2_1;
     SpriteSheet SS_Room2_1O;
     SpriteSheet SS_Room2_2;
@@ -61,6 +64,7 @@ public class Textures implements Serializable {
     SpriteSheet SS_Room5_6;
 
 
+
     SpriteSheet SS_People;
     SpriteSheet SS_Forest;
     SpriteSheet SS_Tiles;
@@ -85,7 +89,9 @@ public class Textures implements Serializable {
     SpriteSheet SS_Dead;
     SpriteSheet SS_Piano;
 
-
+    SpriteSheet SS_Josh;
+    SpriteSheet SS_TitleScreen;
+    SpriteSheet SS_ControlScreen;
 
     private transient BufferedImage BI_Player;
     public transient BufferedImage BI_FirstArea;
@@ -109,8 +115,11 @@ public class Textures implements Serializable {
     private transient BufferedImage BI_Forest;
     private transient BufferedImage BI_Tiles;
 
-
+    private transient BufferedImage BI_Room0_1;
     private transient BufferedImage BI_Room1_1;
+    private transient BufferedImage BI_Room1_2;
+    private transient BufferedImage BI_Room1_3;
+    private transient BufferedImage BI_Room1_4;
     private transient BufferedImage BI_Room2_1;
     private transient BufferedImage BI_Room2_1O;
     private transient BufferedImage BI_Room2_2;
@@ -161,7 +170,10 @@ public class Textures implements Serializable {
     private transient BufferedImage BI_Area51;
     private transient BufferedImage BI_Dead;
     private transient BufferedImage BI_Piano;
-
+    private transient BufferedImage BI_Josh;
+    private transient BufferedImage BI_Shaggy;
+    private transient BufferedImage BI_TitleScreen;
+    private transient BufferedImage BI_ControlScreen;
 
 
     private transient InputStream IS_BI_Player;
@@ -181,12 +193,15 @@ public class Textures implements Serializable {
     private transient InputStream IS_A_BigChungus_2;
     private transient InputStream IS_Save_Icon;
     private transient InputStream IS_Pavement;
-    private transient InputStream IS_Room1_1;
+
     private transient InputStream IS_People;
     private transient InputStream IS_Forest;
 
-
-
+    private transient InputStream IS_Room0_1;
+    private transient InputStream IS_Room1_1;
+    private transient InputStream IS_Room1_2;
+    private transient InputStream IS_Room1_3;
+    private transient InputStream IS_Room1_4;
     private transient InputStream IS_Room2_1;
     private transient InputStream IS_Room2_1O;
     private transient InputStream IS_Room2_2;
@@ -241,6 +256,11 @@ public class Textures implements Serializable {
     private transient InputStream IS_Area51;
     private transient InputStream IS_Dead;
     private transient InputStream IS_Piano;
+    private transient InputStream IS_Josh;
+    private transient InputStream IS_Shaggy;
+
+    private transient InputStream IS_TitleScreen;
+    private transient InputStream IS_ControlScreen;
 
     public transient BufferedImage[] Player_WalkLeft = new BufferedImage[2];
     public transient BufferedImage[] Player_WalkRight = new BufferedImage[2];
@@ -302,8 +322,15 @@ public class Textures implements Serializable {
     public transient BufferedImage[] AntiHero_A4=new BufferedImage[1];
 
 
+    public transient BufferedImage ShaggyBF;
+    public transient BufferedImage ShaggyFace;
+    public transient BufferedImage[] Shaggy_WalkRight=new BufferedImage[1];
 
+    public transient BufferedImage Room0_1;
     public transient BufferedImage Room1_1;
+    public transient BufferedImage Room1_2;
+    public transient BufferedImage Room1_3;
+    public transient BufferedImage Room1_4;
     public transient BufferedImage Room2_1;
     public transient BufferedImage Room2_1O;
     public transient BufferedImage Room2_2;
@@ -449,6 +476,10 @@ public class Textures implements Serializable {
     public transient BufferedImage whiteKeyPressed;
     public transient BufferedImage blackKeyPressed;
     public transient BufferedImage pianoBack;
+    public transient BufferedImage josh;
+
+    public transient BufferedImage TitleScreen;
+    public transient BufferedImage ControlScreen;
 
 
     public Textures(){
@@ -656,13 +687,34 @@ public class Textures implements Serializable {
             IS_Room5_6=new FileInputStream("res/Rooms/Room5_6.png");
             BI_Room5_6=ImageIO.read(IS_Room5_6);
 
+            IS_Room0_1=new FileInputStream("res/Rooms/Room0_1.png");
+            BI_Room0_1=ImageIO.read(IS_Room0_1);
+
+            IS_Room1_2=new FileInputStream("res/Rooms/Room1_2.png");
+            BI_Room1_2=ImageIO.read(IS_Room1_2);
+
+            IS_Room1_3=new FileInputStream("res/Rooms/Room1_3.png");
+            BI_Room1_3=ImageIO.read(IS_Room1_3);
+
+            IS_Room1_4=new FileInputStream("res/Rooms/Room1_4.png");
+            BI_Room1_4=ImageIO.read(IS_Room1_4);
+
             IS_Dead=new FileInputStream("res/DeadTiles.png");
             BI_Dead=ImageIO.read(IS_Dead);
 
             IS_Piano=new FileInputStream("res/Piano.png");
             BI_Piano=ImageIO.read(IS_Piano);
 
+            IS_Josh=new FileInputStream("res/Josh.png");
+            BI_Josh=ImageIO.read(IS_Josh);
 
+            IS_Shaggy=new FileInputStream("res/SS_Shaggy.png");
+            BI_Shaggy=ImageIO.read(IS_Shaggy);
+
+            IS_TitleScreen=new FileInputStream("res/TitleScreen.png");
+            BI_TitleScreen=ImageIO.read(IS_TitleScreen);
+            IS_ControlScreen=new FileInputStream("res/ControlScreen.png");
+            BI_ControlScreen=ImageIO.read(IS_ControlScreen);
 
 
 
@@ -721,6 +773,10 @@ public class Textures implements Serializable {
         SS_Room5_4=new SpriteSheet(BI_Room5_4);
         SS_Room5_5=new SpriteSheet(BI_Room5_5);
         SS_Room5_6=new SpriteSheet(BI_Room5_6);
+        SS_Room0_1=new SpriteSheet(BI_Room0_1);
+        SS_Room1_2=new SpriteSheet(BI_Room1_2);
+        SS_Room1_3=new SpriteSheet(BI_Room1_3);
+        SS_Room1_4=new SpriteSheet(BI_Room1_4);
 
         SS_Tiles=new SpriteSheet(BI_Tiles);
 
@@ -745,7 +801,11 @@ public class Textures implements Serializable {
         SS_Piano=new SpriteSheet(BI_Piano);
 
 
+        SS_Josh=new SpriteSheet(BI_Josh);
+        SS_Shaggy=new SpriteSheet(BI_Shaggy);
 
+        SS_TitleScreen=new SpriteSheet(BI_TitleScreen);
+        SS_ControlScreen=new SpriteSheet(BI_ControlScreen);
 
 
         getTextures();
@@ -1084,6 +1144,14 @@ public class Textures implements Serializable {
         Room5_6O=SS_Room5_6.getSubImage(0,32,32,32);
         Room5_6=SS_Room5_6.getSubImage(0,0,32,32);
 
+        Room1_2=SS_Room1_2.getSubImage(0,0,32,32);
+        Room1_3=SS_Room1_3.getSubImage(0,0,32,32);
+        Room1_4=SS_Room1_4.getSubImage(0,0,32,32);
+
+        Room0_1=SS_Room0_1.getSubImage(0,0,32,128);
+
+
+
         redSwitch[0]=SS_Area51.getSubImage(142,150,47,43);
         redSwitch[1]=SS_Area51.getSubImage(195,153,47,40);
         greenSwitch[0]=SS_Area51.getSubImage(150,207,47,43);
@@ -1101,6 +1169,15 @@ public class Textures implements Serializable {
         whiteKeyPressed=SS_Piano.getSubImage(59,12,61,312);
         blackKeyPressed=SS_Piano.getSubImage(219,13,33,169);
         pianoBack=SS_Piano.getSubImage(0,0,591,12);
+        josh=SS_Josh.getSubImage(0,0,231,404);
+
+        ShaggyBF=SS_Shaggy.getSubImage(179,7,351,309);
+        Shaggy_WalkRight[0]=SS_Shaggy.getSubImage(44,190,20,70);
+        ShaggyFace=SS_Shaggy.getSubImage(194,6,171,180);
+
+        TitleScreen=SS_TitleScreen.getSubImage(0,0,1280,960);
+        ControlScreen=SS_ControlScreen.getSubImage(0,0,1280,960);
+
 
 
     }

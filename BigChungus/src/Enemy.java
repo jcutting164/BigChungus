@@ -49,7 +49,7 @@ public  class Enemy extends NPC implements Serializable {
 
 // to be replaced in actual class
         tex=Game.getInstance();
-        if(!(id==ID.Knuckles)&&!(id==ID.Pikachu)&&!(id==ID.AntiHero)&&!(id==ID.BigChungus)){
+        if(!(id==ID.Knuckles)&&!(id==ID.Pikachu)&&!(id==ID.AntiHero)&&!(id==ID.BigChungus) && !(id==ID.Josh) &&!(id==ID.Shaggy)){
             this.walkLeft = new Animation(speed, tex.Player_WalkLeft[0], tex.Player_WalkLeft[1]);
             this.walkRight = new Animation(speed, tex.Player_WalkRight[0], tex.Player_WalkRight[1]);
             this.walkUp = new Animation(speed, tex.Player_WalkUp[1], tex.Player_WalkUp[2]);
@@ -136,6 +136,17 @@ public  class Enemy extends NPC implements Serializable {
             this.isVisible = true;
             this.Face = tex.BigChungusFace[0];
             this.BattleForm = tex.BigChungusBF[0];
+        }else if(id==ID.Josh){
+            this.Face=tex.josh;
+        }else if(id==ID.Shaggy){
+            this.walkRight = new Animation(speed, tex.Shaggy_WalkRight[0]);
+
+            this.currentImages= tex.Shaggy_WalkRight;
+            this.isVisible = true;
+            this.Face = tex.ShaggyFace;
+            this.BattleForm = tex.ShaggyBF;
+
+
         }
 
 
@@ -202,7 +213,7 @@ public  class Enemy extends NPC implements Serializable {
                 this.walkUp = new Animation(speed, tex.Pikachu_WalkUp[0], tex.Pikachu_WalkUp[1], tex.Pikachu_WalkUp[2]);
                 this.walkDown = new Animation(speed, tex.Pikachu_WalkDown[0], tex.Pikachu_WalkDown[1], tex.Pikachu_WalkDown[2]);
 
-                this.currentImages= tex.Pikachu_WalkLeft;
+                this.currentImages= tex.Pikachu_WalkDown;
                 this.isVisible = true;
                 this.Face = tex.PikachuFace[0];
                 this.BattleForm = tex.PikachuBF[0];
@@ -256,6 +267,15 @@ public  class Enemy extends NPC implements Serializable {
                 this.isVisible = true;
                 this.Face = tex.BigChungusFace[0];
                 this.BattleForm = tex.BigChungusBF[0];
+            }else if(id==ID.Shaggy){
+                this.walkRight = new Animation(speed, tex.Shaggy_WalkRight[0]);
+
+                this.currentImages= tex.Shaggy_WalkRight;
+                this.isVisible = true;
+                this.Face = tex.ShaggyFace;
+                this.BattleForm = tex.ShaggyBF;
+
+
             }
         }
 

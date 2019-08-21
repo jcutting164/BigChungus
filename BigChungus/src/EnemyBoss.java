@@ -3,8 +3,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
-public class EnemyBoss extends GameObject{
+public class EnemyBoss extends GameObject implements Serializable {
 
     private Handler handler;
     private int track;

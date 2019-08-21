@@ -1,7 +1,8 @@
 import java.awt.*;
+import java.io.Serializable;
 
 
-public abstract class Usables_E extends GameObject {
+public abstract class Usables_E extends GameObject implements Serializable {
     protected String name;
     protected String desc;
     protected Handler handler;

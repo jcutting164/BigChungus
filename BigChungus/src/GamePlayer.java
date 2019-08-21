@@ -3,8 +3,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.Random;
-public class GamePlayer extends GameObject{
+public class GamePlayer extends GameObject implements Serializable {
 
     Random r = new Random();
     Handler handler;

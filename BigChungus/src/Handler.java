@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 public class Handler implements Serializable {
 
-    LinkedList<GameObject> object = new LinkedList<GameObject>();
+    transient LinkedList<GameObject> object = new LinkedList<GameObject>();
     Game game;
     public Handler(Game game){
         this.game=game;
@@ -21,6 +21,7 @@ public class Handler implements Serializable {
 
 
         for(int i = 0; i < object.size(); i++) {
+
             GameObject tempObject = object.get(i);
             tempObject.tick();
 
@@ -30,8 +31,50 @@ public class Handler implements Serializable {
 
     public void render(Graphics g) {
 
+
         if(game.getCurrentState()!=Game.STATE.SpecialGame){
-            BufferedImage image = game.getRooms().get(game.getCurrentRoom());
+
+            BufferedImage image=null;
+            if(!(game.getRooms()==null))
+                image = game.getRooms().get(game.getCurrentRoom());
+            else{
+                Textures tex = Game.getInstance();
+                game.setRooms(new HashMap<>());
+                game.getRooms().put("Testing Room", tex.SS_FirstArea.grabImage(1, 1, 16, 16));
+                game.getRooms().put("Room1_1", tex.Room1_1);
+                game.getRooms().put("Room2_1",tex.Room2_1);
+                game.getRooms().put("Room2_2",tex.Room2_2);
+                game.getRooms().put("Room2_3",tex.Room2_3);
+                game.getRooms().put("Room2_4",tex.Room2_4);
+                game.getRooms().put("Room3_1",tex.Room3_1);
+                game.getRooms().put("Room3_2",tex.Room3_2);
+                game.getRooms().put("Room3_3",tex.Room3_3);
+                game.getRooms().put("Room3_4",tex.Room3_4);
+                game.getRooms().put("Room3_5",tex.Room3_5);
+                game.getRooms().put("Room3_6",tex.Room3_6);
+                game.getRooms().put("Room3_7",tex.Room3_7);
+                game.getRooms().put("Room3_8",tex.Room3_8);
+                game.getRooms().put("Room3_9",tex.Room3_9);
+                game.getRooms().put("Room4_1",tex.Room4_1);
+                game.getRooms().put("Room4_2",tex.Room4_2);
+                game.getRooms().put("Room4_3",tex.Room4_3);
+                game.getRooms().put("Room4_4",tex.Room4_4);
+                game.getRooms().put("Room4_5",tex.Room4_5);
+                game.getRooms().put("Room4_6",tex.Room4_6);
+                game.getRooms().put("Room4_7",tex.Room4_7);
+                game.getRooms().put("Room5_1",tex.Room5_1);
+                game.getRooms().put("Room5_2",tex.Room5_2);
+                game.getRooms().put("Room5_3",tex.Room5_3);
+                game.getRooms().put("Room5_4",tex.Room5_4);
+                game.getRooms().put("Room5_5",tex.Room5_5);
+                game.getRooms().put("Room5_6",tex.Room5_6);
+                game.getRooms().put("Room0_1",tex.Room0_1);
+                game.getRooms().put("Room1_2",tex.Room1_2);
+                game.getRooms().put("Room1_3",tex.Room1_3);
+                game.getRooms().put("Room1_4",tex.Room1_4);
+                image = game.getRooms().get(game.getCurrentRoom());
+            }
+
             int w = image.getWidth();
             int h = image.getHeight();
 
@@ -77,6 +120,10 @@ public class Handler implements Serializable {
                     }
                 }
             }
+
+
+
+
         }
 
 
@@ -86,10 +133,14 @@ public class Handler implements Serializable {
 
         for(int i = 0; i < object.size(); i++) {
             GameObject tempObject = object.get(i);
-
-            if(tempObject.isVisible){
-                tempObject.render(g);
+            try{
+                if(tempObject.isVisible){
+                    tempObject.render(g);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
+
 
         }
     }
@@ -193,5 +244,11 @@ public class Handler implements Serializable {
     }
 
 
+    public Game getGame() {
+        return game;
+    }
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
 }

@@ -9,12 +9,12 @@ public class TextBox extends GameObject implements Serializable {
 
     private Character character;
     private String string;
-    private BufferedImage face;
     private String text;
     private Graphics g;
     private String[] segments;
     private int lines;
     private int characters;
+    private transient BufferedImage img;
     private String currentString;
     private int currentLine=0;
     private Font fnt;
@@ -65,6 +65,8 @@ public class TextBox extends GameObject implements Serializable {
 
 
     }
+
+
 
 
 
@@ -134,7 +136,6 @@ public class TextBox extends GameObject implements Serializable {
 
             g.drawRect(127, 799, 1026, 130);
             g.drawRect(127, 799, 130, 130);
-            System.out.println(character);
             if(!(this.character==null)){
                 if(this.character.getId()==ID.Knuckles){
                     g.drawImage(this.character.Face, 127, 799, null);

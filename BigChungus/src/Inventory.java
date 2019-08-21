@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 
-public class Inventory extends MouseAdapter implements Serializable {
+public class Inventory implements Serializable {
 
     private boolean isOpen;
     private Font fnt;
@@ -140,10 +140,10 @@ public class Inventory extends MouseAdapter implements Serializable {
         }else if(page==5){
             for(int i = 16; i<20; i++){
                 try{
-                    g.drawString(inv.get(i).getName(), 35, 680+(37*(j+1)));
+                    g.drawString(inv.get(i).getName(), 35, 680+(45*(j+1)));
                     if(currentOption==i){
                         g.setColor(Color.white);
-                        g.fillRect(30,668+(45*(j+1)), 8, 8);
+                        g.fillRect(20,668+(45*(j+1)), 8, 8);
                     }
                 }catch (Exception e){
 
@@ -253,7 +253,12 @@ public class Inventory extends MouseAdapter implements Serializable {
     }
 
 
-
+    public void clear(){
+        int size = inv.size();
+        for(int i = 0; i<size; i++){
+            inv.remove(inv.get(0));
+        }
+    }
 
 
 

@@ -14,7 +14,7 @@ public class Battle implements Serializable {
     private Enemy realEnemy;
     private boolean playerTurn;
     private BattleKeyInput battleKeyInput;
-    Textures tex = Game.getInstance();
+    private transient Textures tex = Game.getInstance();
     private boolean[] selectedOption;
     private int text_x;
     private boolean selection1;
@@ -43,7 +43,6 @@ public class Battle implements Serializable {
     private String lastSpell="";
 
 
-
     public Battle(Player player, Enemy enemy, Handler handler, Game game, AudioPlayer ap){
 
 
@@ -53,7 +52,8 @@ public class Battle implements Serializable {
         this.playerTurn=true;
         this.playerTurnStart=true;
         this.game = game;
-
+        this.game.setLastX((int)(this.player.getX()));
+        this.game.setLastY((int)(this.player.getY()));
         this.enemyVisable=true;
 
         this.selectedOption = new boolean[4];
@@ -64,7 +64,7 @@ public class Battle implements Serializable {
         this.firstTimeInTurn=false;
         this.ap = ap;
         this.bPlayer = new BattlePlayer(640, 650, 16, 16, ID.BattlePlayer, player, game, ap);
-        this.battleKeyInput = new BattleKeyInput(handler, player, this, bPlayer);
+        this.battleKeyInput = new BattleKeyInput(handler, game.getPlayer(), this, bPlayer);
         game.addKeyListener(this.battleKeyInput);
         this.baseAttack=game.getPlayer().getAttack();
         this.baseDefense=game.getPlayer().getDefense();
@@ -111,12 +111,15 @@ public class Battle implements Serializable {
             ap.getMusic("Arthur").loop();
         else if(enemy.getId()==ID.Spaget)
             ap.getMusic("Spaget").loop();
+        else if(enemy.getId()==ID.Shaggy)
+            ap.getMusic("Shaggy").loop();
 
         try{
             Thread.sleep(750);
         }catch(Exception e){
 
         }
+
 
 
 
@@ -149,7 +152,10 @@ public class Battle implements Serializable {
         if(player.getHealth() <= 0){
             		game.setCurrentState(Game.STATE.GameOver);
             		game.setSwitch(true);
-            		//ap.load();
+                     game.removeKeyListener(battleKeyInput);
+                     game.addKeyListener(game.getKeyInput());
+
+            //ap.load();
                     ap.getMusic("Pikachu").stop();
                     ap.getMusic("Knuckles").stop();
                     ap.getMusic("BigChungus").stop();
@@ -171,6 +177,7 @@ public class Battle implements Serializable {
                     ap.getMusic("Waluigi").stop();
                     ap.getMusic("Spaget").stop();
                     ap.getMusic("Arthur").stop();
+                    ap.getMusic("Shaggy").stop();
 
 
             ap.getSound("GameOver").play();
@@ -2063,6 +2070,33 @@ public class Battle implements Serializable {
                             }
                         }
                     }
+                }else if(enemy.getId()==ID.Shaggy){
+
+                    if(enemy.getCurrentMove()==0){
+                        timeNow = System.currentTimeMillis();
+                        time = timeNow - timeOfLastShot;
+
+                        if(time > 10000) {
+                            timeOfLastShot=0;
+                            // end func
+                            // will update damage calculation based on attack / defense, for now is one value
+                            setPlayerTurn(true);
+                            // will do same for player when enemy uses this function for end
+                            setPlayerTurnStart(true);
+                        }else{
+                            timeNow2 = System.currentTimeMillis();
+                            time2 = timeNow2 - timeOfLastShot2;
+                            if(time2>250 && track < 10){
+                                EnemyAttackItem temp = new EnemyAttackItem(0, 0, 25, 4000, ID.EnemyAttackItem, tex.AntiHero_A1, 3, 4000, 25, bPlayer, player, handler,this);
+                                temp.yeet();
+                                handler.addObject(temp);
+                                timeOfLastShot2=timeNow2;
+                                track++;
+                            }
+                        }
+                    }
+
+
                 }
 
 
@@ -2260,18 +2294,23 @@ public class Battle implements Serializable {
         ap.getMusic("Waluigi").stop();
         ap.getMusic("Spaget").stop();
         ap.getMusic("Arthur").stop();
+        ap.getMusic("Shaggy").stop();
+
+        if(!game.getCurrentMusic().equals("none")){
+            AudioPlayer.getMusic(game.getCurrentMusic()).loop();
+        }
 
 
         game.setCurrentState(Game.STATE.FirstArea);
         game.setSwitch(false);
         game.removeKeyListener(battleKeyInput);
-        game.setCurrentBattle(null);
+        //game.setCurrentBattle(null);
 
         int amount=0;
 
-        if(enemy.getName().equals("Pikachu")){
+        if(enemy.getName().equals("Surprised Pikachu")){
             amount =ThreadLocalRandom.current().nextInt(1000,2000);
-        }else if(enemy.getName().equals("Knuckles")){
+        }else if(enemy.getName().equals("Ugandan Knuckles")){
             amount =ThreadLocalRandom.current().nextInt(500,1000);
             //player.setLimited(true);
             //game.getTbHandler().addObject(new TextBox(enemy,"Thank you, you have freed me from his curse. Continue with your journey. Good luck!",0,0,0,0,ID.TextBox,game.getTbHandler()));
@@ -2281,16 +2320,24 @@ public class Battle implements Serializable {
             amount =ThreadLocalRandom.current().nextInt(20,30);
         }else if(enemy.getName().equals("TPoser")){
             amount = ThreadLocalRandom.current().nextInt(18,25);
-        }else if(enemy.getName().equals("Pikachu")){
+        }else if(enemy.getName().equals("Bongo Cat") || enemy.getName().equals("Zuckerberg") || enemy.getName().equals("Dat Boi") || enemy.getName().equals("SpOnGeBoB")){
+            amount = ThreadLocalRandom.current().nextInt(30,75);
 
 
-        }else if(enemy.getName().equals("Pikachu")){
+        }else if(enemy.getName().equals("Crab Rave") || enemy.getName().equals("Kermit") || enemy.getName().equals("The Kazoo Kid") || enemy.getName().equals("Walmart Yodel Boy")){
+            amount = ThreadLocalRandom.current().nextInt(100,200);
 
         }else if(enemy.getId()==ID.FatYoshi){
             amount =ThreadLocalRandom.current().nextInt(25,32);
 
         }else if(enemy.getId()==ID.JoshuaGiraffe){
             amount =ThreadLocalRandom.current().nextInt(22,45);
+
+        }else if(enemy.getName().equals("Harambe") || enemy.getName().equals("Waluigi") || enemy.getName().equals("Arthur") || enemy.getName().equals("Spaget")){
+            amount = ThreadLocalRandom.current().nextInt(200,300);
+
+        }else if(enemy.getName().equals("The Antihero")){
+            amount =ThreadLocalRandom.current().nextInt(2000,4000);
 
         }
         game.getPlayer().setXp(game.getPlayer().getXp()+amount);
@@ -2301,13 +2348,29 @@ public class Battle implements Serializable {
             player.LevelUp();
 
         }
-        if(player.getLevel()>this.baseLevel){
-            game.getPlayer().setLimited(true);
-            game.getTbHandler().addObject(new TextBox(player,"You leveled up to Level "+game.getPlayer().getLevel()+" and gained "+amount+" xp.",0,0,0,0,ID.TextBox,game.getTbHandler()));
+        game.getPlayer().setLimited(true);
+
+        if(enemy.getId()!=ID.BigChungus){
+            if(player.getLevel()>this.baseLevel){
+                game.getPlayer().setLimited(true);
+                game.getTbHandler().addObject(new TextBox(player,"You leveled up to Level "+game.getPlayer().getLevel()+" and gained "+amount+" xp.",0,0,0,0,ID.TextBox,game.getTbHandler()));
+            }else{
+                game.getPlayer().setLimited(true);
+                game.getTbHandler().addObject(new TextBox(player, "You got "+amount+" xp.",0,0,0,0,ID.TextBox,game.getTbHandler()));
+                //  game.getPlayer().setLimited(true);
+
+
+
+
+            }
         }else{
             game.getPlayer().setLimited(true);
-            game.getTbHandler().addObject(new TextBox(player, "You got "+amount+" xp.",0,0,0,0,ID.TextBox,game.getTbHandler()));
+            game.getTbHandler().addObject(new TextBox(game.getBigChungus(),"*Sigh* You have defeated me. But hero.... You have the choice... There are 2 orbs. Please make the right choice.",0,0,0,0,ID.TextBox,game.getTbHandler()));
         }
+
+
+
+
 
         game.getPlayer().setVelX(0);
         game.getPlayer().setVelY(0);
@@ -2315,7 +2378,6 @@ public class Battle implements Serializable {
         if(enemy.getHealth()<=0){
             player.addOneKill();
         }
-
 
 
 
@@ -2563,4 +2625,8 @@ public class Battle implements Serializable {
     public void setLowHealth(boolean lowHealth) {
         this.lowHealth = lowHealth;
     }
+
+
+
+
 }

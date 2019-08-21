@@ -1,9 +1,10 @@
 
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.Random;
 
-public class Spawn {
+public class Spawn implements Serializable {
 
     private Handler handler;
     private float scoreKeep = 0;

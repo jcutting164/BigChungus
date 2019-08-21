@@ -5,8 +5,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
-public class Trail extends GameObject{
+public class Trail extends GameObject implements Serializable {
 
 
     private float alpha = 1;

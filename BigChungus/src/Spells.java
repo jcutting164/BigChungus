@@ -9,7 +9,7 @@ public class Spells extends GameObject implements Serializable {
     private String desc;
     private boolean usable;
     private boolean obtained=false;
-    private BufferedImage img = Game.tex.Orb;
+    private transient BufferedImage img;
     private Magic magic;
     private Game game;
     private int manaREQ;
@@ -18,8 +18,10 @@ public class Spells extends GameObject implements Serializable {
     private int healFactor;
     private int damageFactor;
     private String desc2="";
+    Textures tex=Game.getInstance();
     public Spells(String name, String desc, Magic magic,float x, float y, float height, float width, ID id, Game game,int manaREQ, boolean healing, boolean damaging, int healFactor, int damageFactor){
         super(x, y, height, width, id);
+        Textures tex=Game.getInstance();
         this.name = name;
         this.desc = desc;
         this.magic = magic;
@@ -29,6 +31,7 @@ public class Spells extends GameObject implements Serializable {
         this.healing=healing;
         this.healFactor=healFactor;
         this.damageFactor=damageFactor;
+        this.img=tex.Orb;
     }
 
     public Spells(String name, String desc, String desc2, Magic magic,float x, float y, float height, float width, ID id, Game game,int manaREQ, boolean healing, boolean damaging, int healFactor, int damageFactor){
@@ -49,6 +52,13 @@ public class Spells extends GameObject implements Serializable {
 
     public void use(Character user, Character enemy){
         if(name.equals("Auto kill")){
+            System.out.print("1");
+            System.out.println(game.getCurrentBattle());
+            System.out.print("2");
+
+            System.out.println(game.getCurrentBattle().getEnemy());
+            System.out.print("3");
+
             game.getCurrentBattle().getEnemy().setHealth(0);
         }else if(name.equals("Basic Heal")&&user.getMana()>=manaREQ){
             if(!game.getPlayer().getBackwards())
@@ -203,6 +213,15 @@ public class Spells extends GameObject implements Serializable {
 
             user.setMana(user.getMana()-manaREQ);
 
+        }else if(name.equals("Mana Restore")){
+            if(game.getCurrentBattle()!=null){
+                user.setMana((int)(user.getMana()+user.getMaxMana()*.15));
+            }
+        }else if(name.equals("The God Piercer")){
+            if(game.getCurrentBattle()!=null){
+                enemy.setAttack(enemy.getAttack()-10);
+                user.setMana(user.getMana()-50);
+            }
         }
     }
 
@@ -231,8 +250,10 @@ public class Spells extends GameObject implements Serializable {
 
     }
     public void render(Graphics g){
+        tex=Game.getInstance();
+
         if(!obtained)
-            g.drawImage(img,(int)x,(int)y,(int)height,(int)width,null);
+            g.drawImage(tex.Orb,(int)x,(int)y,(int)height,(int)width,null);
 
     }
     public Rectangle getBounds(){
@@ -294,5 +315,13 @@ public class Spells extends GameObject implements Serializable {
 
     public void setDesc2(String desc2) {
         this.desc2 = desc2;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

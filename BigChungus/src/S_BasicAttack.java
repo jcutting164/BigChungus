@@ -1,7 +1,8 @@
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class S_BasicAttack extends Usables {
+public class S_BasicAttack extends Usables implements Serializable {
 
     public S_BasicAttack(float x, float y, float height, float width, ID id, Handler handler, Battle battle, Enemy enemy){
         super(x, y, height, width, id, handler, battle, enemy);

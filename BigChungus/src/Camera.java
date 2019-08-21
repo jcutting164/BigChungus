@@ -14,10 +14,10 @@ public class Camera implements Serializable {
     }
 
     public void tick(GameObject object){
-        System.out.println(rangeX);
+       // System.out.println(rangeX);
         x+= ((object.getX() - x) - 1280/2 );
         y+= ((object.getY() - y) - 960/2 );
-        System.out.println(x+" "+y);
+       // System.out.println(x+" "+y);
 
         if(x <= 0) x=0;
         if( x >= rangeX) x = rangeX;

@@ -4,9 +4,10 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 
-public class Laser extends GameObject{
+public class Laser extends GameObject implements Serializable {
 
     private GameObject user;
     private Handler handler;
